@@ -1,0 +1,10 @@
+{
+  "name": "boshuis-ommen",
+  "version": "1.0.0",
+  "description": "Direct booking website for Boshuis Ommen holiday cabin",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  }
+}
