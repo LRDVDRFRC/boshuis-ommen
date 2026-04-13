@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boshuis Ommen — Vakantiehuisje in het Vechtdal</title>
+<meta name="description" content="Boek direct ons sfeervolle boshuis in Arriën, nabij Ommen. Midden in de natuur, grenzend aan het Junner Koeland. 2 slaapkamers, 4 personen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: #2d3436;
+  background: #faf9f6;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ========== VARIABLES ========== */
+:root {
+  --forest: #2d5016;
+  --forest-light: #4a7c2e;
+  --forest-bg: #f0f5eb;
+  --sand: #c9a96e;
+  --sand-light: #e8d5b0;
+  --sand-bg: #fdf8f0;
+  --bark: #5c3d2e;
+  --cream: #faf9f6;
+  --text: #2d3436;
+  --text-light: #636e72;
+  --white: #ffffff;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== LANGUAGE SWITCHER ========== */
+.lang-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(45, 80, 22, 0.95); backdrop-filter: blur(10px);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 24px; height: 48px; font-size: 13px; color: #c5ddb5;
+}
+.lang-bar a { color: #fff; margin-left: 12px; padding: 4px 10px; border-radius: 4px; transition: var(--transition); }
+.lang-bar a:hover, .lang-bar a.active { background: rgba(255,255,255,0.2); }
+.lang-flags { display: flex; gap: 4px; }
+
+/* ========== NAVIGATION ========== */
+.nav {
+  position: fixed; top: 48px; left: 0; right: 0; z-index: 999;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 40px; height: 64px; transition: var(--transition);
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--forest); }
+.nav-logo span { color: var(--sand); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--text-light); transition: var(--transition); }
+.nav-links a:hover { color: var(--forest); }
+.nav-cta {
+  background: var(--forest); color: #fff !important; padding: 10px 24px;
+  border-radius: 8px; font-weight: 600; font-size: 14px;
+  transition: var(--transition); box-shadow: 0 2px 8px rgba(45,80,22,0.3);
+}
+.nav-cta:hover { background: var(--forest-light); transform: translateY(-1px); }
+
+/* ========== HERO ========== */
+.hero {
+  margin-top: 112px; position: relative; height: 85vh; min-height: 550px;
+  overflow: hidden; background: #1a2e0a;
+}
+.hero-slides { position: absolute; inset: 0; }
+.hero-slide {
+  position: absolute; inset: 0; opacity: 0;
+  transition: opacity 1.5s ease;
+  background-size: cover; background-position: center;
+}
+.hero-slide.active { opacity: 1; }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 60px 40px;
+  max-width: 800px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+  padding: 8px 16px; border-radius: 20px; font-size: 13px;
+  color: #fff; margin-bottom: 16px; width: fit-content;
+}
+.hero-badge .star { color: #f1c40f; }
+.hero h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px);
+  color: #fff; font-weight: 700; line-height: 1.15; margin-bottom: 12px;
+}
+.hero p { color: rgba(255,255,255,0.9); font-size: 18px; max-width: 560px; margin-bottom: 24px; }
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 8px;
+}
+.hero-stat { color: rgba(255,255,255,0.85); font-size: 14px; }
+.hero-stat strong { display: block; font-size: 24px; color: #fff; font-weight: 600; }
+
+/* ========== SECTIONS ========== */
+.section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-header h2 {
+  font-family: 'Playfair Display', serif; font-size: 36px;
+  color: var(--forest); margin-bottom: 12px;
+}
+.section-header p { color: var(--text-light); font-size: 16px; max-width: 600px; margin: 0 auto; }
+
+/* ========== ABOUT ========== */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.about-text h2 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--forest); margin-bottom: 16px; }
+.about-text p { color: var(--text-light); margin-bottom: 16px; }
+.about-highlights {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px;
+}
+.highlight-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; background: var(--forest-bg); border-radius: 8px;
+  font-size: 14px; font-weight: 500; color: var(--forest);
+}
+.highlight-icon { font-size: 20px; }
+.about-image {
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg);
+  aspect-ratio: 4/3; background: #ddd;
+  display: flex; align-items: center; justify-content: center;
+  color: #999; font-size: 14px;
+  background: linear-gradient(135deg, #e8f0dc 0%, #d4e4c3 100%);
+}
+
+/* ========== AMENITIES ========== */
+.amenities-section { background: var(--forest-bg); }
+.amenity-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.amenity-card {
+  background: var(--white); border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow); transition: var(--transition);
+}
+.amenity-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.amenity-icon { font-size: 28px; margin-bottom: 12px; }
+.amenity-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--forest); }
+.amenity-card p { font-size: 13px; color: var(--text-light); }
+
+/* ========== GALLERY ========== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 250px);
+  gap: 12px;
+}
+.gallery-grid .photo {
+  border-radius: var(--radius); overflow: hidden;
+  background: linear-gradient(135deg, #e0e8d4 0%, #d0d8c4 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #888; font-size: 13px; cursor: pointer;
+  transition: var(--transition);
+}
+.gallery-grid .photo:hover { transform: scale(1.02); }
+.gallery-grid .photo:first-child { grid-row: span 2; }
+
+/* ========== BOOKING ========== */
+.booking-section { background: var(--sand-bg); }
+.booking-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; }
+.calendar-container {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 24px; min-height: 380px;
+}
+.cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.cal-nav h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--forest); }
+.cal-nav button {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--forest-bg); display: flex; align-items: center;
+  justify-content: center; font-size: 16px; color: var(--forest);
+  transition: var(--transition);
+}
+.cal-nav button:hover { background: var(--forest); color: #fff; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.cal-header { font-size: 12px; font-weight: 600; color: var(--text-light); padding: 8px 0; }
+.cal-day {
+  padding: 10px 4px; border-radius: 8px; font-size: 14px;
+  cursor: pointer; transition: var(--transition); position: relative;
+}
+.cal-day:hover:not(.booked):not(.empty) { background: var(--forest-bg); }
+.cal-day.booked { background: #fee; color: #c0392b; cursor: not-allowed; text-decoration: line-through; }
+.cal-day.selected { background: var(--forest); color: #fff; font-weight: 600; }
+.cal-day.today { font-weight: 700; box-shadow: inset 0 0 0 2px var(--forest); }
+.cal-day.empty { cursor: default; }
+.cal-legend { display: flex; gap: 20px; margin-top: 16px; font-size: 12px; color: var(--text-light); }
+.cal-legend span { display: flex; align-items: center; gap: 6px; }
+.cal-legend .dot { width: 12px; height: 12px; border-radius: 4px; }
+
+.booking-form {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 32px;
+}
+.booking-form h3 {
+  font-family: 'Playfair Display', serif; font-size: 22px;
+  color: var(--forest); margin-bottom: 20px;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-light); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 12px 16px; border: 1.5px solid #e0e0e0;
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+  transition: var(--transition); background: var(--cream);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--forest); outline: none;
+  box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+}
+.price-summary {
+  background: var(--forest-bg); border-radius: 8px; padding: 16px;
+  margin: 20px 0; font-size: 14px;
+}
+.price-row { display: flex; justify-content: space-between; padding: 6px 0; }
+.price-row.total { border-top: 2px solid var(--forest); margin-top: 8px; padding-top: 12px; font-weight: 700; <!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boshuis Ommen — Vakantiehuisje in het Vechtdal</title>
+<meta name="description" content="Boek direct ons sfeervolle boshuis in Arriën, nabij Ommen. Midden in de natuur, grenzend aan het Junner Koeland. 2 slaapkamers, 4 personen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: #2d3436;
+  background: #faf9f6;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ========== VARIABLES ========== */
+:root {
+  --forest: #2d5016;
+  --forest-light: #4a7c2e;
+  --forest-bg: #f0f5eb;
+  --sand: #c9a96e;
+  --sand-light: #e8d5b0;
+  --sand-bg: #fdf8f0;
+  --bark: #5c3d2e;
+  --cream: #faf9f6;
+  --text: #2d3436;
+  --text-light: #636e72;
+  --white: #ffffff;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== LANGUAGE SWITCHER ========== */
+.lang-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(45, 80, 22, 0.95); backdrop-filter: blur(10px);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 24px; height: 48px; font-size: 13px; color: #c5ddb5;
+}
+.lang-bar a { color: #fff; margin-left: 12px; padding: 4px 10px; border-radius: 4px; transition: var(--transition); }
+.lang-bar a:hover, .lang-bar a.active { background: rgba(255,255,255,0.2); }
+.lang-flags { display: flex; gap: 4px; }
+
+/* ========== NAVIGATION ========== */
+.nav {
+  position: fixed; top: 48px; left: 0; right: 0; z-index: 999;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 40px; height: 64px; transition: var(--transition);
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--forest); }
+.nav-logo span { color: var(--sand); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--text-light); transition: var(--transition); }
+.nav-links a:hover { color: var(--forest); }
+.nav-cta {
+  background: var(--forest); color: #fff !important; padding: 10px 24px;
+  border-radius: 8px; font-weight: 600; font-size: 14px;
+  transition: var(--transition); box-shadow: 0 2px 8px rgba(45,80,22,0.3);
+}
+.nav-cta:hover { background: var(--forest-light); transform: translateY(-1px); }
+
+/* ========== HERO ========== */
+.hero {
+  margin-top: 112px; position: relative; height: 85vh; min-height: 550px;
+  overflow: hidden; background: #1a2e0a;
+}
+.hero-slides { position: absolute; inset: 0; }
+.hero-slide {
+  position: absolute; inset: 0; opacity: 0;
+  transition: opacity 1.5s ease;
+  background-size: cover; background-position: center;
+}
+.hero-slide.active { opacity: 1; }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 60px 40px;
+  max-width: 800px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+  padding: 8px 16px; border-radius: 20px; font-size: 13px;
+  color: #fff; margin-bottom: 16px; width: fit-content;
+}
+.hero-badge .star { color: #f1c40f; }
+.hero h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px);
+  color: #fff; font-weight: 700; line-height: 1.15; margin-bottom: 12px;
+}
+.hero p { color: rgba(255,255,255,0.9); font-size: 18px; max-width: 560px; margin-bottom: 24px; }
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 8px;
+}
+.hero-stat { color: rgba(255,255,255,0.85); font-size: 14px; }
+.hero-stat strong { display: block; font-size: 24px; color: #fff; font-weight: 600; }
+
+/* ========== SECTIONS ========== */
+.section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-header h2 {
+  font-family: 'Playfair Display', serif; font-size: 36px;
+  color: var(--forest); margin-bottom: 12px;
+}
+.section-header p { color: var(--text-light); font-size: 16px; max-width: 600px; margin: 0 auto; }
+
+/* ========== ABOUT ========== */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.about-text h2 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--forest); margin-bottom: 16px; }
+.about-text p { color: var(--text-light); margin-bottom: 16px; }
+.about-highlights {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px;
+}
+.highlight-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; background: var(--forest-bg); border-radius: 8px;
+  font-size: 14px; font-weight: 500; color: var(--forest);
+}
+.highlight-icon { font-size: 20px; }
+.about-image {
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg);
+  aspect-ratio: 4/3; background: #ddd;
+  display: flex; align-items: center; justify-content: center;
+  color: #999; font-size: 14px;
+  background: linear-gradient(135deg, #e8f0dc 0%, #d4e4c3 100%);
+}
+
+/* ========== AMENITIES ========== */
+.amenities-section { background: var(--forest-bg); }
+.amenity-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.amenity-card {
+  background: var(--white); border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow); transition: var(--transition);
+}
+.amenity-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.amenity-icon { font-size: 28px; margin-bottom: 12px; }
+.amenity-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--forest); }
+.amenity-card p { font-size: 13px; color: var(--text-light); }
+
+/* ========== GALLERY ========== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 250px);
+  gap: 12px;
+}
+.gallery-grid .photo {
+  border-radius: var(--radius); overflow: hidden;
+  background: linear-gradient(135deg, #e0e8d4 0%, #d0d8c4 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #888; font-size: 13px; cursor: pointer;
+  transition: var(--transition);
+}
+.gallery-grid .photo:hover { transform: scale(1.02); }
+.gallery-grid .photo:first-child { grid-row: span 2; }
+
+/* ========== BOOKING ========== */
+.booking-section { background: var(--sand-bg); }
+.booking-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; }
+.calendar-container {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 24px; min-height: 380px;
+}
+.cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.cal-nav h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--forest); }
+.cal-nav button {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--forest-bg); display: flex; align-items: center;
+  justify-content: center; font-size: 16px; color: var(--forest);
+  transition: var(--transition);
+}
+.cal-nav button:hover { background: var(--forest); color: #fff; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+.cal-header { font-size: 12px; font-weight: 600; color: var(--text-light); padding: 8px 0; }
+.cal-day {
+  padding: 10px 4px; border-radius: 8px; font-size: 14px;
+  cursor: pointer; transition: var(--transition); position: relative;
+}
+.cal-day:hover:not(.booked):not(.empty) { background: var(--forest-bg); }
+.cal-day.booked { background: #fee; color: #c0392b; cursor: not-allowed; text-decoration: line-through; }
+.cal-day.selected { background: var(--forest); color: #fff; font-weight: 600; }
+.cal-day.today { font-weight: 700; box-shadow: inset 0 0 0 2px var(--forest); }
+.cal-day.empty { cursor: default; }
+.cal-legend { display: flex; gap: 20px; margin-top: 16px; font-size: 12px; color: var(--text-light); }
+.cal-legend span { display: flex; align-items: center; gap: 6px; }
+.cal-legend .dot { width: 12px; height: 12px; border-radius: 4px; }
+
+.booking-form {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 32px;
+}
+.booking-form h3 {
+  font-family: 'Playfair Display', serif; font-size: 22px;
+  color: var(--forest); margin-bottom: 20px;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-light); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 12px 16px; border: 1.5px solid #e0e0e0;
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+  transition: var(--transition); background: var(--cream);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--forest); outline: none;
+  box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+}
+.price-summary {
+  background: var(--forest-bg); border-radius: 8px; padding: 16px;
+  margin: 20px 0; font-size: 14px;
+}
+.price-row { display: flex; justify-content: space-between; padding: 6px 0; }
+.price-row.total { border-top: 2px solid var(--forest); margin-top: 8px; padding-top: 12px; font-weight: 700; lign: center; }
+.cal-header { font-size: 12px; font-weight: 600; color: var(--text-light); padding: 8px 0; }
+.cal-day {
+  padding: 10px 4px; border-radius: 8px; font-size: 14px;
+  cursor: pointer; transition: var(--transition); position: relative;
+}
+.cal-day:hover:not(.booked):not(.empty) { background: var(--forest-bg); }
+.cal-day.booked { background: #fee; color: #c0392b; cursor: not-allowed; text-decoration: line-through; }
+.cal-day.selected { background: var(--forest); color: #fff; font-weight: 600; }
+.cal-day.today { font-weight: 700; box-shadow: inset 0 0 0 2px var(--forest); }
+.cal-day.empty { cursor: default; }
+.cal-legend { display: flex; gap: 20px; margin-top: 16px; font-size: 12px; color: var(--text-light); }
+.cal-legend span { display: flex; align-items: center; gap: 6px; }
+.cal-legend .dot { width: 12px; height: 12px; border-radius: 4px; }
+
+.booking-form {
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 32px;
+}
+.booking-form h3 {
+  font-family: 'Playfair Display', serif; font-size: 22px;
+  color: var(--forest); margin-bottom: 20px;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-light); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 12px 16px; border: 1.5px solid #e0e0e0;
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+  transition: var(--transition); background: var(--cream);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--forest); outline: none;
+  box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+}
+.price-summary {
+  background: var(--forest-bg); border-radius: 8px; padding: 16px;
+  margin: 20px 0; font-size: 14px;
+}
+.price-row { display: flex; justify-content: space-between; padding: 6px 0; }
+.price-row.total { border-top: 2px solid var(--forest); margin-top: 8px; padding-top: 12px; font-weight: 700; color: var(--forest); font-size: 16px; }
+.submit-btn {
+  width: 100%; padding: 12px; background: var(--forest); color: #fff;
+  border-radius: 8px; font-weight: 600; font-size: 14px; transition: var(--transition);
+  cursor: pointer; margin-top: 16px;
+}
+.submit-btn:hover { background: var(--forest-light); transform: translateY(-2px); }
+
+/* ========== REVIEWS ========== */
+.reviews-section { background: var(--forest-bg); }
+.reviews-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.review-card {
+  background: var(--white); border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow);
+}
+.review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.review-author { font-weight: 600; color: var(--forest); }
+.review-date { font-size: 12px; color: var(--text-light); }
+.review-rating { margin-bottom: 12px; color: #f1c40f; font-size: 14px; }
+.review-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+
+/* ========== FOOTER ========== */
+footer {
+  background: var(--bark); color: #fff; padding: 60px 40px 40px;
+  text-align: center;
+}
+footer h3 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 16px; }
+footer p { margin-bottom: 12px; font-size: 14px; opacity: 0.9; }
+footer a { color: #fff; text-decoration: underline; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .about-grid, .booking-grid { grid-template-columns: 1fr; }
+  .nav { padding: 0 24px; }
+  .section { padding: 60px 24px; }
+}
+@media (max-width: 768px) {
+  .lang-bar { padding: 0 16px; height: 44px; }
+  .nav { padding: 0 16px; height: 56px; }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 13px; }
+  .hero { margin-top: 100px; height: 60vh; min-height: 400px; }
+  .hero-content { padding: 40px 24px; }
+  .hero h1 { font-size: clamp(28px, 4vw, 48px); }
+  .section { padding: 40px 20px; }
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 200px);
+  }
+  .gallery-grid .photo:first-child { grid-row: span 1; grid-column: span 1; }
+  .booking-grid { gap: 24px; }
+  .amenity-grid { grid-template-columns: repeat(2, 1fr); }
+  footer { padding: 40px 20px 30px; }
+  .form-group { margin-bottom: 12px; }
+}
+@media (max-width: 480px) {
+  .lang-bar a { margin-left: 6px; padding: 2px 6px; font-size: 12px; }
+  .lang-flags { gap: 2px; }
+  .nav { padding: 0 12px; height: 52px; }
+  .nav-logo { font-size: 18px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 12px; }
+  .hero { margin-top: 90px; }
+  .hero-content { padding: 30px 16px; }
+  .hero h1 { font-size: clamp(24px, 5vw, 36px); margin-bottom: 8px; }
+  .hero p { font-size: 14px; }
+  .section-header h2 { font-size: 24px; }
+  .section-header p { font-size: 14px; }
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .amenity-grid { grid-template-columns: 1fr; }
+  .booking-grid { gap: 16px; }
+  .about-text h2 { font-size: 24px; }
+  .about-highlights { grid-template-columns: 1fr; }
+  footer h3 { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+<!-- Language Switcher -->
+<div class="lang-bar">
+  <div>
+    <span>Language:</span>
+    <a href="?lang=nl" class="active">🇳🇱 Nederlands</a>
+    <a href="?lang=en">🇬🇧 English</a>
+    <a href="?lang=de">🇩🇪 Deutsch</a>
+  </div>
+  <div class="lang-flags"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-logo">Boshuis <span>•</span> Ommen</div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#about">Over</a>
+    <a href="#amenities">Voorzieningen</a>
+    <a href="#gallery">Galerij</a>
+    <a href="#booking">Boeken</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#booking" class="nav-cta">Nu Boeken</a>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+  <div class="hero-slides">
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1470252649378-9c29740ff023?w=1200&h=800&fit=crop');"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=800&fit=crop');"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1509672206461-82d57a59b126?w=1200&h=800&fit=crop');"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="star">★</span> Prachtig vakantiehuisje</div>
+    <h1>Boshuis Ommen</h1>
+    <p>Een sfeervolle boshuisje in het hart van het Vechtdal. Perfect voor families en groepen die rust en natuur zoeken.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>2</strong> Slaapkamers</div>
+      <div class="hero-stat"><strong>4</strong> Personen</div>
+      <div class="hero-stat"><strong>8+</strong> Reviews</div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="about-image"></div>
+    <div class="about-text">
+      <h2>Welkom bij Boshuis Ommen</h2>
+      <p>Dit charmante boshuisje ligt verscholen in het groene hart van Nederland. Met uitzicht op het Junner Koeland en omringd door natuurlijke schoonheid, biedt ons huisje de perfecte plek om af te schakelen van het dagelijkse leven.</p>
+      <p>Het huis beschikt over twee comfortabele slaapkamers, een volledig uitgeruste keuken, gezellige woonkamer en een groot terras waar je kunt genieten van de omringende natuur.</p>
+      <div class="about-highlights">
+        <div class="highlight-item"><span class="highlight-icon">🏡</span> <strong>Privé tuin</strong></div>
+        <div class="highlight-item"><span class="highlight-icon">♨️</span> <strong>Warm water</strong></div>
+        <div class="highlight-item"><span class="highlight-icon">📶</span> <strong>Gratis WiFi</strong></div>
+        <div class="highlight-item"><span class="highlight-icon">🚗</span> <strong>Gratis parkeren</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Amenities Section -->
+<section class="section amenities-section" id="amenities">
+  <div class="section-header">
+    <h2>Voorzieningen</h2>
+    <p>Alles wat je nodig hebt voor een comfortabel verblijf</p>
+  </div>
+  <div class="amenity-grid">
+    <div class="amenity-card">
+      <div class="amenity-icon">🛏️</div>
+      <h4>Comfortabele bedden</h4>
+      <p>2 comfortabele bedden met premium beddengoed</p>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon">🚿</div>
+      <h4>Badkamer</h4>
+      <p>Moderne badkamer met douche en warm water</p>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon">🍳</div>
+      <h4>Keuken</h4>
+      <p>Volledig uitgeruste keuken met alle apparatuur</p>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon">📺</div>
+      <h4>Entertainment</h4>
+      <p>TV met streaming services en boeken bibliotheek</p>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon">🌡️</div>
+      <h4>Verwarming</h4>
+      <p>Centrale verwarming voor comfort in alle seizoenen</p>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon">📶</div>
+      <h4>WiFi</h4>
+      <p>Gratis snelle WiFi verbinding</p>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="section" id="gallery">
+  <div class="section-header">
+    <h2>Galerij</h2>
+    <p>Zie wat je kunt verwachten</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="photo">📷 Woonkamer</div>
+    <div class="photo">📷 Slaapkamer 1</div>
+    <div class="photo">📷 Keuken</div>
+    <div class="photo">📷 Badkamer</div>
+    <div class="photo">📷 Terras</div>
+    <div class="photo">📷 Tuin</div>
+  </div>
+</section>
+
+<!-- Booking Section -->
+<section class="section booking-section" id="booking">
+  <h2 style="text-align: center; margin-bottom: 40px; font-family: 'Playfair Display', serif; font-size: 36px; color: var(--forest);">Maak je reservering</h2>
+  <div class="booking-grid">
+    <!-- Calendar -->
+    <div class="calendar-container">
+      <div class="cal-nav">
+        <h3 id="monthYear">April 2026</h3>
+        <div>
+          <button id="prevMonth">‹</button>
+          <button id="nextMonth">›</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calendar"></div>
+      <div class="cal-legend">
+        <span><span class="dot" style="background: var(--forest);"></span> Beschikbaar</span>
+        <span><span class="dot" style="background: #fee;"></span> Geboekt</span>
+      </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="booking-form">
+      <h3>Boekinginformatie</h3>
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="name">Naam *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefoonnummer *</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="checkin">Check-in *</label>
+          <input type="date" id="checkin" name="checkin" required>
+        </div>
+        <div class="form-group">
+          <label for="checkout">Check-out *</label>
+          <input type="date" id="checkout" name="checkout" required>
+        </div>
+        <div class="form-group">
+          <label for="guests">Aantal gasten *</label>
+          <select id="guests" name="guests" required>
+            <option value="">Selecteer...</option>
+            <option value="1">1 persoon</option>
+            <option value="2">2 personen</option>
+            <option value="3">3 personen</option>
+            <option value="4">4 personen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Bijzonderheden</label>
+          <textarea id="message" name="message" rows="3" placeholder="Bijzondere verzoeken of opmerkingen..."></textarea>
+        </div>
+
+        <div class="price-summary">
+          <div class="price-row">
+            <span>Nightly rate:</span>
+            <span>€ 75</span>
+          </div>
+          <div class="price-row">
+            <span id="nightsLabel">Nights:</span>
+            <span id="nightsCount">0</span>
+          </div>
+          <div class="price-row">
+            <span>Cleaning fee:</span>
+            <span>€ 25</span>
+          </div>
+          <div class="price-row total">
+            <span>Totaal:</span>
+            <span id="totalPrice">€ 0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Reserveer Nu</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="section reviews-section" id="reviews">
+  <div class="section-header">
+    <h2>Reviews</h2>
+    <p>Lees wat anderen zeggen</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-author">Maria & Jan</div>
+        <div class="review-date">December 2025</div>
+      </div>
+      <div class="review-rating">★★★★★</div>
+      <div class="review-text">"Een heerlijk weekend in de natuur! Het huisje is schoon, goed uitgerust en het personeel is erg vriendelijk. Zeker een aanrader!"</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-author">Familie Jansen</div>
+        <div class="review-date">November 2025</div>
+      </div>
+      <div class="review-rating">★★★★★</div>
+      <div class="review-text">"Perfecte plek voor onze familievakantie! De kinderen hadden veel plezier met de tuin en we hebben echt ontspannen."</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-author">Thomas</div>
+        <div class="review-date">October 2025</div>
+      </div>
+      <div class="review-rating">★★★★★</div>
+      <div class="review-text">"Rustig, mooi en netjes. Precies wat we nodig hadden na een drukke periode op werk. Graag terug!"</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <h3>Boshuis Ommen</h3>
+  <p>Rustig vakantiehuisje in het Vechtdal</p>
+  <p>Arriën, Ommen | Netherlands</p>
+  <p>Email: info@boshuisommen.nl | Telefoon: +31 (0)6 1234 5678</p>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Contact</a>
+  </div>
+  <p style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; opacity: 0.7;">© 2024-2025 Boshuis Ommen. Alle rechten voorbehouden.</p>
+</footer>
+
+<script>
+// Calendar functionality
+const monthYear = document.getElementById('monthYear');
+const calendar = document.getElementById('calendar');
+const prevMonthBtn = document.getElementById('prevMonth');
+const nextMonthBtn = document.getElementById('nextMonth');
+const bookingForm = document.getElementById('bookingForm');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const phoneInput = document.getElementById('phone');
+const checkinInput = document.getElementById('checkin');
+const checkoutInput = document.getElementById('checkout');
+const guestsInput = document.getElementById('guests');
+const totalPriceEl = document.getElementById('totalPrice');
+const nightsCountEl = document.getElementById('nightsCount');
+const nightsLabelEl = document.getElementById('nightsLabel');
+
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+
+const bookedDates = [
+  new Date(2026, 3, 15),
+  new Date(2026, 3, 16),
+  new Date(2026, 3, 17),
+  new Date(2026, 3, 25),
+  new Date(2026, 3, 26)
+];
+
+const monthNames = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+const dutchMonthNames = [
+  'Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni',
+  'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'
+];
+
+function renderCalendar() {
+  calendar.innerHTML = '';
+  
+  // Add day headers
+  const dayNames = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'];
+  dayNames.forEach(day => {
+    const header = document.createElement('div');
+    header.className = 'cal-header';
+    header.textContent = day;
+    calendar.appendChild(header);
+  });
+
+  const firstDay = new Date(currentYear, currentMonth, 1);
+  const lastDay = new Date(currentYear, currentMonth + 1, 0);
+  const daysInMonth = lastDay.getDate();
+  const startingDayOfWeek = (firstDay.getDay() + 6) % 7; // Monday = 0
+
+  monthYear.textContent = dutchMonthNames[currentMonth] + ' ' + currentYear;
+
+  // Empty cells
+  for (let i = 0; i < startingDayOfWeek; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'cal-day empty';
+    calendar.appendChild(empty);
+  }
+
+  // Days
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dayEl = document.createElement('div');
+    dayEl.className = 'cal-day';
+    dayEl.textContent = day;
+    
+    const date = new Date(currentYear, currentMonth, day);
+    const isBooked = bookedDates.some(d => d.getDate() === day && d.getMonth() === currentMonth && d.getFullYear() === currentYear);
+    const isToday = date.toDateString() === new Date().toDateString();
+    
+    if (isBooked) dayEl.classList.add('booked');
+    if (isToday) dayEl.classList.add('today');
+    
+    if (!isBooked) {
+      dayEl.addEventListener('click', () => selectDate(day, dayEl));
+    }
+    
+    calendar.appendChild(dayEl);
+  }
+}
+
+function selectDate(day, element) {
+  document.querySelectorAll('.cal-day.selected').forEach(el => el.classList.remove('selected'));
+  element.classList.add('selected');
+  
+  const selectedDate = new Date(currentYear, currentMonth, day);
+  checkinInput.value = selectedDate.toISOString().split('T')[0];
+  updatePrice();
+}
+
+function updatePrice() {
+  const checkin = new Date(checkinInput.value);
+  const checkout = new Date(checkoutInput.value);
+  
+  if (checkin && checkout && checkout > checkin) {
+    const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+    const nightly = 75;
+    const cleaning = 25;
+    const total = (nights * nightly) + cleaning;
+    
+    nightsCountEl.textContent = nights;
+    nightsLabelEl.textContent = nights === 1 ? 'Night:' : 'Nights:';
+    totalPriceEl.textContent = '€ ' + total;
+  }
+}
+
+prevMonthBtn.addEventListener('click', () => {
+  currentMonth--;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  }
+  renderCalendar();
+});
+
+nextMonthBtn.addEventListener('click', () => {
+  currentMonth++;
+  if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+  renderCalendar();
+});
+
+checkinInput.addEventListener('change', updatePrice);
+checkoutInput.addEventListener('change', updatePrice);
+
+bookingForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Dank je wel voor je reservering ' + nameInput.value + '! We nemen snel contact met je op.');
+  bookingForm.reset();
+});
+
+renderCalendar();
+</script>
+</body>
+</html>
