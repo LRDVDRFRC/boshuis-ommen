@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Boshuis Ommen â Email Templates</title>
+<style>
+body { font-family: -apple-system, sans-serif; background: #f5f5f5; padding: 20px; color: #333; }
+.template { background: #fff; max-width: 600px; margin: 30px auto; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.template-header { background: #2d5016; color: #fff; padding: 24px 32px; }
+.template-header h1 { font-size: 24px; margin: 0 0 4px; }
+.template-header p { margin: 0; opacity: 0.8; font-size: 14px; }
+.template-body { padding: 32px; line-height: 1.7; }
+.template-body h2 { color: #2d5016; font-size: 20px; margin: 24px 0 12px; }
+.template-body p { margin: 0 0 16px; }
+.info-box { background: #f0f5eb; border-left: 4px solid #2d5016; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+.info-box strong { display: block; color: #2d5016; margin-bottom: 4px; }
+.template-footer { background: #f9f9f9; padding: 20px 32px; font-size: 12px; color: #888; text-align: center; border-top: 1px solid #eee; }
+.btn { display: inline-block; background: #2d5016; color: #fff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+.divider { border: none; border-top: 2px solid #eee; margin: 30px 0; }
+h3.section-title { text-align: center; color: #888; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin: 60px 0 10px; }
+</style>
+</head>
+<body>
+
+<h3 class="section-title">Template 1: Boekingsbevestiging</h3>
+
+<!-- ============================================================ -->
+<!-- EMAIL 1: BOOKING CONFIRMATION â sent immediately after payment -->
+<!-- ============================================================ -->
+<div class="template">
+  <div class="template-header">
+    <h1>Boshuis Ommen</h1>
+    <p>Boekingsbevestiging / BuchungsbestÃ¤tigung / Booking confirmation</p>
+  </div>
+  <div class="template-body">
+    <p>Beste <strong>{{GUEST_NAME}}</strong>,</p>
+    <p>Bedankt voor uw boeking! Wij kijken ernaar uit u te verwelkomen in ons boshuis.</p>
+
+    <div class="info-box">
+      <strong>Uw verblijf</strong>
+      Aankomst: <strong>{{CHECKIN_DATE}}</strong> (vanaf 15:00)<br>
+      Vertrek: <strong>{{CHECKOUT_DATE}}</strong> (voor 11:00)<br>
+      Gasten: <strong>{{NUM_GUESTS}}</strong><br>
+      Nachten: <strong>{{NUM_NIGHTS}}</strong><br>
+      Totaalbedrag: <strong>â¬{{TOTAL_PRICE}}</strong> (betaald)
+    </div>
+
+    <h2>Adres</h2>
+    <p>
+      Koelandweg 12<br>
+      7735 KW ArriÃ«n (Ommen)<br>
+      Overijssel, Nederland
+    </p>
+    <p>
+      <a href="https://maps.google.com/?q=Koelandweg+12+7735KW+Arrien" class="btn">Bekijk op Google Maps</a>
+    </p>
+
+    <h2>Routebeschrijving</h2>
+    <p>Vanaf de N34 (richting Ommen) neem je de afslag ArriÃ«n. Via het Koelandweg rij je een zandpad in het bos op. Na ca. 200 meter zie je het huisje links. Je kunt parkeren op eigen terrein (2 plaatsen).</p>
+
+    <h2>Huisregels (kort overzicht)</h2>
+    <p>
+      â Check-in: 15:00 â 22:00 | Check-out: 07:00 â 11:00<br>
+      â Niet roken in het huisje<br>
+      â Geen huisdieren<br>
+      â Geen feesten<br>
+      â Afval scheiden verplicht
+    </p>
+
+    <p>U ontvangt 2-3 dagen voor aankomst nog een email met praktische informatie (WiFi, sleutelinstructies, tips).</p>
+
+    <p>Heeft u vragen? Stuur gerust een email naar <a href="mailto:janvanwaveren@gmail.com">janvanwaveren@gmail.com</a>.</p>
+
+    <p>Met vriendelijke groet,<br>
+    <strong>Jan</strong><br>
+    Boshuis Ommen</p>
+
+    <hr style="margin:24px 0; border:none; border-top:1px solid #ddd;">
+
+    <!-- GERMAN VERSION -->
+    <p style="color:#888; font-size:13px;"><em>Deutsche Version:</em></p>
+    <p>Liebe(r) <strong>{{GUEST_NAME}}</strong>,</p>
+    <p>Vielen Dank fÃ¼r Ihre Buchung! Wir freuen uns darauf, Sie in unserem Waldhaus willkommen zu heiÃen. Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr. Sie erhalten 2-3 Tage vor der Anreise eine E-Mail mit praktischen Informationen.</p>
+
+    <hr style="margin:24px 0; border:none; border-top:1px solid #ddd;">
+
+    <!-- ENGLISH VERSION -->
+    <p style="color:#888; font-size:13px;"><em>English version:</em></p>
+    <p>Dear <strong>{{GUEST_NAME}}</strong>,</p>
+    <p>Thank you for your booking! We look forward to welcoming you at our forest cabin. Check-in from 15:00, check-out by 11:00. You'll receive a practical info email 2-3 days before arrival.</p>
+  </div>
+  <div class="template-footer">
+    Boshuis Ommen | Koelandweg 12, 7735 KW ArriÃ«n | janvanwaveren@gmail.com
+  </div>
+</div>
+
+<h3 class="section-title">Template 2: Pre-arrival (2-3 dagen van tevoren)</h3>
+
+<!-- ============================================================ -->
+<!-- EMAIL 2: PRE-ARRIVAL â sent 2-3 days before check-in -->
+<!-- ============================================================ -->
+<div class="template">
+  <div class="template-header">
+    <h1>Boshuis Ommen</h1>
+    <p>Praktische informatie voor uw verblijf</p>
+  </div>
+  <div class="template-body">
+    <p>Beste <strong>{{GUEST_NAME}}</strong>,</p>
+    <p>Nog even en u geniet van het bos! Hier is alle praktische informatie voor uw verblijf.</p>
+
+    <div class="info-box">
+      <strong>ð Toegang tot het huisje</strong>
+      De sleutel zit in een sleutelkluisje bij de voordeur.<br>
+      Code: <strong>{{KEY_CODE}}</strong><br>
+      <em>Contactloos inchecken is mogelijk.</em>
+    </div>
+
+    <div class="info-box">
+      <strong>ð¶ WiFi</strong>
+      Netwerk: <strong>{{WIFI_NAME}}</strong><br>
+      Wachtwoord: <strong>{{WIFI_PASSWORD}}</strong>
+    </div>
+
+    <h2>Praktische tips</h2>
+    <p>
+      ð¥ <strong>Houtkachel:</strong> Hout ligt klaar in de berging. Aanmaakblokjes liggen op de schouw.<br>
+      â <strong>Nespresso:</strong> Er liggen capsules klaar. Extra capsules zijn te koop in Ommen (AH, Jumbo).<br>
+      ðï¸ <strong>Afval:</strong> Graag scheiden (papier, plastic, rest, GFT). Containers staan bij de berging.<br>
+      ð¥ <strong>BBQ:</strong> De barbecue staat op het terras. Houtskool graag zelf meenemen.<br>
+      ð§ <strong>Kinderen:</strong> Er is een trampoline in de tuin. Kinderbedjes staan klaar als u ze heeft aangevraagd.
+    </p>
+
+    <h2>In de omgeving</h2>
+    <p>
+      ð¥¾ <strong>Wandelen:</strong> Junner Koeland (5 min lopen), Sallandse Heuvelrug, Lemelerberg<br>
+      ð´ <strong>Fietsen:</strong> Fietsroutes langs de Vecht. Fietsverhuur in Ommen centrum.<br>
+      ð¶ <strong>KanoÃ«n:</strong> Kano's huren in Ommen centrum (aan de Vecht)<br>
+      ð <strong>Boodschappen:</strong> Albert Heijn & Jumbo in Ommen (4 km)<br>
+      ðº <strong>Uit eten:</strong> Diverse restaurants in Ommen centrum
+    </p>
+
+    <h2>Noodgevallen</h2>
+    <p>
+      Alarmnummer: <strong>112</strong><br>
+      Jan (eigenaar): <strong>{{OWNER_PHONE}}</strong><br>
+      Huisarts Ommen: <strong>0529-451234</strong>
+    </p>
+
+    <p>Wij wensen u een heerlijk verblijf!</p>
+    <p>Met vriendelijke groet,<br><strong>Jan</strong></p>
+
+    <hr style="margin:24px 0; border:none; border-top:1px solid #ddd;">
+    <p style="color:#888; font-size:13px;"><em>Kurzfassung auf Deutsch:</em> Der SchlÃ¼ssel befindet sich im SchlÃ¼sseltresor an der HaustÃ¼r (Code: {{KEY_CODE}}). WLAN: {{WIFI_NAME}} / {{WIFI_PASSWORD}}. Holz fÃ¼r den Ofen liegt im Schuppen bereit. Wir wÃ¼nschen Ihnen einen wunderschÃ¶nen Aufenthalt!</p>
+    <hr style="margin:24px 0; border:none; border-top:1px solid #ddd;">
+    <p style="color:#888; font-size:13px;"><em>Short English version:</em> The key is in the key safe at the front door (code: {{KEY_CODE}}). WiFi: {{WIFI_NAME}} / {{WIFI_PASSWORD}}. Firewood is in the shed. We wish you a wonderful stay!</p>
+  </div>
+  <div class="template-footer">
+    Boshuis Ommen | Koelandweg 12, 7735 KW ArriÃ«n | janvanwaveren@gmail.com
+  </div>
+</div>
+
+<h3 class="section-title">Template 3: Post-stay (dag na vertrek)</h3>
+
+<!-- ============================================================ -->
+<!-- EMAIL 3: POST-STAY â sent 1 day after check-out -->
+<!-- ============================================================ -->
+<div class="template">
+  <div class="template-header">
+    <h1>Boshuis Ommen</h1>
+    <p>Bedankt voor uw verblijf!</p>
+  </div>
+  <div class="template-body">
+    <p>Beste <strong>{{GUEST_NAME}}</strong>,</p>
+    <p>Wij hopen dat u heeft genoten van uw verblijf in het boshuis! Het was fijn om u als gast te hebben.</p>
+
+    <h2>Uw ervaring delen</h2>
+    <p>Wij stellen het enorm op prijs als u een korte beoordeling achterlaat. Dit helpt andere gasten bij hun keuze en helpt ons om het huisje nog beter te maken.</p>
+
+    <p style="text-align:center; margin:24px 0;">
+      <a href="https://www.natuurhuisje.nl/vakantiehuisje/68313" class="btn">Beoordeling achterlaten</a>
+    </p>
+
+    <h2>Terugkomen?</h2>
+    <p>Als terugkerende gast krijgt u <strong>10% korting</strong> op uw volgende verblijf wanneer u direct bij ons boekt. Gebruik code: <strong>TERUGKEER10</strong> of stuur ons een email.</p>
+
+    <div class="info-box">
+      <strong>Direct boeken & besparen</strong>
+      Via onze eigen website boekt u altijd het voordeligst â zonder commissie van platforms.<br>
+      <a href="https://www.boshuisommen.nl">www.boshuisommen.nl</a>
+    </div>
+
+    <p>Nogmaals bedankt en hopelijk tot snel!</p>
+    <p>Met vriendelijke groet,<br><strong>Jan</strong><br>Boshuis Ommen</p>
+
+    <hr style="margin:24px 0; border:none; border-top:1px solid #ddd;">
+    <p style="color:#888; font-size:13px;"><em>Auf Deutsch:</em> Wir hoffen, dass Sie Ihren Aufenthalt genossen haben! Wir wÃ¼rden uns sehr Ã¼ber eine kurze Bewertung freuen. Als wiederkehrender Gast erhalten Sie 10% Rabatt auf Ihre nÃ¤chste Direktbuchung (Code: TERUGKEER10).</p>
+    <hr style="margin:24px 0; border:none; border-top:1px solid #ddd;">
+    <p style="color:#888; font-size:13px;"><em>In English:</em> We hope you enjoyed your stay! We'd love a short review. As a returning guest, you'll get 10% off your next direct booking (code: TERUGKEER10).</p>
+  </div>
+  <div class="template-footer">
+    Boshuis Ommen | Koelandweg 12, 7735 KW ArriÃ«n | janvanwaveren@gmail.com<br>
+    <a href="#" style="color:#888;">Uitschrijven / Unsubscribe</a>
+  </div>
+</div>
+
+</body>
+</html>
