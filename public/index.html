@@ -1053,55 +1053,24 @@ function updatePrice() {
 }
 
 /* ========== BOOKING HANDLER ========== */
-async function handleBooking(e) {
+function handleBooking(e) {
   e.preventDefault();
-
-  const checkin = document.getElementById('checkin').value;
-  const checkout = document.getElementById('checkout').value;
-  const nights = Math.round((new Date(checkout) - new Date(checkin)) / 86400000);
-
-  const messages = {
-    nl: { invalidDates: 'Selecteer een geldige aankomst- en vertrekdatum.', failed: 'Betaling aanmaken mislukt. Probeer het opnieuw of neem contact op.' },
-    de: { invalidDates: 'Bitte wählen Sie ein gültiges An- und Abreisedatum.', failed: 'Zahlung konnte nicht erstellt werden. Bitte erneut versuchen oder uns kontaktieren.' },
-    en: { invalidDates: 'Please select valid check-in and check-out dates.', failed: 'Could not create payment. Please try again or contact us.' }
-  };
-  const m = messages[currentLang];
-
-  if (!checkin || !checkout || nights <= 0) {
-    alert(m.invalidDates);
-    return;
-  }
-
-  const totalPrice = nights * PRICE_PER_NIGHT + CLEANING_FEE;
+  // In production: send to your backend → Mollie payment → confirmation email
   const data = {
-    checkin,
-    checkout,
-    nights,
-    totalPrice,
+    checkin: document.getElementById('checkin').value,
+    checkout: document.getElementById('checkout').value,
     guests: document.getElementById('guests').value,
     name: document.getElementById('guest-name').value,
     email: document.getElementById('guest-email').value,
     phone: document.getElementById('guest-phone').value,
     notes: document.getElementById('guest-notes').value
   };
+  console.log('Booking data:', data);
 
-  const submitBtn = e.target.querySelector('button[type="submit"]');
-  submitBtn.disabled = true;
-
-  try {
-    const res = await fetch('/api/create-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if (!res.ok) throw new Error('payment_failed');
-    const { checkoutUrl } = await res.json();
-    if (!checkoutUrl) throw new Error('payment_failed');
-    window.location.href = checkoutUrl;
-  } catch (err) {
-    submitBtn.disabled = false;
-    alert(m.failed);
-  }
+  // TODO: Replace with actual Mollie payment redirect
+  alert(currentLang === 'nl' ? 'Bedankt! U wordt doorgestuurd naar de betaalpagina...'
+    : currentLang === 'de' ? 'Danke! Sie werden zur Zahlungsseite weitergeleitet...'
+    : 'Thank you! Redirecting to payment page...');
 }
 
 /* ========== iCAL SYNC (placeholder) ========== */
