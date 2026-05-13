@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voorwaarden — De Putter · Boshuis Ommen</title>
+<meta name="description" content="Annuleringsvoorwaarden, huisregels en algemene voorwaarden voor De Putter, het boshuis in Arriën bij Ommen.">
+<link rel="canonical" href="https://boshuisdeputter.nl/voorwaarden">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --forest: #2d5016;
+  --forest-light: #4a7c2e;
+  --forest-bg: #f0f5eb;
+  --sand: #c9a96e;
+  --sand-bg: #fdf8f0;
+  --bark: #5c3d2e;
+  --cream: #faf9f6;
+  --text: #2d3436;
+  --text-light: #636e72;
+}
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--cream);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--forest); font-weight: 500; }
+a:hover { color: var(--forest-light); }
+
+.topbar {
+  background: var(--forest); color: #fff;
+  padding: 14px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px;
+}
+.topbar a { color: rgba(255,255,255,0.9); text-decoration: none; }
+.topbar a:hover { color: #fff; }
+.brand { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+.lang-switch a { margin-left: 14px; padding: 4px 10px; border-radius: 4px; font-size: 13px; }
+.lang-switch a.active, .lang-switch a:hover { background: rgba(255,255,255,0.2); }
+
+.container {
+  max-width: 780px; margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px; color: var(--forest);
+  font-weight: 700; margin-bottom: 6px; line-height: 1.15;
+}
+.subtitle { color: var(--text-light); margin-bottom: 40px; font-size: 15px; }
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; color: var(--forest);
+  font-weight: 600; margin: 40px 0 12px;
+  padding-top: 24px; border-top: 2px solid var(--forest-bg);
+}
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 16px; font-weight: 600; color: var(--bark); margin: 20px 0 6px; }
+p { margin-bottom: 14px; }
+ul { list-style: none; padding: 0; }
+ul.bullet li {
+  padding: 6px 0 6px 22px; position: relative;
+}
+ul.bullet li::before {
+  content: '·'; position: absolute; left: 4px; top: -2px;
+  color: var(--forest); font-size: 24px; line-height: 1; font-weight: 700;
+}
+
+.policy-grid {
+  display: grid; grid-template-columns: 1fr; gap: 2px;
+  background: var(--forest-bg); border-radius: 10px;
+  overflow: hidden;
+  margin: 16px 0 20px;
+  border: 1px solid var(--forest-bg);
+}
+.policy-row {
+  display: grid; grid-template-columns: 200px 120px 1fr;
+  gap: 16px; padding: 14px 18px;
+  background: #fff; align-items: center;
+  font-size: 14.5px;
+}
+.policy-row:first-child {
+  background: var(--forest-bg); font-weight: 600;
+  color: var(--forest); font-size: 12px;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 10px 18px;
+}
+.policy-row .amount { font-weight: 700; color: var(--forest); font-family: 'Playfair Display', serif; font-size: 18px; }
+@media (max-width: 640px) {
+  .policy-row { grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
+  .policy-row:first-child { display: none; }
+  .policy-row .amount { font-size: 16px; }
+  .policy-row > div:first-child { font-weight: 600; color: var(--forest); }
+}
+
+.callout {
+  background: var(--sand-bg); border-left: 4px solid var(--sand);
+  padding: 14px 20px; margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+}
+.callout strong { color: var(--bark); }
+
+.tip {
+  background: var(--forest-bg);
+  padding: 14px 20px; margin: 16px 0;
+  border-radius: 8px;
+  font-size: 14px; color: var(--forest);
+}
+
+.footer-note {
+  margin-top: 60px; padding-top: 24px;
+  border-top: 1px solid #eee;
+  font-size: 13px; color: var(--text-light);
+  text-align: center;
+}
+
+.lang-section { display: none; }
+.lang-section.active { display: block; }
+
+/* Print-friendly */
+@media print {
+  .topbar { background: none; color: #000; border-bottom: 2px solid #000; }
+  .topbar a { color: #000; }
+  .container { padding: 20px 0; }
+}
+</style>
+<script defer src="https://va.vercel-scripts.com/v1/script.js" data-endpoint="/_vercel/insights"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="brand">🌲 De Putter</a>
+  <div class="lang-switch">
+    <a href="#" data-lang="nl" class="active" onclick="setLang('nl'); return false">NL</a>
+    <a href="#" data-lang="de" onclick="setLang('de'); return false">DE</a>
+    <a href="#" data-lang="en" onclick="setLang('en'); return false">EN</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ========== NL ========== -->
+<div class="lang-section active" id="nl">
+  <h1>Voorwaarden</h1>
+  <p class="subtitle">Annuleringsvoorwaarden, huisregels en algemene afspraken voor een verblijf in De Putter.</p>
+
+  <h2>Annuleringsvoorwaarden</h2>
+  <p>We snappen dat er dingen kunnen gebeuren waardoor een boeking toch niet door kan gaan. Daarom hanteren we een eerlijke, standaard regeling — dezelfde die bij veel andere particuliere vakantiewoningen in Nederland geldt.</p>
+
+  <div class="policy-grid">
+    <div class="policy-row">
+      <div>Moment van annulering</div>
+      <div>Vergoeding</div>
+      <div>Uitleg</div>
+    </div>
+    <div class="policy-row">
+      <div>Meer dan <strong>60 dagen</strong> voor aankomst</div>
+      <div class="amount">€25 admin</div>
+      <div>Je krijgt alles retour minus €25 administratiekosten.</div>
+    </div>
+    <div class="policy-row">
+      <div><strong>30–60 dagen</strong> voor aankomst</div>
+      <div class="amount">50% retour</div>
+      <div>De helft van het bedrag wordt terugbetaald.</div>
+    </div>
+    <div class="policy-row">
+      <div><strong>14–29 dagen</strong> voor aankomst</div>
+      <div class="amount">25% retour</div>
+      <div>Een kwart van het bedrag wordt terugbetaald.</div>
+    </div>
+    <div class="policy-row">
+      <div>Minder dan <strong>14 dagen</strong> of no-show</div>
+      <div class="amount">geen retour</div>
+      <div>De boeking wordt volledig in rekening gebracht.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Tip:</strong> een eenvoudige annuleringsverzekering is vaak maar enkele euro's per boeking en dekt ziekte, overlijden, ongevallen en onverwachte omstandigheden. Sluit 'm af bij boeking, niet achteraf.
+  </div>
+
+  <h3>Annulering door ons</h3>
+  <p>Als wij onverhoopt moeten annuleren (bijvoorbeeld door schade aan het huisje of technische problemen), krijg je het volledige bedrag retour binnen 5 werkdagen. We doen ons uiterste best om alternatieven aan te bieden als dat gewenst is.</p>
+
+  <h3>Wijzigen van datums</h3>
+  <p>Wil je je verblijf verschuiven? Laat het ons minstens 4 weken van tevoren weten, dan kijken we of we de datums kosteloos kunnen wijzigen naar een vergelijkbaar seizoen. Binnen 4 weken geldt de annuleringsregeling hierboven.</p>
+
+  <h2>Huisregels</h2>
+  <ul class="bullet">
+    <li><strong>Maximaal 4 personen.</strong> Het huisje en de tuin zijn niet geschikt voor feesten en partijen.</li>
+    <li><strong>Niet roken</strong> in het huisje.</li>
+    <li><strong>Geen huisdieren.</strong> We hebben zelf 2 katten die er af en toe verblijven, en honden schrikken de wilde dieren in de tuin af.</li>
+    <li><strong>Geen feesten of luide muziek.</strong> Na 23:00 stilte, uit respect voor buren en het bos.</li>
+    <li><strong>Geen vuurwerk.</strong> Ook niet met oud & nieuw.</li>
+    <li><strong>Minimumleeftijd 23 jaar.</strong> Niet geschikt voor groepen jongeren.</li>
+    <li><strong>Check-in</strong> tussen 15:00 en 22:00, <strong>check-out</strong> vóór 11:00.</li>
+  </ul>
+
+  <h2>Betaling</h2>
+  <p>Bij boekingen via onze eigen website ontvang je na bevestiging een e-mail met betaalinstructies. Betaling gaat via <strong>bankoverschrijving</strong>. De boeking is pas definitief zodra de volledige betaling op onze rekening staat.</p>
+  <p>De betaling moet <strong>uiterlijk 7 dagen vóór aankomst</strong> binnen zijn. Bij boekingen die binnen 7 dagen vóór aankomst worden gedaan, moet de betaling binnen 48 uur voldaan zijn.</p>
+  <p style="font-size:14px;color:var(--text-light)">Boek je via Natuurhuisje? Dan verloopt de betaling via hun platform.</p>
+
+  <h2>Prijzen & inbegrepen kosten</h2>
+  <p>De prijs op onze website is de totaalprijs die je betaalt — <strong>geen verrassingen bij aankomst</strong>. Bij alle verblijven zijn inbegrepen:</p>
+  <ul class="bullet">
+    <li>Hout voor de houtkachel</li>
+    <li>Bedlinnen (bedden zijn bij aankomst opgemaakt)</li>
+    <li>Handdoeken</li>
+    <li>Toeristenbelasting</li>
+    <li>WiFi, water, gas en elektriciteit (normaal gebruik)</li>
+    <li>Eindschoonmaak (€75, zit in totaalbedrag)</li>
+  </ul>
+
+  <h2>Aansprakelijkheid & schade</h2>
+  <p>Je bent als hoofdgast aansprakelijk voor jezelf, je meereizende gasten en eventuele schade aan het huisje of de inventaris. Normale slijtage of een kleine misser (een gebroken glas) rekenen we niet aan — geef het even door.</p>
+  <p>Wij zijn niet aansprakelijk voor:</p>
+  <ul class="bullet">
+    <li>Ongevallen of letsel in en rond het huisje</li>
+    <li>Verlies, diefstal of schade aan persoonlijke eigendommen</li>
+    <li>Uitval van voorzieningen buiten onze controle (stroomuitval, internetstoring, etc.) — we doen ons best om het snel op te lossen</li>
+    <li>Weersomstandigheden of overlast door natuur (wilde dieren, insecten, etc. — het is een bos)</li>
+  </ul>
+  <p>Een <strong>reisverzekering met annuleringsdekking</strong> is sterk aanbevolen.</p>
+
+  <h2>Contact & klachten</h2>
+  <p>Heb je tijdens je verblijf ergens last van of werkt er iets niet? Bel of mail direct — dan lossen we het zo snel mogelijk op.</p>
+  <p>
+    📧 <a href="mailto:janvanwaveren@gmail.com">janvanwaveren@gmail.com</a><br>
+    📞 Telefoonnummer ontvang je bij de boekingsbevestiging
+  </p>
+
+  <h2>Toepasselijk recht</h2>
+  <p>Op deze voorwaarden is het Nederlandse recht van toepassing. Bij eventuele geschillen proberen we er eerst samen uit te komen.</p>
+
+  <div class="tip">Deze voorwaarden zijn van toepassing voor boekingen via onze eigen website. Voor boekingen via Natuurhuisje gelden de voorwaarden van <a href="https://www.natuurhuisje.nl" target="_blank" rel="noopener">natuurhuisje.nl</a>.</div>
+</div>
+
+<!-- ========== DE ========== -->
+<div class="lang-section" id="de">
+  <h1>Bedingungen</h1>
+  <p class="subtitle">Stornierungsbedingungen, Hausregeln und allgemeine Vereinbarungen für einen Aufenthalt in De Putter.</p>
+
+  <h2>Stornierungsbedingungen</h2>
+  <p>Wir verstehen, dass manchmal Dinge dazwischenkommen. Deshalb haben wir eine faire Standardregelung — die gleiche wie bei vielen anderen privaten Ferienhäusern in den Niederlanden.</p>
+
+  <div class="policy-grid">
+    <div class="policy-row"><div>Zeitpunkt der Stornierung</div><div>Erstattung</div><div>Erklärung</div></div>
+    <div class="policy-row"><div>Mehr als <strong>60 Tage</strong> vor Anreise</div><div class="amount">€25 Gebühr</div><div>Vollständige Erstattung abzüglich €25 Bearbeitungsgebühr.</div></div>
+    <div class="policy-row"><div><strong>30–60 Tage</strong> vor Anreise</div><div class="amount">50% zurück</div><div>Die Hälfte des Betrags wird erstattet.</div></div>
+    <div class="policy-row"><div><strong>14–29 Tage</strong> vor Anreise</div><div class="amount">25% zurück</div><div>Ein Viertel des Betrags wird erstattet.</div></div>
+    <div class="policy-row"><div>Weniger als <strong>14 Tage</strong> oder No-Show</div><div class="amount">keine Erstattung</div><div>Der volle Betrag wird berechnet.</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>Tipp:</strong> Eine einfache Reiserücktrittsversicherung kostet oft nur wenige Euro pro Buchung und deckt Krankheit, Todesfälle, Unfälle und unerwartete Umstände.
+  </div>
+
+  <h3>Stornierung durch uns</h3>
+  <p>Sollten wir wider Erwarten stornieren müssen (z.B. Schäden am Haus), erhalten Sie den vollen Betrag innerhalb von 5 Werktagen zurück.</p>
+
+  <h3>Terminänderung</h3>
+  <p>Möchten Sie Ihren Aufenthalt verschieben? Teilen Sie uns das mindestens 4 Wochen im Voraus mit — wir versuchen dann, die Daten kostenlos in eine vergleichbare Saison zu ändern.</p>
+
+  <h2>Hausregeln</h2>
+  <ul class="bullet">
+    <li><strong>Maximal 4 Personen.</strong> Das Haus und der Garten sind nicht für Feiern und Partys geeignet.</li>
+    <li><strong>Nichtraucher</strong> im Haus.</li>
+    <li><strong>Keine Haustiere.</strong> Wir haben selbst 2 Katzen, und Hunde vertreiben die Wildtiere im Garten.</li>
+    <li><strong>Keine Partys oder laute Musik.</strong> Ruhe ab 23:00.</li>
+    <li><strong>Kein Feuerwerk.</strong></li>
+    <li><strong>Mindestalter 23 Jahre.</strong></li>
+    <li><strong>Check-in</strong> 15:00–22:00 Uhr, <strong>Check-out</strong> bis 11:00 Uhr.</li>
+  </ul>
+
+  <h2>Zahlung</h2>
+  <p>Bei Buchungen über unsere eigene Website erhalten Sie nach der Bestätigung eine E-Mail mit den Zahlungsanweisungen. Die Zahlung erfolgt per <strong>Banküberweisung</strong>. Die Buchung wird erst verbindlich, sobald die vollständige Zahlung auf unserem Konto eingegangen ist — spätestens 7 Tage vor Anreise.</p>
+  <p style="font-size:14px;color:var(--text-light)">Buchen Sie über Natuurhuisje? Dann läuft die Zahlung über deren Plattform.</p>
+
+  <h2>Preis &amp; Inklusivleistungen</h2>
+  <p>Der Preis auf unserer Website ist der Endpreis — <strong>keine Überraschungen bei der Ankunft</strong>. Im Aufenthalt enthalten:</p>
+  <ul class="bullet">
+    <li>Holz für den Kamin</li>
+    <li>Bettwäsche (Betten sind bei Ankunft bezogen)</li>
+    <li>Handtücher</li>
+    <li>Kurtaxe</li>
+    <li>WLAN, Wasser, Gas und Strom (normaler Verbrauch)</li>
+    <li>Endreinigung (€75, im Gesamtbetrag enthalten)</li>
+  </ul>
+
+  <h2>Haftung &amp; Schäden</h2>
+  <p>Als Hauptgast sind Sie für sich selbst, Ihre Mitreisenden und eventuelle Schäden am Haus oder an der Einrichtung verantwortlich. Normale Abnutzung oder ein zerbrochenes Glas sind kein Problem — bitte einfach Bescheid geben.</p>
+  <p>Wir haften nicht für:</p>
+  <ul class="bullet">
+    <li>Unfälle oder Verletzungen im und um das Haus</li>
+    <li>Verlust, Diebstahl oder Beschädigung persönlicher Gegenstände</li>
+    <li>Ausfall von Einrichtungen außerhalb unserer Kontrolle (Stromausfall, Internetstörung)</li>
+    <li>Wetterbedingungen oder Belästigungen durch Natur (Wildtiere, Insekten — es ist ein Wald)</li>
+  </ul>
+  <p>Eine <strong>Reiseversicherung mit Rücktrittsschutz</strong> wird dringend empfohlen.</p>
+
+  <h2>Kontakt &amp; Beschwerden</h2>
+  <p>Funktioniert etwas nicht während Ihres Aufenthalts? Rufen Sie an oder schreiben Sie sofort — wir lösen es so schnell wie möglich.</p>
+  <p>📧 <a href="mailto:janvanwaveren@gmail.com">janvanwaveren@gmail.com</a></p>
+
+  <h2>Anwendbares Recht</h2>
+  <p>Es gilt niederländisches Recht. Bei Streitigkeiten versuchen wir, uns zunächst gütlich zu einigen.</p>
+
+  <div class="tip">Diese Bedingungen gelten für Buchungen über unsere eigene Website. Für Buchungen über Natuurhuisje gelten die Bedingungen von <a href="https://www.natuurhuisje.nl" target="_blank" rel="noopener">natuurhuisje.nl</a>.</div>
+</div>
+
+<!-- ========== EN ========== -->
+<div class="lang-section" id="en">
+  <h1>Terms</h1>
+  <p class="subtitle">Cancellation policy, house rules, and general agreements for a stay at De Putter.</p>
+
+  <h2>Cancellation policy</h2>
+  <p>Life happens. That's why we use a fair, standard policy — the same as many other private vacation rentals in the Netherlands.</p>
+
+  <div class="policy-grid">
+    <div class="policy-row"><div>When cancellation is made</div><div>Refund</div><div>Explanation</div></div>
+    <div class="policy-row"><div>More than <strong>60 days</strong> before check-in</div><div class="amount">€25 fee</div><div>Full refund minus €25 administration fee.</div></div>
+    <div class="policy-row"><div><strong>30–60 days</strong> before check-in</div><div class="amount">50% refund</div><div>Half the amount is refunded.</div></div>
+    <div class="policy-row"><div><strong>14–29 days</strong> before check-in</div><div class="amount">25% refund</div><div>A quarter of the amount is refunded.</div></div>
+    <div class="policy-row"><div>Less than <strong>14 days</strong> or no-show</div><div class="amount">no refund</div><div>The full amount is charged.</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>Tip:</strong> a simple travel insurance with cancellation cover often costs only a few euros per booking and covers illness, bereavement, accidents, and unforeseen circumstances.
+  </div>
+
+  <h3>Cancellation by us</h3>
+  <p>Should we unexpectedly need to cancel (e.g. damage to the cabin), you'll receive a full refund within 5 business days.</p>
+
+  <h3>Changing dates</h3>
+  <p>Want to move your stay? Let us know at least 4 weeks in advance and we'll try to change the dates free of charge to a comparable season.</p>
+
+  <h2>House rules</h2>
+  <ul class="bullet">
+    <li><strong>Maximum 4 guests.</strong> The cabin and garden are not suitable for parties or events.</li>
+    <li><strong>No smoking</strong> inside.</li>
+    <li><strong>No pets.</strong> We have two cats that stay here occasionally, and dogs frighten the wildlife in the garden.</li>
+    <li><strong>No parties or loud music.</strong> Quiet after 23:00, out of respect for neighbours and the forest.</li>
+    <li><strong>No fireworks.</strong></li>
+    <li><strong>Minimum age 23.</strong> Not suitable for youth groups.</li>
+    <li><strong>Check-in</strong> 15:00–22:00, <strong>check-out</strong> by 11:00.</li>
+  </ul>
+
+  <h2>Payment</h2>
+  <p>For bookings via our own website, you'll receive an email with payment instructions after confirmation. Payment is by <strong>bank transfer</strong>. The booking is only final once the full amount is received — at the latest 7 days before arrival.</p>
+  <p style="font-size:14px;color:var(--text-light)">Booking via Natuurhuisje? Payment is handled through their platform.</p>
+
+  <h2>Price &amp; what's included</h2>
+  <p>The price on our website is the total — <strong>no surprises at check-in</strong>. Every stay includes:</p>
+  <ul class="bullet">
+    <li>Firewood for the wood stove</li>
+    <li>Bed linen (beds are made up on arrival)</li>
+    <li>Towels</li>
+    <li>Tourist tax</li>
+    <li>WiFi, water, gas and electricity (normal use)</li>
+    <li>End-of-stay cleaning (€75, included in the total)</li>
+  </ul>
+
+  <h2>Liability &amp; damages</h2>
+  <p>As the primary guest you are responsible for yourself, your fellow guests, and any damage to the cabin or its contents. Normal wear and tear or a broken glass is no problem — just let us know.</p>
+  <p>We are not liable for:</p>
+  <ul class="bullet">
+    <li>Accidents or injuries in or around the cabin</li>
+    <li>Loss, theft or damage of personal belongings</li>
+    <li>Failures of services beyond our control (power cuts, internet outage)</li>
+    <li>Weather or natural disturbances (wildlife, insects — it's a forest)</li>
+  </ul>
+  <p>Travel insurance with <strong>cancellation cover</strong> is strongly recommended.</p>
+
+  <h2>Contact &amp; complaints</h2>
+  <p>Something not working during your stay? Call or email right away — we'll sort it out as quickly as we can.</p>
+  <p>📧 <a href="mailto:janvanwaveren@gmail.com">janvanwaveren@gmail.com</a></p>
+
+  <h2>Applicable law</h2>
+  <p>Dutch law applies to these terms. In case of disputes we'll first try to resolve things amicably.</p>
+
+  <div class="tip">These terms apply to bookings made via our own website. For bookings via Natuurhuisje, the terms of <a href="https://www.natuurhuisje.nl" target="_blank" rel="noopener">natuurhuisje.nl</a> apply.</div>
+</div>
+
+<div class="footer-note">
+  <p>Deze voorwaarden zijn voor het laatst bijgewerkt op <time datetime="2026-05-12">12 mei 2026</time>.</p>
+  <p style="margin-top:8px"><a href="/">← Terug naar de website</a></p>
+</div>
+
+</div>
+
+<script>
+/* Language switcher with localStorage + browser detection */
+function setLang(lang, persist = true) {
+  if (!['nl', 'de', 'en'].includes(lang)) lang = 'nl';
+  document.querySelectorAll('.lang-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(lang).classList.add('active');
+  document.querySelectorAll('.lang-switch a').forEach(a => {
+    a.classList.toggle('active', a.dataset.lang === lang);
+  });
+  document.documentElement.lang = lang;
+  if (persist) { try { localStorage.setItem('deputter-lang', lang); } catch(e) {} }
+}
+
+(function autoLang() {
+  let saved = null;
+  try { saved = localStorage.getItem('deputter-lang'); } catch(e) {}
+  if (saved && ['nl', 'de', 'en'].includes(saved)) { setLang(saved, false); return; }
+  const browser = (navigator.language || 'nl').slice(0, 2).toLowerCase();
+  if (browser === 'de') setLang('de', false);
+  else if (browser === 'en') setLang('en', false);
+})();
+</script>
+</body>
+</html>

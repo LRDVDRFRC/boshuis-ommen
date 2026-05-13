@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Boshuis Ommen — Backend Setup Guide</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; line-height: 1.7; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+header { background: linear-gradient(135deg, #2d5016, #4a7c28); color: #fff; padding: 40px 0; text-align: center; }
+header h1 { font-size: 28px; margin-bottom: 8px; }
+header p { opacity: 0.85; font-size: 15px; }
+nav { background: #fff; border-bottom: 2px solid #2d5016; position: sticky; top: 0; z-index: 100; padding: 0 20px; }
+nav ul { list-style: none; display: flex; gap: 0; max-width: 900px; margin: 0 auto; overflow-x: auto; }
+nav a { display: block; padding: 14px 18px; text-decoration: none; color: #555; font-size: 13px; font-weight: 600; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; }
+nav a:hover, nav a.active { color: #2d5016; border-bottom-color: #2d5016; }
+section { background: #fff; margin: 24px auto; max-width: 900px; border-radius: 10px; padding: 36px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+h2 { color: #2d5016; font-size: 22px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8f0e0; }
+h3 { color: #333; font-size: 17px; margin: 24px 0 10px; }
+p, li { margin-bottom: 12px; }
+ul, ol { padding-left: 24px; }
+pre { background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.5; margin: 16px 0; }
+code { font-family: 'SF Mono', 'Fira Code', monospace; }
+.inline-code { background: #f0f0f0; padding: 2px 8px; border-radius: 4px; font-size: 13px; color: #c7254e; }
+.tip { background: #f0f5eb; border-left: 4px solid #2d5016; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+.tip strong { color: #2d5016; }
+.warning { background: #fff3e0; border-left: 4px solid #f57c00; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+.warning strong { color: #e65100; }
+.cost-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.cost-table th { background: #2d5016; color: #fff; padding: 10px 16px; text-align: left; font-size: 13px; }
+.cost-table td { padding: 10px 16px; border-bottom: 1px solid #eee; font-size: 14px; }
+.cost-table tr:hover { background: #f9f9f9; }
+.architecture { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0; }
+.arch-box { background: #f8faf5; border: 2px solid #d5e8c5; border-radius: 10px; padding: 20px; text-align: center; }
+.arch-box h4 { color: #2d5016; margin-bottom: 6px; }
+.arch-box p { font-size: 13px; color: #666; margin: 0; }
+.arrow { display: flex; align-items: center; justify-content: center; font-size: 24px; color: #2d5016; }
+.step-num { display: inline-block; background: #2d5016; color: #fff; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; font-size: 14px; margin-right: 8px; }
+.domain-card { display: flex; justify-content: space-between; align-items: center; background: #f8faf5; border: 1px solid #d5e8c5; border-radius: 8px; padding: 14px 20px; margin: 8px 0; }
+.domain-card .name { font-weight: 700; font-size: 16px; color: #2d5016; }
+.domain-card .price { font-size: 14px; color: #666; }
+.domain-card .badge { background: #2d5016; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 12px; }
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0 8px 32px; position: relative; border-bottom: 1px solid #f0f0f0; }
+.checklist li::before { content: "☐"; position: absolute; left: 4px; color: #2d5016; font-size: 18px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Backend Setup Guide</h1>
+  <p>Boshuis Ommen — Direct Booking Infrastructure</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#architecture">Architectuur</a></li>
+    <li><a href="#hosting">Hosting & Domein</a></li>
+    <li><a href="#mollie">Mollie Payments</a></li>
+    <li><a href="#ical">iCal Sync</a></li>
+    <li><a href="#email">Email Automatie</a></li>
+    <li><a href="#deploy">Deployment</a></li>
+    <li><a href="#costs">Kosten</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+  </ul>
+</nav>
+
+<!-- ============================== -->
+<!-- SECTION 1: ARCHITECTURE        -->
+<!-- ============================== -->
+<section id="architecture">
+  <h2>1. Architectuur Overzicht</h2>
+  <p>De stack is bewust simpel gehouden — geen framework overhead, minimale hosting kosten, maximale controle.</p>
+
+  <div class="architecture">
+    <div class="arch-box">
+      <h4>Frontend</h4>
+      <p>Static HTML/CSS/JS<br>Gehost op Vercel/Netlify</p>
+    </div>
+    <div class="arch-box">
+      <h4>Backend API</h4>
+      <p>Node.js (Vercel Functions)<br>Mollie + Email + iCal</p>
+    </div>
+    <div class="arch-box">
+      <h4>Data</h4>
+      <p>JSON-bestand of<br>Supabase (gratis tier)</p>
+    </div>
+  </div>
+
+  <h3>Waarom deze stack?</h3>
+  <ul>
+    <li><strong>Vercel</strong> — gratis hosting voor static sites + serverless functions. Perfect voor lage traffic (vakantiehuisje).</li>
+    <li><strong>Node.js API routes</strong> — Mollie SDK, nodemailer, ical-generator draaien server-side.</li>
+    <li><strong>JSON/Supabase</strong> — voor een enkel huisje is een simpel JSON-bestand voldoende. Supabase (gratis) als je meer wilt.</li>
+  </ul>
+
+  <div class="tip">
+    <strong>💡 Tip:</strong> Met minder dan 50 boekingen per jaar is deze hele stack gratis te draaien (behalve het domein en Mollie transactiekosten).
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 2: HOSTING & DOMAIN    -->
+<!-- ============================== -->
+<section id="hosting">
+  <h2>2. Domein & Hosting</h2>
+
+  <h3>Domein suggesties</h3>
+
+  <div class="domain-card">
+    <div>
+      <span class="name">boshuisommen.nl</span>
+      <span class="badge">Aanbevolen</span>
+    </div>
+    <span class="price">~€8/jaar</span>
+  </div>
+  <div class="domain-card">
+    <div><span class="name">boshuis-ommen.nl</span></div>
+    <span class="price">~€8/jaar</span>
+  </div>
+  <div class="domain-card">
+    <div><span class="name">boshuisarrien.nl</span></div>
+    <span class="price">~€8/jaar</span>
+  </div>
+  <div class="domain-card">
+    <div><span class="name">vechtdalboshuis.nl</span></div>
+    <span class="price">~€8/jaar</span>
+  </div>
+  <div class="domain-card">
+    <div><span class="name">waldhaus-ommen.de</span></div>
+    <span class="price">~€10/jaar (voor Duitse markt)</span>
+  </div>
+
+  <h3>Domein registreren</h3>
+  <p>Registreer via <strong>TransIP</strong> (Nederlands, €8/jaar voor .nl) of <strong>Cloudflare Registrar</strong> (goedkoopst, at-cost pricing). Stel DNS in naar Vercel.</p>
+
+  <h3>Hosting: Vercel (gratis)</h3>
+<pre>
+# 1. Installeer Vercel CLI
+npm install -g vercel
+
+# 2. Vanuit je project-map:
+vercel
+
+# 3. Koppel je domein:
+vercel domains add boshuisommen.nl
+</pre>
+
+  <div class="tip">
+    <strong>💡 Alternatief:</strong> Netlify werkt ook uitstekend en is even gratis. Het voordeel van Vercel is de naadloze serverless functions integratie.
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 3: MOLLIE PAYMENTS     -->
+<!-- ============================== -->
+<section id="mollie">
+  <h2>3. Mollie Betalingen</h2>
+
+  <h3><span class="step-num">1</span> Account aanmaken</h3>
+  <p>Ga naar <strong>mollie.com</strong> en maak een account aan. Je hebt nodig:</p>
+  <ul>
+    <li>KvK-nummer (of bewijs van ondernemerschap)</li>
+    <li>IBAN bankrekening</li>
+    <li>Identiteitsbewijs</li>
+  </ul>
+
+  <div class="warning">
+    <strong>⚠️ Let op:</strong> Mollie vereist een zakelijk of eenmanszaak-account. Als je als particulier verhuurt, overweeg een eenmanszaak (ZZP) bij de KvK (€75 eenmalig).
+  </div>
+
+  <h3><span class="step-num">2</span> API-sleutel ophalen</h3>
+  <p>In je Mollie Dashboard → Developers → API keys. Kopieer de <strong>Live API key</strong> (begint met <span class="inline-code">live_</span>). Gebruik de <strong>Test API key</strong> (<span class="inline-code">test_</span>) tijdens development.</p>
+
+  <h3><span class="step-num">3</span> Betaalmethoden activeren</h3>
+  <ul>
+    <li><strong>iDEAL</strong> — gratis te activeren, €0,29 per transactie</li>
+    <li><strong>Creditcard</strong> — €0,25 + 2,8% per transactie</li>
+    <li><strong>Bancontact</strong> — €0,39 per transactie (voor Belgische gasten)</li>
+    <li><strong>SOFORT/Klarna</strong> — optioneel, voor Duitse gasten</li>
+  </ul>
+
+  <h3><span class="step-num">4</span> Backend implementatie</h3>
+<pre>
+// api/create-payment.js (Vercel serverless function)
+const { createMollieClient } = require('@mollie/api-client');
+
+const mollieClient = createMollieClient({
+  apiKey: process.env.MOLLIE_API_KEY  // bewaar in Vercel env vars!
+});
+
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') return res.status(405).end();
+
+  const { checkin, checkout, guests, name, email, nights, totalPrice } = req.body;
+
+  try {
+    const payment = await mollieClient.payments.create({
+      amount: {
+        currency: 'EUR',
+        value: totalPrice.toFixed(2)  // bijv. "285.00"
+      },
+      description: `Boshuis Ommen: ${checkin} t/m ${checkout} (${nights} nachten)`,
+      redirectUrl: `${process.env.BASE_URL}/bevestiging?booking_id=${bookingId}`,
+      webhookUrl: `${process.env.BASE_URL}/api/mollie-webhook`,
+      metadata: {
+        checkin, checkout, guests, name, email, nights
+      }
+    });
+
+    // Sla boeking op met status 'pending'
+    await saveBooking({
+      id: payment.id,
+      checkin, checkout, guests, name, email, nights,
+      totalPrice, status: 'pending',
+      createdAt: new Date().toISOString()
+    });
+
+    res.json({ checkoutUrl: payment.getCheckoutUrl() });
+  } catch (error) {
+    console.error('Mollie error:', error);
+    res.status(500).json({ error: 'Betaling aanmaken mislukt' });
+  }
+};
+</pre>
+
+  <h3><span class="step-num">5</span> Webhook (betaling bevestiging)</h3>
+<pre>
+// api/mollie-webhook.js
+const { createMollieClient } = require('@mollie/api-client');
+
+const mollieClient = createMollieClient({
+  apiKey: process.env.MOLLIE_API_KEY
+});
+
+module.exports = async (req, res) => {
+  const { id } = req.body;  // Mollie stuurt payment ID
+
+  const payment = await mollieClient.payments.get(id);
+
+  if (payment.status === 'paid') {
+    const { checkin, checkout, name, email, guests, nights } = payment.metadata;
+
+    // 1. Update boeking status
+    await updateBookingStatus(id, 'confirmed');
+
+    // 2. Stuur bevestigingsmail
+    await sendConfirmationEmail({ name, email, checkin, checkout, guests, nights,
+      totalPrice: payment.amount.value });
+
+    // 3. Blokkeer datums in kalender
+    await addToCalendar({ checkin, checkout, name });
+  }
+
+  res.status(200).end();  // Mollie verwacht 200 OK
+};
+</pre>
+
+  <h3>Transactiekosten overzicht</h3>
+  <table class="cost-table">
+    <tr><th>Methode</th><th>Kosten per transactie</th><th>Voorbeeld (€285)</th></tr>
+    <tr><td>iDEAL</td><td>€0,29</td><td>€0,29 → netto €284,71</td></tr>
+    <tr><td>Creditcard</td><td>€0,25 + 2,8%</td><td>€8,23 → netto €276,77</td></tr>
+    <tr><td>Bancontact</td><td>€0,39</td><td>€0,39 → netto €284,61</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>💡 Vergelijk:</strong> Natuurhuisje rekent ~15% commissie. Op een boeking van €285 is dat €42,75. Via Mollie met iDEAL betaal je slechts €0,29. Dat is <strong>€42,46 besparing per boeking</strong>.
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 4: iCAL SYNC           -->
+<!-- ============================== -->
+<section id="ical">
+  <h2>4. Kalender Synchronisatie (iCal)</h2>
+
+  <p>Twee-weg synchronisatie voorkomt dubbele boekingen tussen je eigen site en Natuurhuisje.</p>
+
+  <h3>Stap A: Importeer Natuurhuisje kalender</h3>
+  <p>Natuurhuisje biedt een iCal-export URL aan voor elke advertentie. Ga naar:</p>
+  <p><strong>Natuurhuisje Dashboard → Je advertentie (68313) → Kalender → iCal export</strong></p>
+
+<pre>
+// api/sync-calendar.js — draait elk uur via cron
+const ical = require('node-ical');
+
+async function importNatuurhuisjeBookings() {
+  // URL uit je Natuurhuisje dashboard
+  const ICAL_URL = process.env.NATUURHUISJE_ICAL_URL;
+
+  const events = await ical.async.fromURL(ICAL_URL);
+
+  const bookedDates = [];
+
+  for (const event of Object.values(events)) {
+    if (event.type === 'VEVENT') {
+      bookedDates.push({
+        start: event.start.toISOString().split('T')[0],
+        end: event.end.toISOString().split('T')[0],
+        summary: event.summary || 'Natuurhuisje boeking',
+        source: 'natuurhuisje'
+      });
+    }
+  }
+
+  // Sla op en combineer met eigen boekingen
+  await updateBlockedDates(bookedDates);
+  return bookedDates;
+}
+</pre>
+
+  <h3>Stap B: Exporteer eigen kalender naar Natuurhuisje</h3>
+<pre>
+// api/calendar.ics — publiek endpoint
+const icalGenerator = require('ical-generator');
+
+module.exports = async (req, res) => {
+  const bookings = await getConfirmedBookings();
+
+  const cal = icalGenerator({
+    name: 'Boshuis Ommen',
+    prodId: '//Boshuis Ommen//Direct Bookings//NL'
+  });
+
+  for (const booking of bookings) {
+    cal.createEvent({
+      start: new Date(booking.checkin),
+      end: new Date(booking.checkout),
+      summary: `Geboekt: ${booking.name}`,
+      description: `Direct boeking via boshuisommen.nl`
+    });
+  }
+
+  res.setHeader('Content-Type', 'text/calendar');
+  res.send(cal.toString());
+};
+</pre>
+
+  <p>Kopieer de URL <span class="inline-code">https://boshuisommen.nl/api/calendar.ics</span> en plak deze in Natuurhuisje → Kalender → iCal import.</p>
+
+  <h3>Stap C: Geblokkeerde datums in frontend</h3>
+<pre>
+// api/blocked-dates.js — frontend haalt dit op
+module.exports = async (req, res) => {
+  // Combineer eigen boekingen + Natuurhuisje import
+  const ownBookings = await getConfirmedBookings();
+  const externalBookings = await getExternalBookings();
+
+  const allBlocked = [...ownBookings, ...externalBookings].map(b => ({
+    start: b.checkin || b.start,
+    end: b.checkout || b.end
+  }));
+
+  res.json({ blockedDates: allBlocked });
+};
+</pre>
+
+  <div class="warning">
+    <strong>⚠️ Belangrijk:</strong> iCal sync heeft altijd enige vertraging (15-60 min). Bouw een extra check in bij de betaling: controleer op het moment van betalen nogmaals of de datums vrij zijn.
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 5: EMAIL AUTOMATION    -->
+<!-- ============================== -->
+<section id="email">
+  <h2>5. Email Automatie</h2>
+
+  <h3>Provider keuze: Resend (aanbevolen)</h3>
+  <p><strong>Resend.com</strong> is de simpelste optie: gratis tot 3.000 emails/maand, goede deliverability, simpele API. Alternatieven: SendGrid (gratis 100/dag), Mailgun, of Amazon SES (goedkoopst bij volume).</p>
+
+  <h3>Setup</h3>
+<pre>
+npm install resend
+</pre>
+
+<pre>
+// lib/email.js
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+async function sendBookingConfirmation(booking) {
+  const { name, email, checkin, checkout, guests, nights, totalPrice } = booking;
+
+  await resend.emails.send({
+    from: 'Boshuis Ommen &lt;noreply@boshuisommen.nl&gt;',
+    to: email,
+    subject: `Boekingsbevestiging — ${checkin} t/m ${checkout}`,
+    html: getConfirmationTemplate({
+      GUEST_NAME: name,
+      CHECKIN_DATE: formatDate(checkin),
+      CHECKOUT_DATE: formatDate(checkout),
+      NUM_GUESTS: guests,
+      NUM_NIGHTS: nights,
+      TOTAL_PRICE: totalPrice
+    })
+  });
+}
+
+async function sendPreArrivalEmail(booking) {
+  await resend.emails.send({
+    from: 'Boshuis Ommen &lt;noreply@boshuisommen.nl&gt;',
+    to: booking.email,
+    subject: 'Praktische informatie voor uw verblijf — Boshuis Ommen',
+    html: getPreArrivalTemplate({
+      GUEST_NAME: booking.name,
+      KEY_CODE: process.env.KEY_SAFE_CODE,
+      WIFI_NAME: process.env.WIFI_SSID,
+      WIFI_PASSWORD: process.env.WIFI_PASSWORD,
+      OWNER_PHONE: process.env.OWNER_PHONE
+    })
+  });
+}
+
+async function sendPostStayEmail(booking) {
+  await resend.emails.send({
+    from: 'Boshuis Ommen &lt;noreply@boshuisommen.nl&gt;',
+    to: booking.email,
+    subject: 'Bedankt voor uw verblijf! — Boshuis Ommen',
+    html: getPostStayTemplate({
+      GUEST_NAME: booking.name
+    })
+  });
+}
+</pre>
+
+  <h3>Automatische triggers (cron jobs)</h3>
+<pre>
+// vercel.json — cron configuratie
+{
+  "crons": [
+    {
+      "path": "/api/cron/pre-arrival",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/post-stay",
+      "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/sync-calendar",
+      "schedule": "0 */1 * * *"
+    }
+  ]
+}
+</pre>
+
+<pre>
+// api/cron/pre-arrival.js — draait dagelijks om 09:00
+module.exports = async (req, res) => {
+  // Vind boekingen met check-in over 2-3 dagen
+  const twoDaysFromNow = addDays(new Date(), 2);
+  const threeDaysFromNow = addDays(new Date(), 3);
+
+  const upcomingBookings = await getBookings({
+    checkin: { between: [twoDaysFromNow, threeDaysFromNow] },
+    preArrivalSent: false,
+    status: 'confirmed'
+  });
+
+  for (const booking of upcomingBookings) {
+    await sendPreArrivalEmail(booking);
+    await markPreArrivalSent(booking.id);
+  }
+
+  res.json({ sent: upcomingBookings.length });
+};
+</pre>
+
+<pre>
+// api/cron/post-stay.js — draait dagelijks om 10:00
+module.exports = async (req, res) => {
+  const yesterday = addDays(new Date(), -1);
+
+  const completedStays = await getBookings({
+    checkout: yesterday.toISOString().split('T')[0],
+    postStaySent: false,
+    status: 'confirmed'
+  });
+
+  for (const booking of completedStays) {
+    await sendPostStayEmail(booking);
+    await markPostStaySent(booking.id);
+  }
+
+  res.json({ sent: completedStays.length });
+};
+</pre>
+
+  <h3>Email flow samenvatting</h3>
+  <table class="cost-table">
+    <tr><th>Moment</th><th>Email</th><th>Trigger</th></tr>
+    <tr><td>Direct na betaling</td><td>Boekingsbevestiging</td><td>Mollie webhook (automatisch)</td></tr>
+    <tr><td>2-3 dagen voor check-in</td><td>Praktische info (WiFi, sleutel, tips)</td><td>Dagelijkse cron 09:00</td></tr>
+    <tr><td>1 dag na check-out</td><td>Bedankt + review-verzoek</td><td>Dagelijkse cron 10:00</td></tr>
+  </table>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 6: DEPLOYMENT          -->
+<!-- ============================== -->
+<section id="deploy">
+  <h2>6. Deployment Stappenplan</h2>
+
+  <h3>Project structuur</h3>
+<pre>
+boshuisommen/
+├── public/
+│   ├── index.html          ← je booking website
+│   ├── bevestiging.html    ← bevestigingspagina na betaling
+│   └── images/             ← foto's van het huisje
+├── api/
+│   ├── create-payment.js   ← Mollie betaling starten
+│   ├── mollie-webhook.js   ← betaling bevestiging ontvangen
+│   ├── blocked-dates.js    ← geblokkeerde datums voor kalender
+│   ├── calendar.ics        ← iCal feed voor Natuurhuisje
+│   └── cron/
+│       ├── pre-arrival.js  ← pre-arrival emails
+│       ├── post-stay.js    ← post-stay emails
+│       └── sync-calendar.js← Natuurhuisje kalender sync
+├── lib/
+│   ├── email.js            ← email functies
+│   ├── bookings.js         ← boekingen opslaan/ophalen
+│   └── templates/          ← email HTML templates
+├── package.json
+└── vercel.json
+</pre>
+
+  <h3>Environment variabelen (Vercel)</h3>
+<pre>
+# Mollie
+MOLLIE_API_KEY=live_xxxxxxxxxxxxxxxxxxxxxx
+
+# Email (Resend)
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxx
+
+# Natuurhuisje iCal
+NATUURHUISJE_ICAL_URL=https://www.natuurhuisje.nl/ical/68313/xxxxx
+
+# Huisje details
+KEY_SAFE_CODE=1234
+WIFI_SSID=BoshuisOmmen
+WIFI_PASSWORD=xxxxx
+OWNER_PHONE=06-xxxxxxxx
+BASE_URL=https://boshuisommen.nl
+</pre>
+
+  <h3>Deploy commando's</h3>
+<pre>
+# Eerste keer opzetten
+npm init -y
+npm install @mollie/api-client resend node-ical ical-generator
+
+# Deploy naar Vercel
+npx vercel --prod
+
+# Domein koppelen
+npx vercel domains add boshuisommen.nl
+</pre>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 7: KOSTEN              -->
+<!-- ============================== -->
+<section id="costs">
+  <h2>7. Kosten Overzicht</h2>
+
+  <h3>Eenmalige kosten</h3>
+  <table class="cost-table">
+    <tr><th>Item</th><th>Kosten</th><th>Toelichting</th></tr>
+    <tr><td>KvK inschrijving (als nodig)</td><td>€75</td><td>Eenmalig, voor Mollie account</td></tr>
+    <tr><td>Development</td><td>€0</td><td>DIY met deze guide</td></tr>
+  </table>
+
+  <h3>Jaarlijkse kosten</h3>
+  <table class="cost-table">
+    <tr><th>Item</th><th>Kosten/jaar</th><th>Toelichting</th></tr>
+    <tr><td>Domein (.nl)</td><td>~€8</td><td>TransIP of Cloudflare</td></tr>
+    <tr><td>Hosting (Vercel)</td><td>€0</td><td>Gratis tier is ruim voldoende</td></tr>
+    <tr><td>Email (Resend)</td><td>€0</td><td>Gratis tot 3.000 emails/maand</td></tr>
+    <tr><td>Mollie abonnement</td><td>€0</td><td>Geen maandelijkse kosten</td></tr>
+    <tr><td><strong>Totaal vast</strong></td><td><strong>~€8/jaar</strong></td><td></td></tr>
+  </table>
+
+  <h3>Variabele kosten (per boeking)</h3>
+  <table class="cost-table">
+    <tr><th>Item</th><th>Kosten</th><th>Voorbeeld</th></tr>
+    <tr><td>Mollie (iDEAL)</td><td>€0,29/transactie</td><td>50 boekingen = €14,50/jaar</td></tr>
+    <tr><td><strong>Totaal variabel</strong></td><td></td><td><strong>~€15/jaar</strong></td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>💡 ROI berekening:</strong><br>
+    Stel je krijgt 20 directe boekingen per jaar à gemiddeld €300:<br>
+    → Natuurhuisje commissie bespaard: 20 × €45 = <strong>€900/jaar</strong><br>
+    → Jouw kosten: €8 + €6 = <strong>€14/jaar</strong><br>
+    → <strong>Netto besparing: ~€886/jaar</strong>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 8: CHECKLIST           -->
+<!-- ============================== -->
+<section id="checklist">
+  <h2>8. Launch Checklist</h2>
+
+  <h3>Fase 1: Basis (Week 1)</h3>
+  <ul class="checklist">
+    <li>Domein registreren (boshuisommen.nl)</li>
+    <li>Vercel account aanmaken en project opzetten</li>
+    <li>Website deployen (index.html)</li>
+    <li>SSL certificaat (automatisch via Vercel)</li>
+    <li>Foto's toevoegen aan gallery sectie</li>
+  </ul>
+
+  <h3>Fase 2: Betalingen (Week 2)</h3>
+  <ul class="checklist">
+    <li>Mollie account aanmaken en verifiëren</li>
+    <li>iDEAL + Creditcard + Bancontact activeren</li>
+    <li>Payment API implementeren</li>
+    <li>Webhook testen met Mollie test-modus</li>
+    <li>Bevestigingspagina bouwen</li>
+  </ul>
+
+  <h3>Fase 3: Automatie (Week 3)</h3>
+  <ul class="checklist">
+    <li>Resend account + domein verificatie</li>
+    <li>Email templates koppelen</li>
+    <li>Cron jobs configureren</li>
+    <li>iCal sync opzetten (import + export)</li>
+    <li>Testen: complete boekingsflow doorlopen</li>
+  </ul>
+
+  <h3>Fase 4: Live (Week 4)</h3>
+  <ul class="checklist">
+    <li>Mollie overzetten van test naar live mode</li>
+    <li>iCal URL invoeren in Natuurhuisje dashboard</li>
+    <li>Website URL toevoegen aan Natuurhuisje beschrijving</li>
+    <li>Google Business Profile aanmaken</li>
+    <li>Eerste testboeking met echte betaling</li>
+  </ul>
+</section>
+
+<footer style="text-align:center; padding:40px; color:#999; font-size:13px;">
+  Boshuis Ommen — Backend Setup Guide<br>
+  Gegenereerd april 2026
+</footer>
+
+</body>
+</html>

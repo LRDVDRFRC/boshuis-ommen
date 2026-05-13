@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /backend-setup-guide.html
+Disallow: /email-templates.html
+
+Sitemap: https://boshuisdeputter.nl/sitemap.xml

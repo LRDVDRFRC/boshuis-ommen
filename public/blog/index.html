@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — De Putter · Boshuis Ommen</title>
+<meta name="description" content="Lees onze blogs over de mooiste plekken en activiteiten rondom Boshuis De Putter bij Ommen in het Vechtdal.">
+<link rel="canonical" href="https://boshuisdeputter.nl/blog">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --forest: #2d5016;
+  --forest-light: #4a7c2e;
+  --forest-bg: #f0f5eb;
+  --cream: #faf9f6;
+  --text: #2d3436;
+  --text-light: #636e72;
+}
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--cream);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--forest); text-decoration: none; font-weight: 500; }
+a:hover { color: var(--forest-light); }
+
+/* Top bar */
+.topbar {
+  background: var(--forest); color: #fff;
+  padding: 14px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px;
+}
+.topbar a { color: rgba(255,255,255,0.9); text-decoration: none; }
+.topbar a:hover { color: #fff; }
+.brand { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+.lang-switch { display: flex; gap: 4px; }
+.lang-switch a { padding: 4px 10px; border-radius: 4px; font-size: 13px; cursor: pointer; }
+.lang-switch a.active, .lang-switch a:hover { background: rgba(255,255,255,0.2); }
+
+/* Page header */
+.page-header {
+  text-align: center;
+  padding: 60px 24px 40px;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  color: var(--forest);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-header p {
+  font-size: 16px;
+  color: var(--text-light);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Blog cards grid */
+.blog-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 28px;
+}
+.blog-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+.blog-card a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.blog-card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.blog-card-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.blog-card-tag {
+  display: inline-block;
+  background: var(--forest-bg);
+  color: var(--forest);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+.blog-card-body h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.blog-card-body p {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.6;
+  flex: 1;
+}
+.blog-card-meta {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #f0f0f0;
+}
+.blog-card-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--forest);
+  margin-top: 12px;
+}
+.blog-card-read::after {
+  content: '\2192';
+}
+
+/* Footer */
+.blog-footer {
+  background: var(--forest);
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+}
+.blog-footer a { color: rgba(255,255,255,0.9); text-decoration: none; }
+
+/* Responsive */
+@media (max-width: 500px) {
+  .blog-grid { grid-template-columns: 1fr; padding: 0 16px 60px; }
+  .page-header { padding: 40px 20px 28px; }
+  .page-header h1 { font-size: 28px; }
+  .blog-card-img { height: 180px; }
+}
+
+/* Language support */
+[data-lang] { display: none; }
+[data-lang="nl"] { display: revert; }
+</style>
+<script defer src="https://va.vercel-scripts.com/v1/script.js" data-endpoint="/_vercel/insights"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="brand">De Putter</a>
+  <div class="lang-switch">
+    <a class="active" data-setlang="nl">NL</a>
+    <a data-setlang="de">DE</a>
+    <a data-setlang="en">EN</a>
+  </div>
+</div>
+
+<div class="page-header">
+  <h1 data-lang="nl">Blog</h1>
+  <h1 data-lang="de">Blog</h1>
+  <h1 data-lang="en">Blog</h1>
+  <p data-lang="nl">Ontdek de mooiste plekken en leukste activiteiten rondom Boshuis De Putter in het Vechtdal.</p>
+  <p data-lang="de">Entdecken Sie die schönsten Orte und besten Aktivitäten rund um das Waldhaus De Putter im Vechtdal.</p>
+  <p data-lang="en">Discover the most beautiful spots and best activities around Cabin De Putter in the Vecht Valley.</p>
+</div>
+
+<div class="blog-grid">
+
+  <!-- Pluck Elke Dag -->
+  <div class="blog-card">
+    <a href="/blog/pluck-elke-dag">
+      <img class="blog-card-img" src="/photos/pluckelkedag.jpeg" alt="Bloementuin Pluck Elke Dag">
+      <div class="blog-card-body">
+        <span class="blog-card-tag" data-lang="nl">Uitje</span>
+        <span class="blog-card-tag" data-lang="de">Ausflug</span>
+        <span class="blog-card-tag" data-lang="en">Day out</span>
+        <h2 data-lang="nl">Pluck Elke Dag: de Keukenhof van Overijssel</h2>
+        <h2 data-lang="de">Pluck Elke Dag: der Keukenhof von Overijssel</h2>
+        <h2 data-lang="en">Pluck Elke Dag: Overijssel's hidden Keukenhof</h2>
+        <p data-lang="nl">Tulpen plukken, heerlijk lunchen en genieten van een prachtige bloemen- en beeldentuin in Witharen — op een kwartiertje rijden.</p>
+        <p data-lang="de">Tulpen pflücken, herrlich essen und einen wunderschönen Blumen- und Skulpturengarten genießen — nur eine Viertelstunde entfernt.</p>
+        <p data-lang="en">Pick your own tulips, enjoy a wonderful lunch and explore a beautiful flower and sculpture garden — just fifteen minutes away.</p>
+        <div class="blog-card-meta" data-lang="nl">8 mei 2026 · 4 min lezen</div>
+        <div class="blog-card-meta" data-lang="de">8. Mai 2026 · 4 Min.</div>
+        <div class="blog-card-meta" data-lang="en">8 May 2026 · 4 min read</div>
+        <span class="blog-card-read" data-lang="nl">Lees meer</span>
+        <span class="blog-card-read" data-lang="de">Weiterlesen</span>
+        <span class="blog-card-read" data-lang="en">Read more</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Junner Koeland -->
+  <div class="blog-card">
+    <a href="/blog/junner-koeland">
+      <img class="blog-card-img" src="/photos/schapen.jpeg" alt="Schotse Hooglanders Junner Koeland">
+      <div class="blog-card-body">
+        <span class="blog-card-tag" data-lang="nl">Natuur</span>
+        <span class="blog-card-tag" data-lang="de">Natur</span>
+        <span class="blog-card-tag" data-lang="en">Nature</span>
+        <h2 data-lang="nl">Junner Koeland: wandelen tussen Schotse Hooglanders</h2>
+        <h2 data-lang="de">Junner Koeland: Wandern zwischen Schottischen Hochlandrindern</h2>
+        <h2 data-lang="en">Junner Koeland: walking among Highland cattle</h2>
+        <p data-lang="nl">Direct achter het boshuis begint een van de mooiste natuurgebieden van Overijssel. Wandel tussen Hooglanders langs de Vecht.</p>
+        <p data-lang="de">Direkt hinter dem Waldhaus beginnt eines der schönsten Naturschutzgebiete Overijssels. Wandern Sie zwischen Hochlandrindern entlang der Vecht.</p>
+        <p data-lang="en">Right behind the cabin begins one of Overijssel's most beautiful nature reserves. Walk among Highland cattle along the River Vecht.</p>
+        <div class="blog-card-meta" data-lang="nl">6 mei 2026 · 4 min lezen</div>
+        <div class="blog-card-meta" data-lang="de">6. Mai 2026 · 4 Min.</div>
+        <div class="blog-card-meta" data-lang="en">6 May 2026 · 4 min read</div>
+        <span class="blog-card-read" data-lang="nl">Lees meer</span>
+        <span class="blog-card-read" data-lang="de">Weiterlesen</span>
+        <span class="blog-card-read" data-lang="en">Read more</span>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<footer class="blog-footer">
+  <p>&copy; 2026 De Putter — Boshuis Ommen &middot; <a href="/">boshuisdeputter.nl</a></p>
+</footer>
+
+<script>
+const langBtns = document.querySelectorAll('[data-setlang]');
+function setLang(lang) {
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.style.display = el.dataset.lang === lang ? '' : 'none';
+  });
+  langBtns.forEach(b => b.classList.toggle('active', b.dataset.setlang === lang));
+  localStorage.setItem('lang', lang);
+}
+langBtns.forEach(b => b.addEventListener('click', () => setLang(b.dataset.setlang)));
+setLang(localStorage.getItem('lang') || 'nl');
+</script>
+</body>
+</html>

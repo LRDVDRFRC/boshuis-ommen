@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Beoordeling — De Putter · Boshuis Ommen</title>
+<link rel="icon" href="/putter-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d5016;
+    --forest-dark: #1f3a0f;
+    --cream: #faf9f6;
+    --sand-bg: #fdf8f0;
+    --bark: #5c3d2e;
+    --gold: #c9a96e;
+    --text: #2d3436;
+    --text-light: #636e72;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 28px rgba(0,0,0,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--sand-bg) 100%);
+    color: var(--text); line-height: 1.55; min-height: 100vh;
+    padding: 32px 20px;
+  }
+  .container { max-width: 560px; margin: 0 auto; }
+  .brand {
+    text-align: center; margin-bottom: 28px;
+  }
+  .brand img { width: 56px; height: 56px; display: block; margin: 0 auto 8px; }
+  .brand h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: var(--forest); font-weight: 700;
+  }
+  .card {
+    background: #fff; border-radius: 14px; padding: 28px 26px;
+    box-shadow: var(--shadow-lg);
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif; font-size: 24px;
+    color: var(--forest); margin-bottom: 8px;
+  }
+  .card p.lead { color: var(--text-light); font-size: 14.5px; margin-bottom: 20px; }
+  .stay-badge {
+    display: inline-block; background: var(--sand-bg); border: 1px solid var(--gold);
+    padding: 6px 12px; border-radius: 20px; font-size: 12.5px;
+    color: var(--bark); margin-bottom: 16px;
+  }
+  label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--text); margin: 14px 0 6px;
+  }
+  input[type="text"], textarea {
+    width: 100%; font-family: inherit; font-size: 14.5px;
+    padding: 10px 12px; border: 1.5px solid #e0ddd5;
+    border-radius: 8px; background: #fafaf7;
+    transition: border-color .15s;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: var(--forest); background: #fff;
+  }
+  textarea { resize: vertical; min-height: 140px; font-family: inherit; }
+  .rating {
+    display: flex; gap: 4px; flex-wrap: nowrap; margin: 6px 0 2px;
+    width: 100%;
+  }
+  .rating-btn {
+    flex: 1 1 0; min-width: 0; max-width: 52px;
+    background: #fafaf7; border: 1.5px solid #e0ddd5;
+    border-radius: 8px; padding: 10px 0; font-size: 15px; font-weight: 600;
+    color: var(--text-light); cursor: pointer; transition: all .15s;
+    font-family: inherit; text-align: center;
+  }
+  /* Phone: shrink padding/font so all 10 buttons stay on one line from meh → amazing */
+  @media (max-width: 520px) {
+    .rating { gap: 3px; }
+    .rating-btn {
+      max-width: none;
+      padding: 9px 0;
+      font-size: 13.5px;
+      border-radius: 7px;
+    }
+  }
+  @media (max-width: 360px) {
+    .rating { gap: 2px; }
+    .rating-btn { font-size: 12px; padding: 8px 0; }
+  }
+  .rating-btn:hover { border-color: var(--gold); color: var(--bark); }
+  .rating-btn.active {
+    background: var(--forest); border-color: var(--forest-dark);
+    color: #fff; box-shadow: 0 2px 8px rgba(45,80,22,0.25);
+  }
+  .rating-labels {
+    display: flex; justify-content: space-between; font-size: 11px;
+    color: var(--text-light); margin-top: 6px;
+  }
+  .label-hint {
+    font-weight: 400; color: var(--text-light); font-size: 11.5px;
+    margin-left: 6px;
+  }
+  .helper { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  .counter { font-size: 12px; color: var(--text-light); text-align: right; margin-top: 4px; }
+  .private-box {
+    margin-top: 22px; padding-top: 18px; border-top: 1px dashed #e0ddd5;
+  }
+  .private-box textarea { min-height: 90px; background: #fdf8f0; }
+  .private-box .helper { margin-bottom: 2px; }
+  button.submit {
+    width: 100%; margin-top: 20px; padding: 14px;
+    background: var(--forest); color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: transform .1s, background .15s;
+  }
+  button.submit:hover:not(:disabled) { background: var(--forest-dark); }
+  button.submit:active:not(:disabled) { transform: scale(0.985); }
+  button.submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .state {
+    text-align: center; padding: 20px 10px;
+  }
+  .state h2 { color: var(--forest); margin-bottom: 10px; }
+  .state p { color: var(--text-light); font-size: 14.5px; }
+  .state.error h2 { color: #c0392b; }
+  .thanks-icon {
+    font-size: 46px; display: block; margin: 0 auto 10px;
+  }
+  .existing-badge {
+    background: #e8f5e0; color: #2d5016; padding: 8px 12px;
+    border-radius: 8px; font-size: 13px; text-align: center;
+    margin-bottom: 14px;
+  }
+  .lang-toggle {
+    text-align: center; margin-bottom: 14px; font-size: 12px;
+  }
+  .lang-toggle button {
+    background: none; border: none; padding: 4px 8px; cursor: pointer;
+    color: var(--text-light); font-family: inherit; font-size: 12px;
+  }
+  .lang-toggle button.on { color: var(--forest); font-weight: 700; text-decoration: underline; }
+</style>
+<script defer src="https://va.vercel-scripts.com/v1/script.js" data-endpoint="/_vercel/insights"></script>
+</head>
+<body>
+<div class="container">
+  <div class="brand">
+    <img src="/putter-logo.png" alt="De Putter" onerror="this.style.display='none'">
+    <h1>De Putter · Boshuis Ommen</h1>
+  </div>
+
+  <div class="lang-toggle">
+    <button data-lang="nl" class="on">Nederlands</button> ·
+    <button data-lang="de">Deutsch</button> ·
+    <button data-lang="en">English</button>
+  </div>
+
+  <div class="card" id="card">
+    <div class="state" id="loading">
+      <p data-i18n="loading">Even je gegevens ophalen…</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const I18N = {
+  nl: {
+    loading: 'Even je gegevens ophalen…',
+    titleNew: 'Vertel ons over je verblijf',
+    titleEdit: 'Je beoordeling bijwerken',
+    leadNew: 'Een korte beoordeling helpt ons enorm — het kost je 2 minuten en we lezen elk woord zelf.',
+    leadEdit: 'Je hebt al een beoordeling achtergelaten. Je kunt hem nog aanpassen als je wilt.',
+    existingHint: '✓ Je hebt al een beoordeling achtergelaten op ',
+    stayBadge: (a, d) => `Je verblijf · ${a} → ${d}`,
+    nameLabel: 'Naam',
+    ratingLabel: 'Cijfer (1–10)',
+    ratingLow: '1 · Matig', ratingHigh: 'Fantastisch · 10',
+    textLabel: 'Je ervaring',
+    textLabelHint: '(wordt op de website geplaatst)',
+    textPlaceholder: 'Wat was de sfeer? Wat viel op? Wat was het mooiste moment? Schrijf gerust kort — ook dat helpt.',
+    privateLabel: 'Tips & verbeteringen',
+    privateLabelHint: '(alleen voor Jan — niet zichtbaar op de site)',
+    privateHelper: 'Iets dat beter kan? Een detail dat we gemist hebben? Een compliment? Laat het hier achter — blijft tussen ons.',
+    privatePlaceholder: 'Iets dat je met ons wilt delen, alleen voor onze ogen…',
+    submit: 'Beoordeling versturen',
+    submitUpdate: 'Beoordeling bijwerken',
+    submitting: 'Versturen…',
+    thanks: 'Bedankt!',
+    thanksBody: 'Je beoordeling is opgeslagen. Heel fijn dat je de tijd hebt genomen.',
+    thanksCta: 'Terug naar de site',
+    googleTitle: 'Bedankt — wat fijn dat je het zo beleefd hebt!',
+    googleBody: 'Zou je je beoordeling ook op Google willen delen? Dat helpt enorm om meer mensen dit plekje te laten vinden.',
+    googleCta: '⭐ Deel op Google',
+    googleSkip: 'Liever niet, terug naar de site',
+    errInvalid: 'Deze link is verlopen of niet geldig',
+    errInvalidBody: 'Neem contact op met janvanwaveren@gmail.com als je denkt dat dit niet klopt.',
+    errNetwork: 'Er ging iets mis bij het versturen',
+    errRetry: 'Probeer het nog eens.',
+    errTooShort: 'Schrijf alsjeblieft minimaal 20 tekens — dat helpt anderen écht een gevoel te krijgen.',
+    errBadRating: 'Kies een cijfer tussen 1 en 10.'
+  },
+  de: {
+    loading: 'Einen Moment, Ihre Daten werden geladen…',
+    titleNew: 'Erzählen Sie uns von Ihrem Aufenthalt',
+    titleEdit: 'Ihre Bewertung aktualisieren',
+    leadNew: 'Eine kurze Bewertung hilft uns sehr — es kostet 2 Minuten und wir lesen jedes Wort selbst.',
+    leadEdit: 'Sie haben bereits eine Bewertung hinterlassen. Sie können sie noch anpassen.',
+    existingHint: '✓ Sie haben bereits eine Bewertung hinterlassen am ',
+    stayBadge: (a, d) => `Ihr Aufenthalt · ${a} → ${d}`,
+    nameLabel: 'Name',
+    ratingLabel: 'Note (1–10)',
+    ratingLow: '1 · Mäßig', ratingHigh: 'Fantastisch · 10',
+    textLabel: 'Ihre Erfahrung',
+    textLabelHint: '(wird auf der Website veröffentlicht)',
+    textPlaceholder: 'Wie war die Stimmung? Was fiel auf? Was war der schönste Moment? Auch kurze Texte helfen.',
+    privateLabel: 'Tipps & Verbesserungen',
+    privateLabelHint: '(nur für Jan — nicht öffentlich)',
+    privateHelper: 'Etwas, das wir verbessern können? Ein Detail, das wir übersehen haben? Ein Kompliment? Hier — bleibt unter uns.',
+    privatePlaceholder: 'Etwas, das Sie uns sagen möchten, nur für uns…',
+    submit: 'Bewertung absenden',
+    submitUpdate: 'Bewertung aktualisieren',
+    submitting: 'Wird gesendet…',
+    thanks: 'Vielen Dank!',
+    thanksBody: 'Ihre Bewertung wurde gespeichert. Schön, dass Sie sich die Zeit genommen haben.',
+    thanksCta: 'Zurück zur Website',
+    googleTitle: 'Vielen Dank — schön, dass es Ihnen so gefallen hat!',
+    googleBody: 'Würden Sie Ihre Bewertung auch auf Google teilen? Das hilft uns sehr, diesen Ort bekannter zu machen.',
+    googleCta: '⭐ Auf Google teilen',
+    googleSkip: 'Lieber nicht, zurück zur Website',
+    errInvalid: 'Dieser Link ist abgelaufen oder ungültig',
+    errInvalidBody: 'Bitte kontaktieren Sie janvanwaveren@gmail.com, falls das ein Fehler ist.',
+    errNetwork: 'Beim Absenden ist etwas schiefgelaufen',
+    errRetry: 'Bitte versuchen Sie es erneut.',
+    errTooShort: 'Bitte schreiben Sie mindestens 20 Zeichen — das hilft anderen wirklich weiter.',
+    errBadRating: 'Wählen Sie eine Note zwischen 1 und 10.'
+  },
+  en: {
+    loading: 'Loading your details…',
+    titleNew: 'Tell us about your stay',
+    titleEdit: 'Update your review',
+    leadNew: 'A short review helps us a lot — it only takes 2 minutes and we read every word ourselves.',
+    leadEdit: 'You\'ve already left a review. You can still update it if you like.',
+    existingHint: '✓ You already submitted a review on ',
+    stayBadge: (a, d) => `Your stay · ${a} → ${d}`,
+    nameLabel: 'Name',
+    ratingLabel: 'Rating (1–10)',
+    ratingLow: '1 · Meh', ratingHigh: 'Amazing · 10',
+    textLabel: 'Your experience',
+    textLabelHint: '(will be shared on the website)',
+    textPlaceholder: 'What was the vibe? What stood out? What was the best moment? Short reviews help too.',
+    privateLabel: 'Tips & improvements',
+    privateLabelHint: '(just for Jan — not shared)',
+    privateHelper: 'Something we could do better? A detail we missed? A compliment? Drop it here — stays between us.',
+    privatePlaceholder: 'Anything you\'d like to share, just for our eyes…',
+    submit: 'Submit review',
+    submitUpdate: 'Update review',
+    submitting: 'Sending…',
+    thanks: 'Thank you!',
+    thanksBody: 'Your review has been saved. We really appreciate you taking the time.',
+    thanksCta: 'Back to the site',
+    googleTitle: 'Thank you — so glad you enjoyed it!',
+    googleBody: 'Would you share your review on Google as well? It really helps more people discover this place.',
+    googleCta: '⭐ Share on Google',
+    googleSkip: 'Rather not, back to the site',
+    errInvalid: 'This link is expired or invalid',
+    errInvalidBody: 'Please contact janvanwaveren@gmail.com if you think this is a mistake.',
+    errNetwork: 'Something went wrong while sending',
+    errRetry: 'Please try again.',
+    errTooShort: 'Please write at least 20 characters — that helps future guests get a real feel.',
+    errBadRating: 'Pick a rating between 1 and 10.'
+  }
+};
+const GOOGLE_REVIEW_URL = 'https://g.page/r/CWI3zM8Wd8uSEBM/review';
+const GOOGLE_CTA_THRESHOLD = 8;
+
+let lang = (navigator.language || 'nl').slice(0, 2);
+if (!I18N[lang]) lang = 'nl';
+const params = new URLSearchParams(location.search);
+const token = params.get('t') || '';
+
+function t(key, ...args) {
+  const v = I18N[lang][key];
+  return typeof v === 'function' ? v(...args) : v;
+}
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('on', b.dataset.lang === l);
+  });
+  if (state) render(state);
+}
+document.querySelectorAll('.lang-toggle button').forEach(b => {
+  b.addEventListener('click', () => setLang(b.dataset.lang));
+});
+
+let state = null;
+
+async function boot() {
+  if (!token) {
+    renderError('invalid');
+    return;
+  }
+  try {
+    const resp = await fetch('/api/reviews?t=' + encodeURIComponent(token));
+    const data = await resp.json();
+    if (!data.ok) {
+      renderError('invalid');
+      return;
+    }
+    state = data;
+    render(data);
+  } catch (err) {
+    renderError('network');
+  }
+}
+
+function renderError(kind) {
+  const card = document.getElementById('card');
+  const subtitle = kind === 'network' ? t('errRetry') : t('errInvalidBody');
+  const title = kind === 'network' ? t('errNetwork') : t('errInvalid');
+  card.innerHTML = `
+    <div class="state error">
+      <h2>${title}</h2>
+      <p>${subtitle}</p>
+    </div>`;
+}
+
+function render(d) {
+  const card = document.getElementById('card');
+  const already = d.alreadySubmitted;
+  const existing = d.existing;
+  const prefillRating = existing?.rating || 0;
+  const prefillText = existing?.text?.[lang] || existing?.text?.nl || existing?.text?.en || '';
+  const prefillName = d.name || existing?.author || '';
+
+  card.innerHTML = `
+    <h2>${already ? t('titleEdit') : t('titleNew')}</h2>
+    <p class="lead">${already ? t('leadEdit') : t('leadNew')}</p>
+    ${already && existing?.date ? `<div class="existing-badge">${t('existingHint')}${existing.date}</div>` : ''}
+    ${d.checkin && d.checkout ? `<div class="stay-badge">${t('stayBadge', d.checkin, d.checkout)}</div>` : ''}
+
+    <label for="r-name">${t('nameLabel')}</label>
+    <input type="text" id="r-name" value="${escapeHtml(prefillName)}" maxlength="80">
+
+    <label>${t('ratingLabel')}</label>
+    <div class="rating" id="r-rating">
+      ${[1,2,3,4,5,6,7,8,9,10].map(n =>
+        `<button type="button" class="rating-btn ${n === prefillRating ? 'active' : ''}" data-rating="${n}">${n}</button>`
+      ).join('')}
+    </div>
+    <div class="rating-labels"><span>${t('ratingLow')}</span><span>${t('ratingHigh')}</span></div>
+
+    <label for="r-text">${t('textLabel')} <span class="label-hint">${t('textLabelHint')}</span></label>
+    <textarea id="r-text" maxlength="2000" placeholder="${escapeHtml(t('textPlaceholder'))}">${escapeHtml(prefillText)}</textarea>
+    <div class="counter" id="r-counter">0 / 2000</div>
+
+    <div class="private-box">
+      <label for="r-private">${t('privateLabel')} <span class="label-hint">${t('privateLabelHint')}</span></label>
+      <div class="helper">${t('privateHelper')}</div>
+      <textarea id="r-private" maxlength="2000" placeholder="${escapeHtml(t('privatePlaceholder'))}"></textarea>
+    </div>
+
+    <button class="submit" id="r-submit">${already ? t('submitUpdate') : t('submit')}</button>
+    <div id="r-error" class="helper" style="color:#c0392b; margin-top:10px; display:none"></div>
+  `;
+
+  let selectedRating = prefillRating;
+  card.querySelectorAll('.rating-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedRating = parseInt(btn.dataset.rating, 10);
+      card.querySelectorAll('.rating-btn').forEach(b => b.classList.toggle('active', b === btn));
+    });
+  });
+
+  const textEl = document.getElementById('r-text');
+  const counterEl = document.getElementById('r-counter');
+  const updateCounter = () => { counterEl.textContent = `${textEl.value.length} / 2000`; };
+  textEl.addEventListener('input', updateCounter);
+  updateCounter();
+
+  document.getElementById('r-submit').addEventListener('click', () => submit(selectedRating));
+}
+
+async function submit(rating) {
+  const textEl = document.getElementById('r-text');
+  const nameEl = document.getElementById('r-name');
+  const privateEl = document.getElementById('r-private');
+  const submitBtn = document.getElementById('r-submit');
+  const errEl = document.getElementById('r-error');
+  errEl.style.display = 'none';
+
+  const text = textEl.value.trim();
+  const privateMessage = (privateEl?.value || '').trim();
+  if (!rating) { errEl.textContent = t('errBadRating'); errEl.style.display = 'block'; return; }
+  if (text.length < 20) { errEl.textContent = t('errTooShort'); errEl.style.display = 'block'; return; }
+
+  submitBtn.disabled = true;
+  const originalLabel = submitBtn.textContent;
+  submitBtn.textContent = t('submitting');
+
+  try {
+    const resp = await fetch('/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ t: token, rating, text, author: nameEl.value.trim(), privateMessage })
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      showThanks(rating);
+    } else {
+      errEl.textContent = (data.error === 'text_too_short') ? t('errTooShort')
+                       : (data.error === 'rating_out_of_range') ? t('errBadRating')
+                       : t('errNetwork');
+      errEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  } catch {
+    errEl.textContent = t('errNetwork');
+    errEl.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
+  }
+}
+
+function showThanks(rating) {
+  const card = document.getElementById('card');
+  if (rating >= GOOGLE_CTA_THRESHOLD) {
+    card.innerHTML = `
+      <div class="state">
+        <div class="thanks-icon">🌟</div>
+        <h2>${t('googleTitle')}</h2>
+        <p>${t('googleBody')}</p>
+        <p style="margin-top:22px">
+          <a href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener"
+             style="display:inline-block;background:#2d5016;color:#fff;padding:12px 26px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px">${t('googleCta')}</a>
+        </p>
+        <p style="margin-top:16px"><a href="/" style="color:var(--text-light);font-size:13px;text-decoration:none">${t('googleSkip')}</a></p>
+      </div>`;
+  } else {
+    card.innerHTML = `
+      <div class="state">
+        <div class="thanks-icon">🌲</div>
+        <h2>${t('thanks')}</h2>
+        <p>${t('thanksBody')}</p>
+        <p style="margin-top:18px"><a href="/" style="color:var(--forest);font-weight:600;text-decoration:none">${t('thanksCta')} →</a></p>
+      </div>`;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+boot();
+</script>
+</body>
+</html>

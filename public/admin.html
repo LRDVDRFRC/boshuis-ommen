@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>De Putter — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #faf9f6; color: #2d3436; line-height: 1.6;
+  padding: 24px 20px 60px;
+}
+.container { max-width: 1180px; margin: 0 auto; }
+
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 12px; }
+h1 { font-family: 'Playfair Display', serif; color: #2d5016; font-size: 28px; }
+.subtitle { color: #636e72; margin-bottom: 24px; font-size: 13px; }
+
+.auth { display: flex; gap: 10px; align-items: center; }
+.auth label { font-size: 12px; color: #636e72; font-weight: 600; }
+.auth input { padding: 8px 12px; font-size: 13px; border: 1.5px solid #e0e0e0; border-radius: 6px; min-width: 180px; }
+.auth input:focus { outline: none; border-color: #2d5016; }
+
+.tabs { display: flex; gap: 4px; border-bottom: 2px solid #eef2ea; margin-bottom: 20px; }
+.tab { padding: 12px 20px; font-size: 14px; font-weight: 600; color: #636e72; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; }
+.tab:hover { color: #2d5016; }
+.tab.active { color: #2d5016; border-bottom-color: #2d5016; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+button { background: #2d5016; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+button:hover:not(:disabled) { background: #4a7c2e; }
+button:disabled { background: #b0b0b0; cursor: not-allowed; }
+button.secondary { background: #fff; color: #2d5016; border: 1.5px solid #2d5016; }
+button.secondary:hover:not(:disabled) { background: #f0f5eb; }
+button.danger { background: #c0392b; }
+button.danger:hover:not(:disabled) { background: #a93226; }
+button.mini { padding: 5px 10px; font-size: 12px; }
+
+.status { padding: 12px 16px; border-radius: 6px; font-size: 13.5px; margin: 14px 0; display: none; }
+.status.show { display: block; }
+.status.loading { background: #fff4d6; color: #7d5a00; }
+.status.error { background: #fee; color: #c0392b; }
+.status.success { background: #e8f5e0; color: #2d5016; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+thead { background: #f0f5eb; }
+th { padding: 11px 14px; text-align: left; color: #2d5016; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+td { padding: 10px 14px; border-top: 1px solid #eef2ea; vertical-align: top; }
+td.actions { white-space: nowrap; }
+td.actions button { margin-right: 4px; }
+
+.status-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-awaiting { background: #fff4d6; color: #7d5a00; }
+.status-paid { background: #e8f5e0; color: #2d5016; }
+.status-cancelled { background: #f0f0f0; color: #888; }
+
+.review-card { background: #fff; border-radius: 8px; padding: 18px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #eef2ea; }
+.review-card h4 { color: #2d5016; font-size: 15px; margin-bottom: 4px; }
+.review-card .meta { color: #888; font-size: 12px; margin-bottom: 10px; }
+.review-card .text { color: #444; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+.review-card .reply { background: #f0f5eb; border-left: 3px solid #2d5016; padding: 10px 14px; margin: 12px 0; border-radius: 0 6px 6px 0; font-size: 13px; }
+.review-card .reply strong { color: #2d5016; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: #636e72; margin-bottom: 4px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 9px 12px; font-size: 13px;
+  border: 1.5px solid #e0e0e0; border-radius: 6px; font-family: inherit;
+}
+.form-group textarea { min-height: 70px; resize: vertical; }
+
+details { background: #fff; border-radius: 8px; padding: 0; margin: 10px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+summary { cursor: pointer; padding: 14px 18px; font-weight: 600; color: #2d5016; font-size: 14px; }
+summary::-webkit-details-marker { color: #c9a96e; }
+details[open] summary { border-bottom: 1px solid #eef2ea; }
+details .details-body { padding: 16px 18px 18px; }
+
+.empty { color: #888; font-style: italic; text-align: center; padding: 30px; }
+.help { font-size: 12px; color: #888; line-height: 1.5; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div>
+      <h1>🌲 De Putter — Admin</h1>
+      <p class="subtitle">Beheer boekingen, reviews en prijsanalyse</p>
+    </div>
+    <div class="auth">
+      <label for="secret">Admin secret:</label>
+      <input type="password" id="secret" placeholder="ADMIN_SECRET" autocomplete="current-password">
+    </div>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <div class="tab active" data-tab="bookings" onclick="switchTab('bookings')">📅 Boekingen</div>
+    <div class="tab" data-tab="natuurhuisje" onclick="switchTab('natuurhuisje')">🏡 Natuurhuisje</div>
+    <div class="tab" data-tab="reviews" onclick="switchTab('reviews')">⭐ Reviews</div>
+    <div class="tab" data-tab="price-check" onclick="switchTab('price-check')">💰 Prijsanalyse</div>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <!-- ========== BOOKINGS ========== -->
+  <div class="tab-panel active" id="panel-bookings">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="font-family:'Playfair Display',serif;color:#2d5016;font-size:18px">Alle boekingen</h2>
+      <button onclick="loadBookings()" class="secondary mini">🔄 Vernieuwen</button>
+    </div>
+    <div id="bookings-container">
+      <p class="empty">Voer je admin secret in hierboven om boekingen te laden.</p>
+    </div>
+    <p class="help">💡 Cron draait dagelijks 09:00 UTC en stuurt automatisch: betaalreminders · pre-arrival Welkomstgids · review-verzoeken · auto-annulering bij uitblijvende betaling.</p>
+  </div>
+
+  <!-- ========== NATUURHUISJE ========== -->
+  <div class="tab-panel" id="panel-natuurhuisje">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="font-family:'Playfair Display',serif;color:#2d5016;font-size:18px">Natuurhuisje gast toevoegen</h2>
+    </div>
+
+    <details style="margin-bottom:16px" id="nh-form-details" open>
+      <summary>+ Gast toevoegen (vanuit Natuurhuisje)</summary>
+      <div class="details-body">
+        <p style="font-size:13px;color:#636e72;margin-bottom:14px">Plak hieronder de gegevens van de Natuurhuisje-boeking (kopieer het blok "Gegevens hoofdboeker" + "Reserveringsinformatie" van Natuurhuisje). De velden worden automatisch ingevuld.</p>
+
+        <div class="form-group">
+          <label>📋 Plak Natuurhuisje-gegevens</label>
+          <textarea id="nh-paste" rows="8" placeholder="Plak hier de tekst van Natuurhuisje...&#10;&#10;Bijv:&#10;Naam&#10;Marjolein Munniksma&#10;E-mailadres&#10;gast@email.nl&#10;Aankomst datum&#10;05-06-2026&#10;..." style="font-size:13px;font-family:monospace;width:100%;padding:10px;border:2px dashed #ccc;border-radius:8px;background:#fafafa;resize:vertical"></textarea>
+          <button onclick="parseNHPaste()" class="secondary mini" style="margin-top:6px">🔍 Gegevens herkennen & invullen</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eee;margin:16px 0">
+
+        <div class="form-grid">
+          <div class="form-group"><label>Naam gast *</label><input id="nh-name" placeholder="bv. Familie De Vries"></div>
+          <div class="form-group"><label>E-mailadres *</label><input type="email" id="nh-email" placeholder="gast@email.nl"></div>
+          <div class="form-group"><label>Aankomst *</label><input type="date" id="nh-checkin"></div>
+          <div class="form-group"><label>Vertrek *</label><input type="date" id="nh-checkout"></div>
+          <div class="form-group"><label>Taal</label><select id="nh-lang"><option value="nl">Nederlands</option><option value="de">Deutsch</option><option value="en">English</option></select></div>
+          <div class="form-group"><label>Aantal gasten</label><input type="number" id="nh-guests" min="1" max="6" value="2"></div>
+        </div>
+        <button onclick="enrollNHGuest()" style="margin-top:10px">📩 Opslaan & inplannen</button>
+        <p class="help">De mails worden automatisch verstuurd door de dagelijkse cron. Je kunt ze ook handmatig versturen via de knoppen hieronder.</p>
+      </div>
+    </details>
+
+    <p class="help" style="margin-top:12px">Na opslaan verschijnt de gast in het overzicht op het tabblad 📅 Boekingen (met 🏡 Natuurhuisje-label).</p>
+  </div>
+
+  <!-- ========== REVIEWS ========== -->
+  <div class="tab-panel" id="panel-reviews">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="font-family:'Playfair Display',serif;color:#2d5016;font-size:18px">Reviews</h2>
+      <div>
+        <button onclick="seedReviews()" class="secondary mini">📥 Default reviews importeren</button>
+        <button onclick="loadReviews()" class="secondary mini">🔄 Vernieuwen</button>
+      </div>
+    </div>
+
+    <details style="margin-bottom:16px">
+      <summary>+ Nieuwe review toevoegen</summary>
+      <div class="details-body">
+        <div class="form-grid">
+          <div class="form-group"><label>Naam gast</label><input id="new-author" placeholder="bv. Mark"></div>
+          <div class="form-group"><label>Datum</label><input type="date" id="new-date"></div>
+          <div class="form-group"><label>Score (1-10)</label><input type="number" min="1" max="10" step="0.5" id="new-rating" placeholder="9"></div>
+          <div class="form-group"><label>Zichtbaar op site</label><select id="new-visible"><option value="true">Ja</option><option value="false">Nee (hidden)</option></select></div>
+        </div>
+        <div class="form-group"><label>Review tekst (NL)</label><textarea id="new-text-nl" placeholder="Wat schreef de gast?"></textarea></div>
+        <div class="form-group"><label>Review tekst (DE) — optioneel</label><textarea id="new-text-de" placeholder="Vertaling voor Duitse site-bezoekers (laat leeg om NL te gebruiken)"></textarea></div>
+        <div class="form-group"><label>Review tekst (EN) — optioneel</label><textarea id="new-text-en" placeholder="Translation for English visitors"></textarea></div>
+        <button onclick="addReview()" style="margin-top:10px">+ Review opslaan</button>
+      </div>
+    </details>
+
+    <div id="reviews-container">
+      <p class="empty">Voer je admin secret in om reviews te laden.</p>
+    </div>
+  </div>
+
+  <!-- ========== PRICE CHECK ========== -->
+  <div class="tab-panel" id="panel-price-check">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="font-family:'Playfair Display',serif;color:#2d5016;font-size:18px">Concurrentie-analyse</h2>
+      <button onclick="runPriceCheck()" id="pc-btn">Analyse uitvoeren</button>
+    </div>
+    <p class="help" style="margin-bottom:12px">Wekelijkse AI-analyse van vergelijkbare huisjes in Vechtdal. Vereist ANTHROPIC_API_KEY env var in Vercel. Draait automatisch elke maandagochtend.</p>
+    <div id="pc-report"></div>
+  </div>
+
+</div>
+
+<script>
+/* ========== STATE + AUTH ========== */
+const secretInput = document.getElementById('secret');
+secretInput.value = sessionStorage.getItem('deputter-admin-secret') || '';
+secretInput.addEventListener('input', () => {
+  sessionStorage.setItem('deputter-admin-secret', secretInput.value);
+  loadBookings();
+  loadReviews();
+});
+function sec() {
+  const v = secretInput.value.trim();
+  if (!v) throw new Error('Vul eerst de admin secret in');
+  return v;
+}
+
+/* ========== TABS ========== */
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+}
+
+/* ========== STATUS ========== */
+function setStatus(kind, msg) {
+  const el = document.getElementById('status');
+  el.className = `status show ${kind}`;
+  el.textContent = msg;
+  if (kind === 'success') setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function fmtDateShort(iso) {
+  try { return new Date(iso + (iso.length === 10 ? 'T00:00:00Z' : '')).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); } catch { return iso; }
+}
+
+/* ========== BOOKINGS ========== */
+let allBookingsCache = [];
+
+async function loadBookings() {
+  const s = secretInput.value.trim();
+  if (!s) return;
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(s)}`);
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed');
+    allBookingsCache = data.bookings || [];
+    renderBookings(allBookingsCache);
+  } catch (err) {
+    document.getElementById('bookings-container').innerHTML = `<p class="empty">Fout: ${esc(err.message)}</p>`;
+  }
+}
+
+function renderBookings(bookings) {
+  const c = document.getElementById('bookings-container');
+  if (bookings.length === 0) {
+    c.innerHTML = '<p class="empty">Nog geen boekingen.</p>';
+    return;
+  }
+
+  // Sort by check-in date descending (most recent first)
+  const sorted = [...bookings].sort((a, b) => (b.checkin || '').localeCompare(a.checkin || ''));
+
+  const rows = sorted.map(b => {
+    const isNH = b.source === 'natuurhuisje';
+    const sourceBadge = isNH
+      ? '<span style="display:inline-block;background:#e8f5e9;color:#2d5016;font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;margin-top:2px">🏡 Natuurhuisje</span>'
+      : '<span style="display:inline-block;background:#e3f2fd;color:#1565c0;font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;margin-top:2px">🌐 Direct</span>';
+
+    const statusCls = 'status-' + (b.status === 'awaiting_payment' ? 'awaiting' : b.status);
+    const statusLbl = { awaiting_payment: 'Wacht op betaling', paid: 'Betaald', cancelled: 'Geannuleerd' }[b.status] || b.status;
+
+    // Tonia checkbox
+    const toniaChecked = b.toniaPaid ? 'checked' : '';
+    const toniaStyle = b.toniaPaid ? 'color:#2d5016' : 'color:#ccc';
+    const toniaAction = b.toniaPaid ? 'tonia-unpaid' : 'tonia-paid';
+    const toniaCell = (b.status === 'paid' || b.status === 'awaiting_payment')
+      ? `<label style="cursor:pointer;${toniaStyle};font-size:13px;white-space:nowrap" title="${b.toniaPaid ? 'Tonia betaald op ' + fmtDateShort(b.toniaPaidAt) : 'Klik om te markeren als betaald'}">
+           <input type="checkbox" ${toniaChecked} onchange="toggleTonia('${esc(b.reference)}','${toniaAction}')" style="cursor:pointer"> 🧹
+         </label>`
+      : '<span style="color:#eee">—</span>';
+
+    // Actions
+    let actions = '';
+    if (isNH) {
+      const emails = b.sentEmails || {};
+      if (!emails.preArrival) actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-prearrival')" class="mini" title="Stuur nu de pre-arrival mail">🌲</button> `;
+      if (!emails.reviewRequest) actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-thankyou')" class="mini secondary" title="Stuur nu de bedankmail">⭐</button> `;
+      actions += `<button onclick="deleteBooking('${esc(b.reference)}')" class="mini danger" title="Verwijder">🗑️</button>`;
+    } else if (b.status === 'awaiting_payment') {
+      actions = `<button onclick="markPaid('${esc(b.reference)}')" class="mini">✓ Betaald</button>
+        <button onclick="cancelBooking('${esc(b.reference)}')" class="mini secondary">Annuleer</button>
+        <button onclick="deleteBooking('${esc(b.reference)}')" class="mini danger" title="Verwijder volledig uit database">🗑️</button>`;
+    } else if (b.status === 'paid') {
+      actions = `<button onclick="unpay('${esc(b.reference)}')" class="mini secondary">Undo paid</button>
+        <button onclick="cancelBooking('${esc(b.reference)}')" class="mini secondary">Annuleer</button>
+        <button onclick="deleteBooking('${esc(b.reference)}')" class="mini danger" title="Verwijder volledig uit database">🗑️</button>`;
+    } else {
+      actions = `<button onclick="deleteBooking('${esc(b.reference)}')" class="mini danger" title="Verwijder volledig uit database">🗑️</button>`;
+    }
+
+    const emails = b.sentEmails || {};
+    const emailBadges = [
+      emails.paymentReminder && '💳',
+      emails.finalReminder && '⏰',
+      emails.preArrival && '🌲',
+      emails.reviewRequest && '⭐',
+      emails.autoCancel && '❌'
+    ].filter(Boolean).join(' ') || '<span style="color:#ccc">—</span>';
+
+    const amountCell = isNH
+      ? `<small style="color:#888">via NH</small><br><code style="font-size:11px;color:#c0392b">${esc(b.reference)}</code>`
+      : `<strong>&euro;${b.total}</strong><br><code style="font-size:11px;color:#c0392b">${esc(b.reference)}</code>`;
+
+    return `<tr${b.status === 'cancelled' ? ' style="opacity:0.45"' : ''}>
+      <td><strong>${esc(b.name)}</strong><br><a href="mailto:${esc(b.email)}" style="font-size:12px;color:#2d5016">${esc(b.email)}</a><br>${sourceBadge}</td>
+      <td>${fmtDateShort(b.checkin)}<br>&rarr; ${fmtDateShort(b.checkout)}<br><small style="color:#888">${b.nights}n &middot; ${b.guests}p</small></td>
+      <td>${amountCell}</td>
+      <td><span class="status-tag ${statusCls}">${statusLbl}</span></td>
+      <td style="text-align:center">${toniaCell}</td>
+      <td style="font-size:11px;text-align:center">${emailBadges}</td>
+      <td class="actions">${actions}</td>
+    </tr>`;
+  }).join('');
+
+  c.innerHTML = `<table>
+    <thead><tr><th>Gast</th><th>Data</th><th>Bedrag</th><th>Status</th><th>Tonia</th><th>Mails</th><th>Acties</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+async function toggleTonia(ref, action) {
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&ref=${ref}&action=${action}`, { method: 'POST' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    const label = action === 'tonia-paid' ? 'Tonia betaald ✓' : 'Tonia: ongedaan gemaakt';
+    setStatus('success', label + ' — ' + ref);
+    loadBookings();
+  } catch (err) { setStatus('error', 'Fout: ' + err.message); }
+}
+
+async function bookingAction(ref, action, confirm_msg) {
+  if (confirm_msg && !confirm(confirm_msg)) return;
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&ref=${ref}&action=${action}`, { method: 'POST' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', `✓ ${action}: ${ref}`);
+    loadBookings();
+  } catch (err) { setStatus('error', 'Fout: ' + err.message); }
+}
+const markPaid = r => bookingAction(r, 'paid');
+const cancelBooking = r => bookingAction(r, 'cancel', 'Zeker weten dat je deze boeking wilt annuleren?');
+const unpay = r => bookingAction(r, 'unpay', 'Markering betaald ongedaan maken?');
+
+async function deleteBooking(ref) {
+  if (!confirm(`Zeker weten dat je boeking ${ref} PERMANENT wilt verwijderen?\n\n(Dit kan niet ongedaan worden gemaakt. "Annuleer" markeert hem alleen als cancelled — dit verwijdert hem volledig.)`)) return;
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&ref=${ref}`, { method: 'DELETE' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', `✓ ${ref} verwijderd`);
+    loadBookings();
+  } catch (err) { setStatus('error', 'Fout: ' + err.message); }
+}
+
+/* ========== NATUURHUISJE ========== */
+async function loadNHBookings() {
+  const s = secretInput.value.trim();
+  if (!s) return;
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(s)}`);
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed');
+    const nhBookings = (data.bookings || []).filter(b => b.source === 'natuurhuisje');
+    renderNHBookings(nhBookings);
+  } catch (err) {
+    document.getElementById('nh-bookings-container').innerHTML = `<p class="empty">Fout: ${esc(err.message)}</p>`;
+  }
+}
+
+function renderNHBookings(bookings) {
+  const c = document.getElementById('nh-bookings-container');
+  if (bookings.length === 0) {
+    c.innerHTML = '<p class="empty">Nog geen Natuurhuisje-gasten toegevoegd. Gebruik het formulier hierboven om gasten in te schrijven.</p>';
+    return;
+  }
+  const now = new Date(); now.setUTCHours(0,0,0,0);
+  const rows = bookings.map(b => {
+    const emails = b.sentEmails || {};
+    const checkin = new Date(b.checkin + 'T00:00:00Z');
+    const checkout = new Date(b.checkout + 'T00:00:00Z');
+    const daysToCheckin = Math.round((checkin - now) / 86400000);
+    const daysSinceCheckout = Math.round((now - checkout) / 86400000);
+
+    const emailBadges = [
+      emails.preArrival && '🌲 pre-arrival',
+      emails.reviewRequest && '⭐ bedankt'
+    ].filter(Boolean).join(' · ') || '<span style="color:#ccc">nog niet verstuurd</span>';
+
+    let actions = '';
+    if (!emails.preArrival) {
+      actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-prearrival')" class="mini" title="Stuur nu de pre-arrival mail">🌲 Pre-arrival</button> `;
+    }
+    if (!emails.reviewRequest) {
+      actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-thankyou')" class="mini secondary" title="Stuur nu de bedankmail">⭐ Bedankmail</button> `;
+    }
+    actions += `<button onclick="deleteBooking('${esc(b.reference)}')" class="mini danger" title="Verwijder">🗑️</button>`;
+
+    let timing = '';
+    if (daysToCheckin > 0) timing = `<span style="color:#636e72">over ${daysToCheckin}d</span>`;
+    else if (daysToCheckin === 0) timing = '<span style="color:#2d5016;font-weight:600">vandaag!</span>';
+    else if (daysSinceCheckout < 0) timing = '<span style="color:#2d5016">nu te gast</span>';
+    else timing = `<span style="color:#888">${daysSinceCheckout}d geleden vertrokken</span>`;
+
+    return `<tr>
+      <td><strong>${esc(b.name)}</strong><br><a href="mailto:${esc(b.email)}" style="font-size:12px;color:#2d5016">${esc(b.email)}</a><br><small style="color:#888">${({nl:'🇳🇱',de:'🇩🇪',en:'🇬🇧'})[b.language] || '🇳🇱'} ${b.language}</small></td>
+      <td>${fmtDateShort(b.checkin)}<br>→ ${fmtDateShort(b.checkout)}<br><small>${b.nights}n · ${b.guests}p</small></td>
+      <td>${timing}</td>
+      <td style="font-size:11px">${emailBadges}</td>
+      <td class="actions">${actions}</td>
+    </tr>`;
+  }).join('');
+
+  c.innerHTML = `<table>
+    <thead><tr><th>Gast</th><th>Data</th><th>Timing</th><th>Emails</th><th>Acties</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function parseNHPaste() {
+  const raw = document.getElementById('nh-paste').value.trim();
+  if (!raw) return setStatus('error', 'Plak eerst de Natuurhuisje-gegevens in het tekstveld.');
+
+  // Split into lines and clean up
+  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+
+  // Helper: find the value on the line AFTER a label
+  function after(label) {
+    const idx = lines.findIndex(l => l.toLowerCase().includes(label.toLowerCase()));
+    return idx >= 0 && idx + 1 < lines.length ? lines[idx + 1].trim() : '';
+  }
+
+  // Parse DD-MM-YYYY to YYYY-MM-DD for date inputs
+  function parseDateDMY(str) {
+    const m = str.match(/(\d{2})-(\d{2})-(\d{4})/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : '';
+  }
+
+  // Extract fields
+  const name = after('Naam');
+  const email = after('E-mailadres') || after('E-mail');
+  const checkin = parseDateDMY(after('Aankomst'));
+  const checkout = parseDateDMY(after('Vertrek'));
+  const adults = parseInt(after('Aantal volwassenen')) || 0;
+  const children = parseInt(after('Aantal kinderen')) || 0;
+  const babies = parseInt(after("Aantal baby")) || 0;
+  const guests = adults + children + babies || 2;
+
+  // Detect language from address country or name patterns
+  const address = after('Adres');
+  let lang = 'nl';
+  if (address) {
+    const lower = address.toLowerCase();
+    if (lower.includes(' de ') || lower.includes(' de\n') || lower.endsWith(' de') || lower.includes('deutschland') || lower.includes('germany')) lang = 'de';
+    else if (lower.includes(' gb ') || lower.includes(' uk ') || lower.includes('united kingdom') || lower.includes('england')) lang = 'en';
+    else if (lower.includes(' nl') || lower.includes('nederland')) lang = 'nl';
+  }
+
+  // Fill in the form fields
+  if (name) document.getElementById('nh-name').value = name;
+  if (email) document.getElementById('nh-email').value = email;
+  if (checkin) document.getElementById('nh-checkin').value = checkin;
+  if (checkout) document.getElementById('nh-checkout').value = checkout;
+  document.getElementById('nh-guests').value = guests;
+  document.getElementById('nh-lang').value = lang;
+
+  // Feedback
+  const filled = [name && 'naam', email && 'email', checkin && 'aankomst', checkout && 'vertrek'].filter(Boolean);
+  if (filled.length >= 3) {
+    setStatus('success', `✓ Gegevens herkend: ${name} · ${checkin} → ${checkout} · ${guests} gasten${lang !== 'nl' ? ' · taal: ' + lang.toUpperCase() : ''}. Controleer en klik "Opslaan & inplannen".`);
+  } else {
+    setStatus('error', `Kon maar ${filled.length} velden herkennen (${filled.join(', ')}). Controleer de tekst en vul de rest handmatig in.`);
+  }
+}
+
+async function enrollNHGuest() {
+  const name = document.getElementById('nh-name').value.trim();
+  const email = document.getElementById('nh-email').value.trim();
+  const checkin = document.getElementById('nh-checkin').value;
+  const checkout = document.getElementById('nh-checkout').value;
+  const language = document.getElementById('nh-lang').value;
+  const guests = document.getElementById('nh-guests').value || 2;
+
+  if (!name || !email || !checkin || !checkout) return setStatus('error', 'Vul naam, e-mail, aankomst en vertrek in.');
+
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&action=enroll-nh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, checkin, checkout, language, guests })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', `✓ ${name} toegevoegd (${data.booking.reference})`);
+    ['nh-name', 'nh-email', 'nh-checkin', 'nh-checkout'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('nh-guests').value = '2';
+    document.getElementById('nh-form-details').removeAttribute('open');
+    loadBookings();
+  } catch (err) { setStatus('error', 'Fout: ' + err.message); }
+}
+
+async function sendNHEmail(ref, action) {
+  const label = action === 'send-prearrival' ? 'pre-arrival' : 'bedankmail';
+  if (!confirm(`${label} nu versturen voor ${ref}?`)) return;
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&ref=${ref}&action=${action}`, { method: 'POST' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', `✓ ${label} verstuurd`);
+    loadBookings();
+  } catch (err) { setStatus('error', 'Fout: ' + err.message); }
+}
+
+/* ========== REVIEWS ========== */
+async function loadReviews() {
+  const s = secretInput.value.trim();
+  if (!s) return;
+  try {
+    const resp = await fetch(`/api/admin/reviews?secret=${encodeURIComponent(s)}`);
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed');
+    renderReviews(data.reviews || []);
+  } catch (err) {
+    document.getElementById('reviews-container').innerHTML = `<p class="empty">Fout: ${esc(err.message)}</p>`;
+  }
+}
+
+function renderReviews(reviews) {
+  const c = document.getElementById('reviews-container');
+  if (reviews.length === 0) {
+    c.innerHTML = '<p class="empty">Nog geen reviews. Klik "Default reviews importeren" om de 3 bestaande van de site erin te zetten.</p>';
+    return;
+  }
+  c.innerHTML = reviews.map(r => {
+    const textNL = (typeof r.text === 'string' ? r.text : (r.text?.nl || ''));
+    const replyNL = r.reply?.text?.nl || r.reply?.text || '';
+    return `<div class="review-card" data-id="${esc(r.id)}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <h4>${esc(r.author)} ${r.ratingDisplay ? `<small style="color:#c9a96e;font-weight:400">· ${esc(r.ratingDisplay)}</small>` : ''} ${r.visible === false ? '<small style="color:#c0392b;font-weight:400">· verborgen</small>' : ''}</h4>
+        <div style="display:flex;gap:4px">
+          <button onclick="editReview('${esc(r.id)}')" class="mini secondary">✏️</button>
+          <button onclick="deleteReview('${esc(r.id)}')" class="mini danger">🗑️</button>
+        </div>
+      </div>
+      <div class="meta">${esc(r.date || '')} · ID: <code>${esc(r.id)}</code></div>
+      <div class="text">${esc(textNL)}</div>
+      ${replyNL ? `<div class="reply"><strong>Antwoord van Jan:</strong> ${esc(replyNL)}</div>` : ''}
+      <details style="margin-top:10px;box-shadow:none;border:1px solid #eef2ea">
+        <summary style="font-size:12px;padding:8px 12px">${replyNL ? '✏️ Antwoord bewerken' : '💬 Reageer op deze review'}</summary>
+        <div class="details-body" style="padding:12px">
+          <textarea id="reply-${esc(r.id)}" placeholder="Antwoord van Jan (wordt onder de review getoond)" style="width:100%;min-height:60px;border:1.5px solid #e0e0e0;border-radius:6px;padding:8px 10px;font-family:inherit;font-size:13px">${esc(replyNL)}</textarea>
+          <button onclick="saveReply('${esc(r.id)}')" class="mini" style="margin-top:8px">Antwoord opslaan</button>
+        </div>
+      </details>
+    </div>`;
+  }).join('');
+}
+
+async function addReview() {
+  const body = {
+    author: document.getElementById('new-author').value.trim(),
+    date: document.getElementById('new-date').value,
+    rating: document.getElementById('new-rating').value || null,
+    visible: document.getElementById('new-visible').value === 'true',
+    text: {
+      nl: document.getElementById('new-text-nl').value.trim(),
+      de: document.getElementById('new-text-de').value.trim() || document.getElementById('new-text-nl').value.trim(),
+      en: document.getElementById('new-text-en').value.trim() || document.getElementById('new-text-nl').value.trim()
+    }
+  };
+  if (!body.author || !body.date || !body.text.nl) return setStatus('error', 'Vul naam, datum en tekst in.');
+  try {
+    const resp = await fetch(`/api/admin/reviews?secret=${encodeURIComponent(sec())}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', '✓ Review toegevoegd');
+    ['new-author', 'new-date', 'new-rating', 'new-text-nl', 'new-text-de', 'new-text-en'].forEach(id => document.getElementById(id).value = '');
+    loadReviews();
+  } catch (err) { setStatus('error', err.message); }
+}
+
+async function deleteReview(id) {
+  if (!confirm('Review verwijderen?')) return;
+  try {
+    const resp = await fetch(`/api/admin/reviews?secret=${encodeURIComponent(sec())}&id=${id}`, { method: 'DELETE' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', '✓ Verwijderd');
+    loadReviews();
+  } catch (err) { setStatus('error', err.message); }
+}
+
+async function saveReply(id) {
+  const text = document.getElementById('reply-' + id).value.trim();
+  const body = text
+    ? { reply: { text: { nl: text, de: text, en: text }, date: new Date().toISOString().slice(0, 10) } }
+    : { reply: null };
+  try {
+    const resp = await fetch(`/api/admin/reviews?secret=${encodeURIComponent(sec())}&id=${id}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', '✓ Antwoord opgeslagen');
+    loadReviews();
+  } catch (err) { setStatus('error', err.message); }
+}
+
+async function editReview(id) {
+  const newName = prompt('Nieuwe naam (laat leeg om niet te wijzigen):');
+  if (newName === null) return;
+  const body = {};
+  if (newName.trim()) body.author = newName.trim();
+  if (Object.keys(body).length === 0) return;
+  try {
+    const resp = await fetch(`/api/admin/reviews?secret=${encodeURIComponent(sec())}&id=${id}`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!resp.ok) throw new Error('Failed');
+    setStatus('success', '✓ Bijgewerkt');
+    loadReviews();
+  } catch (err) { setStatus('error', err.message); }
+}
+
+async function seedReviews() {
+  try {
+    const resp = await fetch(`/api/admin/reviews?secret=${encodeURIComponent(sec())}&action=seed`, { method: 'POST' });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', data.seeded ? `✓ ${data.count} default reviews toegevoegd` : `Al ${data.existing} reviews aanwezig — niet opnieuw gezaaid`);
+    loadReviews();
+  } catch (err) { setStatus('error', err.message); }
+}
+
+/* ========== PRICE CHECK ========== */
+async function runPriceCheck() {
+  const btn = document.getElementById('pc-btn');
+  btn.disabled = true;
+  setStatus('loading', '⏳ Claude zoekt naar vergelijkbare huisjes (30-60s)…');
+  try {
+    const resp = await fetch(`/api/admin/price-check?secret=${encodeURIComponent(sec())}`);
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    setStatus('success', `✓ Analyse voltooid — ${data.report?.competitors?.length || 0} concurrenten`);
+    renderPriceReport(data);
+  } catch (err) { setStatus('error', err.message); }
+  finally { btn.disabled = false; }
+}
+
+function renderPriceReport(data) {
+  const r = data.report;
+  if (!r) { document.getElementById('pc-report').innerHTML = `<pre>${esc(data.rawText || JSON.stringify(data, null, 2))}</pre>`; return; }
+  const competitors = (r.competitors || []).map(c => `<tr>
+    <td><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a></td>
+    <td>${esc(c.location)}</td>
+    <td>${c.capacity}p</td>
+    <td>€${c.highSeasonNightlyEUR}/n</td>
+    <td>${esc(c.comparability)}</td>
+  </tr>`).join('');
+  const suggestions = (r.pricingSuggestions || []).map(s => `<tr>
+    <td><strong>${esc(s.season)}</strong></td>
+    <td>€${s.currentRate}</td>
+    <td>€${s.suggestedRate}</td>
+    <td>${esc(s.confidence)}</td>
+    <td>${esc(s.reason)}</td>
+  </tr>`).join('');
+  document.getElementById('pc-report').innerHTML = `
+    <div class="card" style="background:#fff;border-radius:12px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,0.06);margin-top:12px">
+      <h3 style="color:#2d5016;font-family:Georgia,serif;margin-bottom:10px">Samenvatting</h3>
+      <p>${esc(r.marketSummary)}</p>
+      <h3 style="color:#2d5016;font-family:Georgia,serif;margin-top:20px;margin-bottom:10px">Prijsaanbevelingen</h3>
+      <table><thead><tr><th>Seizoen</th><th>Huidig</th><th>Voorgesteld</th><th>Zekerheid</th><th>Reden</th></tr></thead><tbody>${suggestions}</tbody></table>
+      <h3 style="color:#2d5016;font-family:Georgia,serif;margin-top:20px;margin-bottom:10px">Vergelijkbaar</h3>
+      <table><thead><tr><th>Naam</th><th>Locatie</th><th>Grootte</th><th>Tarief</th><th>Vergelijkbaarheid</th></tr></thead><tbody>${competitors}</tbody></table>
+      <p style="margin-top:16px;background:#fdf8f0;padding:12px;border-left:3px solid #c9a96e"><strong>${esc(r.overallRecommendation)}</strong></p>
+    </div>
+  `;
+}
+
+/* ========== INIT ========== */
+if (secretInput.value) {
+  loadBookings();
+  loadReviews();
+}
+</script>
+</body>
+</html>

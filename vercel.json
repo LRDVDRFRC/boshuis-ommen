@@ -1,0 +1,45 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "outputDirectory": "public",
+  "crons": [
+    {
+      "path": "/api/admin/price-check",
+      "schedule": "0 7 * * 1"
+    },
+    {
+      "path": "/api/cron/lifecycle",
+      "schedule": "0 9 * * *"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "boshuis-ommen.nl" }],
+      "destination": "https://boshuisdeputter.nl/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.boshuis-ommen.nl" }],
+      "destination": "https://boshuisdeputter.nl/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.boshuisdeputter.nl" }],
+      "destination": "https://boshuisdeputter.nl/$1",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://boshuisdeputter.nl/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://boshuisdeputter.nl/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://boshuisdeputter.nl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://boshuisdeputter.nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://boshuisdeputter.nl/"/>
+  </url>
+  <url>
+    <loc>https://boshuisdeputter.nl/voorwaarden</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://boshuisdeputter.nl/blog/junner-koeland</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

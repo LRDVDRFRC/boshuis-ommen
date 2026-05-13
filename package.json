@@ -1,0 +1,15 @@
+{
+  "name": "boshuis-ommen",
+  "version": "1.0.0",
+  "description": "Direct booking website for Boshuis Ommen holiday cabin",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "ioredis": "^5.4.1"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  }
+}
