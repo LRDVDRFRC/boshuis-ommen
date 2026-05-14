@@ -117,7 +117,7 @@ export default async function handler(req, res) {
       }
 
       // 5. Checkout-day farewell — on checkout day, if paid
-      if (b.status === 'paid' && daysSinceCheckout === 0 && !sent.checkoutDay) {
+      if (b.status === 'paid' && daysSinceCheckout >= 0 && daysSinceCheckout <= 1 && !sent.checkoutDay) {
         const { subject, html } = checkoutDayEmail(b);
         await sendEmail({ to: b.email, subject, html, replyTo: process.env.OWNER_EMAIL });
         await updateBooking(b.reference, { sentEmails: { ...sent, checkoutDay: now.toISOString() } });
@@ -129,7 +129,7 @@ export default async function handler(req, res) {
       //    This is the moment the customer is still warm from their stay — perfect time to
       //    hand them their own unique share-able code. We issue it here (first-time only)
       //    and embed it in the email where a Putter bird holds a sign with the code.
-      if (b.status === 'paid' && daysSinceCheckout === 1 && !sent.reviewRequest) {
+      if (b.status === 'paid' && daysSinceCheckout >= 1 && daysSinceCheckout <= 5 && !sent.reviewRequest) {
         let bWithCode = b;
         if (!b.personalCode) {
           try {
