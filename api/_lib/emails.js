@@ -147,7 +147,7 @@ function _unused_paymentConfirmedEmail(b) {
 
 /* ================================================================
    TEMPLATE 0B — NH WELCOME (sent immediately on Natuurhuisje enrollment)
-   "Bedankt voor je boeking" + area tips to build excitement.
+   "Bedankt voor je boeking" + welkomstgids + website link.
 ================================================================ */
 export function nhWelcomeEmail(b) {
   const lang = b.language || 'nl';
@@ -155,59 +155,52 @@ export function nhWelcomeEmail(b) {
     nl: {
       subject: `🌲 Welkom — fijn dat je hebt geboekt bij De Putter!`,
       h1: 'Wat leuk dat je komt!',
-      intro: `Hoi ${esc(b.name)}, bedankt voor je boeking! We verheugen ons erop jullie te ontvangen van <strong>${fmtDate(b.checkin, 'nl')}</strong> t/m <strong>${fmtDate(b.checkout, 'nl')}</strong>.`,
+      intro: `Hoi ${esc(b.name)}, bedankt voor je boeking! Wat leuk dat jullie naar ons boshuisje komen van <strong>${fmtDate(b.checkin, 'nl')}</strong> t/m <strong>${fmtDate(b.checkout, 'nl')}</strong>.`,
       infoNote: 'Je ontvangt alle praktische informatie (sleutelcode, WiFi, routebeschrijving) automatisch per e-mail vóór je aankomst. Je hoeft niks te doen — wij regelen het.',
-      areaH: '🗺️ Alvast wat inspiratie',
-      tips: [
-        ['🌿 Junner Koeland', 'Ons huisje grenst aan dit prachtige natuurgebied. Schotse hooglanders, paarden en schapen lopen er vrij rond. Perfect voor een wandeling direct vanuit de tuin.'],
-        ['🚴 Fietsen rond Ommen', 'De Vechtdal-fietsroutes starten op loopafstand. Ommen centrum is 4 km — een mooi fietsritje langs de Vecht.'],
-        ['🛒 Boodschappen', 'Albert Heijn, Jumbo, Aldi en Lidl liggen allemaal in Ommen, op ~5 minuten rijden.'],
-        ['🔥 Houtkachel', 'Hout ligt klaar in de schuur. Op koude avonden is de houtkachel het gezelligste plekje in huis.']
-      ],
-      endTxt: 'We sturen je vóór aankomst nog een uitgebreide welkomstgids. Tot dan — geniet van het voorpret!',
+      inspireH: 'Alvast wat inspiratie',
+      inspireTxt: 'Op onze website vindt je nog meer informatie over het huisje en de omgeving, <a href="https://boshuisdeputter.nl" style="color:#2d5016;font-weight:600">check het hier</a>.',
+      questionsH: 'Vragen?',
+      questionsTxt: 'Mocht je vragen of verzoeken hebben, dan kan je mij bereiken door gewoon te reageren op deze mail.',
+      brochureH: '📖 Welkomstgids',
+      brochureTxt: 'We hebben een digitale welkomstgids gemaakt met alles over het huisje, de omgeving, wandelroutes en tips. Handig om alvast door te bladeren! Daarnaast vind je op onze website nog meer info en foto\'s van het huis en de omgeving.',
+      brochureCta: '📖 Welkomstgids bekijken',
+      endTxt: 'Geniet van de voorpret!',
       signoff: 'Groetjes,',
       sig: 'Jan — De Putter · Boshuis Ommen'
     },
     de: {
       subject: `🌲 Willkommen — schön, dass Sie bei De Putter gebucht haben!`,
       h1: 'Wie schön, dass Sie kommen!',
-      intro: `Hallo ${esc(b.name)}, vielen Dank für Ihre Buchung! Wir freuen uns, Sie vom <strong>${fmtDate(b.checkin, 'de')}</strong> bis <strong>${fmtDate(b.checkout, 'de')}</strong> bei uns begrüßen zu dürfen.`,
+      intro: `Hallo ${esc(b.name)}, vielen Dank für Ihre Buchung! Wie schön, dass Sie in unser Waldhäuschen kommen, vom <strong>${fmtDate(b.checkin, 'de')}</strong> bis <strong>${fmtDate(b.checkout, 'de')}</strong>.`,
       infoNote: 'Sie erhalten alle praktischen Informationen (Schlüsselcode, WLAN, Anfahrt) automatisch per E-Mail vor Ihrer Ankunft. Sie müssen nichts tun — wir kümmern uns darum.',
-      areaH: '🗺️ Schon mal etwas Inspiration',
-      tips: [
-        ['🌿 Junner Koeland', 'Unser Häuschen grenzt an dieses wunderschöne Naturschutzgebiet. Hochlandrinder, Pferde und Schafe laufen frei herum. Perfekt für einen Spaziergang direkt aus dem Garten.'],
-        ['🚴 Radfahren um Ommen', 'Die Vechtdal-Radwege starten in Laufnähe. Ommen Zentrum ist 4 km — eine schöne Radtour entlang der Vecht.'],
-        ['🛒 Einkaufen', 'Albert Heijn, Jumbo, Aldi und Lidl sind alle in Ommen, ca. 5 Minuten mit dem Auto.'],
-        ['🔥 Holzofen', 'Holz liegt im Schuppen bereit. An kühlen Abenden ist der Holzofen der gemütlichste Platz im Haus.']
-      ],
-      endTxt: 'Vor Ihrer Ankunft senden wir Ihnen noch einen ausführlichen Willkommensführer. Bis dahin — genießen Sie die Vorfreude!',
+      inspireH: 'Schon mal etwas Inspiration',
+      inspireTxt: 'Auf unserer Website finden Sie weitere Informationen über das Häuschen und die Umgebung, <a href="https://boshuisdeputter.nl" style="color:#2d5016;font-weight:600">schauen Sie hier</a>.',
+      questionsH: 'Fragen?',
+      questionsTxt: 'Bei Fragen oder Wünschen können Sie einfach auf diese E-Mail antworten.',
+      brochureH: '📖 Willkommensführer',
+      brochureTxt: 'Wir haben einen digitalen Willkommensführer erstellt mit allem über das Häuschen, die Umgebung, Wanderwege und Tipps. Praktisch zum Vorab-Durchblättern! Außerdem finden Sie auf unserer Website weitere Infos und Fotos.',
+      brochureCta: '📖 Willkommensführer ansehen',
+      endTxt: 'Genießen Sie die Vorfreude!',
       signoff: 'Herzliche Grüße,',
       sig: 'Jan — De Putter · Boshuis Ommen'
     },
     en: {
       subject: `🌲 Welcome — great to have you at De Putter!`,
       h1: 'So glad you\'re coming!',
-      intro: `Hi ${esc(b.name)}, thank you for your booking! We're looking forward to hosting you from <strong>${fmtDate(b.checkin, 'en')}</strong> to <strong>${fmtDate(b.checkout, 'en')}</strong>.`,
+      intro: `Hi ${esc(b.name)}, thank you for your booking! How lovely that you\'re coming to our forest cabin from <strong>${fmtDate(b.checkin, 'en')}</strong> to <strong>${fmtDate(b.checkout, 'en')}</strong>.`,
       infoNote: 'You\'ll receive all practical information (key code, WiFi, directions) by email before your arrival. No need to do anything — we\'ll take care of it.',
-      areaH: '🗺️ Some inspiration to get started',
-      tips: [
-        ['🌿 Junner Koeland', 'Our cabin borders this beautiful nature reserve. Highland cattle, horses and sheep roam freely. Perfect for a walk straight from the garden.'],
-        ['🚴 Cycling around Ommen', 'The Vechtdal cycling routes start within walking distance. Ommen town centre is 4 km — a lovely ride along the river Vecht.'],
-        ['🛒 Groceries', 'Albert Heijn, Jumbo, Aldi and Lidl are all in Ommen, about 5 minutes by car.'],
-        ['🔥 Wood stove', 'Firewood is ready in the shed. On chilly evenings the wood stove is the cosiest spot in the house.']
-      ],
-      endTxt: 'Before your arrival we\'ll send you a detailed welcome guide. Until then — enjoy the anticipation!',
+      inspireH: 'Some inspiration',
+      inspireTxt: 'On our website you\'ll find more information about the cabin and the area, <a href="https://boshuisdeputter.nl" style="color:#2d5016;font-weight:600">check it out here</a>.',
+      questionsH: 'Questions?',
+      questionsTxt: 'If you have any questions or requests, just reply to this email.',
+      brochureH: '📖 Welcome guide',
+      brochureTxt: 'We\'ve put together a digital welcome guide with everything about the cabin, surroundings, walking routes and tips. Great to browse before your arrival! You\'ll also find more info and photos on our website.',
+      brochureCta: '📖 View welcome guide',
+      endTxt: 'Enjoy the anticipation!',
       signoff: 'See you soon,',
       sig: 'Jan — De Putter · Boshuis Ommen'
     }
   }[lang] || t.nl;
-
-  const tipCards = t.tips.map(([title, desc]) =>
-    `<div style="background:#fff;border-left:4px solid #2d5016;padding:12px 16px;margin:10px 0;border-radius:0 6px 6px 0">
-      <strong style="color:#2d5016;font-size:14px">${title}</strong>
-      <p style="margin:4px 0 0;font-size:13.5px;color:#2d3436;line-height:1.5">${desc}</p>
-    </div>`
-  ).join('');
 
   const html = `<!DOCTYPE html><html><body style="font-family:-apple-system,sans-serif;max-width:620px;margin:0 auto;padding:24px;color:#2d3436;background:#faf9f6">
     ${logoHeader(t.h1)}
@@ -217,10 +210,19 @@ export function nhWelcomeEmail(b) {
       <p style="margin:0;font-size:14px;color:#2d5016;line-height:1.6">📬 ${t.infoNote}</p>
     </div>
 
-    <h2 style="color:#2d5016;font-family:Georgia,serif;font-size:18px;margin-top:28px">${t.areaH}</h2>
-    ${tipCards}
+    <h3 style="color:#2d5016;font-family:Georgia,serif;font-size:16px;margin-top:24px">${t.inspireH}</h3>
+    <p style="font-size:14px;line-height:1.6">${t.inspireTxt}</p>
 
-    <p style="font-size:14px;line-height:1.6;margin-top:24px;font-style:italic;color:#5c3d2e">${t.endTxt}</p>
+    <h3 style="color:#2d5016;font-family:Georgia,serif;font-size:16px;margin-top:20px">${t.questionsH}</h3>
+    <p style="font-size:14px;line-height:1.6">${t.questionsTxt}</p>
+
+    <div style="background:#fff;border:1.5px solid #c9a96e;border-radius:10px;padding:18px 22px;margin:22px 0;text-align:center">
+      <h3 style="margin:0 0 8px;color:#2d5016;font-family:Georgia,serif;font-size:16px">${t.brochureH}</h3>
+      <p style="margin:0 0 14px;font-size:13.5px;color:#5c3d2e;line-height:1.5">${t.brochureTxt}</p>
+      <a href="https://boshuisdeputter.nl/welkomstgids.pdf" target="_blank" rel="noopener" style="display:inline-block;background:#2d5016;color:#fff;padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">${t.brochureCta}</a>
+    </div>
+
+    <p style="font-size:14px;line-height:1.6;font-style:italic;color:#5c3d2e">${t.endTxt}</p>
 
     <p style="margin-top:28px">${t.signoff}<br><strong>${t.sig}</strong></p>
     ${footerLine(lang)}
@@ -258,9 +260,6 @@ export function preArrivalEmail(b, envConfig = {}) {
       flamingoTxt: 'In het huis zijn <strong>5 flamingo\'s</strong> verstopt. Waarom? Gewoon omdat het leuk is om te speuren. De uitdaging: vind ze allemaal — en bij vertrek weer verstoppen voor de volgende gast.',
       contactH: '📞 Contact',
       contactTxt: ownerPhone ? `Iets kwijt of niet duidelijk? Stuur een berichtje of bel: <strong>${esc(ownerPhone)}</strong>. Ook in noodgevallen.` : 'Vragen? Stuur gerust een mailtje naar janvanwaveren@gmail.com.',
-      brochureH: '📖 Welkomstgids',
-      brochureTxt: 'We hebben een digitale welkomstgids gemaakt met alles over het huisje, de omgeving, wandelroutes en tips. Handig om alvast door te bladeren!',
-      brochureCta: '📖 Welkomstgids bekijken',
       endH: 'Heel veel plezier!',
       endTxt: 'Geniet van het bos, hoor de vogels, stook de haard op, wees zuinig met het hout, houd een oogje open voor flamingo\'s.',
       signoff: 'Tot snel,',
@@ -286,9 +285,6 @@ export function preArrivalEmail(b, envConfig = {}) {
       flamingoTxt: 'Im Haus sind <strong>5 Flamingos</strong> versteckt. Einfach weil es Spaß macht zu suchen. Finden Sie alle — und verstecken Sie sie bei der Abreise für den nächsten Gast.',
       contactH: '📞 Kontakt',
       contactTxt: ownerPhone ? `Etwas unklar? Schreiben Sie oder rufen Sie an: <strong>${esc(ownerPhone)}</strong>. Auch im Notfall.` : 'Fragen? E-Mail an janvanwaveren@gmail.com.',
-      brochureH: '📖 Willkommensführer',
-      brochureTxt: 'Wir haben einen digitalen Willkommensführer erstellt mit allem über das Häuschen, die Umgebung, Wanderwege und Tipps. Praktisch zum Vorab-Durchblättern!',
-      brochureCta: '📖 Willkommensführer ansehen',
       endH: 'Viel Spaß!',
       endTxt: 'Genießen Sie den Wald, hören Sie die Vögel, machen Sie ein Feuer an, halten Sie Ausschau nach Flamingos.',
       signoff: 'Bis bald,',
@@ -314,9 +310,6 @@ export function preArrivalEmail(b, envConfig = {}) {
       flamingoTxt: '<strong>5 flamingos</strong> are hidden in the house. Just because it\'s fun to search for them. Find them all — and hide them again for the next guest before you leave.',
       contactH: '📞 Contact',
       contactTxt: ownerPhone ? `Something unclear? Message or call: <strong>${esc(ownerPhone)}</strong>. Also for emergencies.` : 'Questions? Email janvanwaveren@gmail.com.',
-      brochureH: '📖 Welcome guide',
-      brochureTxt: 'We\'ve put together a digital welcome guide with everything about the cabin, surroundings, walking routes and tips. Great to browse before your arrival!',
-      brochureCta: '📖 View welcome guide',
       endH: 'Have a wonderful time!',
       endTxt: 'Enjoy the forest, listen for the birds, light the fire, keep an eye out for flamingos.',
       signoff: 'See you soon,',
@@ -344,12 +337,6 @@ export function preArrivalEmail(b, envConfig = {}) {
     <div style="background:linear-gradient(135deg,#fff5f8 0%,#ffe8f0 100%);border:1px dashed #e06b8c;padding:16px 20px;border-radius:10px;margin:20px 0;text-align:center">
       <h3 style="margin:0 0 6px;color:#c4456a;font-family:Georgia,serif;font-size:16px">${t.flamingoH}</h3>
       <p style="margin:0;font-size:13.5px;color:#5c3d2e;line-height:1.6">${t.flamingoTxt}</p>
-    </div>
-
-    <div style="background:#fff;border:1.5px solid #c9a96e;border-radius:10px;padding:18px 22px;margin:22px 0;text-align:center">
-      <h3 style="margin:0 0 8px;color:#2d5016;font-family:Georgia,serif;font-size:16px">${t.brochureH}</h3>
-      <p style="margin:0 0 14px;font-size:13.5px;color:#5c3d2e;line-height:1.5">${t.brochureTxt}</p>
-      <a href="https://boshuisdeputter.nl/welkomstgids.pdf" target="_blank" rel="noopener" style="display:inline-block;background:#2d5016;color:#fff;padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">${t.brochureCta}</a>
     </div>
 
     <p style="font-size:15px;font-style:italic;color:#5c3d2e;text-align:center;margin:28px 0 8px"><strong style="font-family:Georgia,serif;color:#2d5016;font-size:17px">${t.endH}</strong><br>${t.endTxt}</p>
