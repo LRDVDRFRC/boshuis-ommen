@@ -13,7 +13,7 @@ import {
   issueFriendPromoCode
 } from '../_lib/store.js';
 import {
-  sendEmail, preArrivalEmail, reviewRequestEmail
+  sendEmail, preArrivalEmail, reviewRequestEmail, nhWelcomeEmail
 } from '../_lib/emails.js';
 
 const BASE_URL = 'https://boshuisdeputter.nl';
@@ -62,6 +62,16 @@ export default async function handler(req, res) {
           sentEmails: {}, total: 0, subtotal: 0, cleaning: 0, t: Date.now()
         };
         await saveBooking(booking);
+
+        // Send welcome email immediately
+        try {
+          const { subject, html } = nhWelcomeEmail(booking);
+          await sendEmail({ to: booking.email, subject, html, replyTo: process.env.OWNER_EMAIL });
+          await updateBooking(reference, { sentEmails: { nhWelcome: now } });
+        } catch (err) {
+          console.error('NH welcome email failed (non-fatal):', err);
+        }
+
         return res.status(200).json({ ok: true, booking });
       }
 

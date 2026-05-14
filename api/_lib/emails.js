@@ -146,7 +146,91 @@ function _unused_paymentConfirmedEmail(b) {
 }
 
 /* ================================================================
-   TEMPLATE 1 — PRE-ARRIVAL WELKOMSTGIDS (sent 3 days before check-in)
+   TEMPLATE 0B — NH WELCOME (sent immediately on Natuurhuisje enrollment)
+   "Bedankt voor je boeking" + area tips to build excitement.
+================================================================ */
+export function nhWelcomeEmail(b) {
+  const lang = b.language || 'nl';
+  const t = {
+    nl: {
+      subject: `🌲 Welkom — fijn dat je hebt geboekt bij De Putter!`,
+      h1: 'Wat leuk dat je komt!',
+      intro: `Hoi ${esc(b.name)}, bedankt voor je boeking! We verheugen ons erop jullie te ontvangen van <strong>${fmtDate(b.checkin, 'nl')}</strong> t/m <strong>${fmtDate(b.checkout, 'nl')}</strong>.`,
+      infoNote: 'Je ontvangt alle praktische informatie (sleutelcode, WiFi, routebeschrijving) automatisch per e-mail vóór je aankomst. Je hoeft niks te doen — wij regelen het.',
+      areaH: '🗺️ Alvast wat inspiratie',
+      tips: [
+        ['🌿 Junner Koeland', 'Ons huisje grenst aan dit prachtige natuurgebied. Schotse hooglanders, paarden en schapen lopen er vrij rond. Perfect voor een wandeling direct vanuit de tuin.'],
+        ['🚴 Fietsen rond Ommen', 'De Vechtdal-fietsroutes starten op loopafstand. Ommen centrum is 4 km — een mooi fietsritje langs de Vecht.'],
+        ['🛒 Boodschappen', 'Albert Heijn, Jumbo, Aldi en Lidl liggen allemaal in Ommen, op ~5 minuten rijden.'],
+        ['🔥 Houtkachel', 'Hout ligt klaar in de schuur. Op koude avonden is de houtkachel het gezelligste plekje in huis.']
+      ],
+      endTxt: 'We sturen je vóór aankomst nog een uitgebreide welkomstgids. Tot dan — geniet van het voorpret!',
+      signoff: 'Groetjes,',
+      sig: 'Jan — De Putter · Boshuis Ommen'
+    },
+    de: {
+      subject: `🌲 Willkommen — schön, dass Sie bei De Putter gebucht haben!`,
+      h1: 'Wie schön, dass Sie kommen!',
+      intro: `Hallo ${esc(b.name)}, vielen Dank für Ihre Buchung! Wir freuen uns, Sie vom <strong>${fmtDate(b.checkin, 'de')}</strong> bis <strong>${fmtDate(b.checkout, 'de')}</strong> bei uns begrüßen zu dürfen.`,
+      infoNote: 'Sie erhalten alle praktischen Informationen (Schlüsselcode, WLAN, Anfahrt) automatisch per E-Mail vor Ihrer Ankunft. Sie müssen nichts tun — wir kümmern uns darum.',
+      areaH: '🗺️ Schon mal etwas Inspiration',
+      tips: [
+        ['🌿 Junner Koeland', 'Unser Häuschen grenzt an dieses wunderschöne Naturschutzgebiet. Hochlandrinder, Pferde und Schafe laufen frei herum. Perfekt für einen Spaziergang direkt aus dem Garten.'],
+        ['🚴 Radfahren um Ommen', 'Die Vechtdal-Radwege starten in Laufnähe. Ommen Zentrum ist 4 km — eine schöne Radtour entlang der Vecht.'],
+        ['🛒 Einkaufen', 'Albert Heijn, Jumbo, Aldi und Lidl sind alle in Ommen, ca. 5 Minuten mit dem Auto.'],
+        ['🔥 Holzofen', 'Holz liegt im Schuppen bereit. An kühlen Abenden ist der Holzofen der gemütlichste Platz im Haus.']
+      ],
+      endTxt: 'Vor Ihrer Ankunft senden wir Ihnen noch einen ausführlichen Willkommensführer. Bis dahin — genießen Sie die Vorfreude!',
+      signoff: 'Herzliche Grüße,',
+      sig: 'Jan — De Putter · Boshuis Ommen'
+    },
+    en: {
+      subject: `🌲 Welcome — great to have you at De Putter!`,
+      h1: 'So glad you\'re coming!',
+      intro: `Hi ${esc(b.name)}, thank you for your booking! We're looking forward to hosting you from <strong>${fmtDate(b.checkin, 'en')}</strong> to <strong>${fmtDate(b.checkout, 'en')}</strong>.`,
+      infoNote: 'You\'ll receive all practical information (key code, WiFi, directions) by email before your arrival. No need to do anything — we\'ll take care of it.',
+      areaH: '🗺️ Some inspiration to get started',
+      tips: [
+        ['🌿 Junner Koeland', 'Our cabin borders this beautiful nature reserve. Highland cattle, horses and sheep roam freely. Perfect for a walk straight from the garden.'],
+        ['🚴 Cycling around Ommen', 'The Vechtdal cycling routes start within walking distance. Ommen town centre is 4 km — a lovely ride along the river Vecht.'],
+        ['🛒 Groceries', 'Albert Heijn, Jumbo, Aldi and Lidl are all in Ommen, about 5 minutes by car.'],
+        ['🔥 Wood stove', 'Firewood is ready in the shed. On chilly evenings the wood stove is the cosiest spot in the house.']
+      ],
+      endTxt: 'Before your arrival we\'ll send you a detailed welcome guide. Until then — enjoy the anticipation!',
+      signoff: 'See you soon,',
+      sig: 'Jan — De Putter · Boshuis Ommen'
+    }
+  }[lang] || t.nl;
+
+  const tipCards = t.tips.map(([title, desc]) =>
+    `<div style="background:#fff;border-left:4px solid #2d5016;padding:12px 16px;margin:10px 0;border-radius:0 6px 6px 0">
+      <strong style="color:#2d5016;font-size:14px">${title}</strong>
+      <p style="margin:4px 0 0;font-size:13.5px;color:#2d3436;line-height:1.5">${desc}</p>
+    </div>`
+  ).join('');
+
+  const html = `<!DOCTYPE html><html><body style="font-family:-apple-system,sans-serif;max-width:620px;margin:0 auto;padding:24px;color:#2d3436;background:#faf9f6">
+    ${logoHeader(t.h1)}
+    <p style="font-size:15px;line-height:1.6">${t.intro}</p>
+
+    <div style="background:#f0f7ec;border-radius:8px;padding:14px 18px;margin:18px 0">
+      <p style="margin:0;font-size:14px;color:#2d5016;line-height:1.6">📬 ${t.infoNote}</p>
+    </div>
+
+    <h2 style="color:#2d5016;font-family:Georgia,serif;font-size:18px;margin-top:28px">${t.areaH}</h2>
+    ${tipCards}
+
+    <p style="font-size:14px;line-height:1.6;margin-top:24px;font-style:italic;color:#5c3d2e">${t.endTxt}</p>
+
+    <p style="margin-top:28px">${t.signoff}<br><strong>${t.sig}</strong></p>
+    ${footerLine(lang)}
+  </body></html>`;
+
+  return { subject: t.subject, html };
+}
+
+/* ================================================================
+   TEMPLATE 1 — PRE-ARRIVAL WELKOMSTGIDS (sent 7 days before check-in)
 ================================================================ */
 export function preArrivalEmail(b, envConfig = {}) {
   const { keyCode = '[wordt nog toegestuurd]', wifiName = 'Odido-Boshuis', wifiPassword = '[wordt nog toegestuurd]', ownerPhone = '' } = envConfig;

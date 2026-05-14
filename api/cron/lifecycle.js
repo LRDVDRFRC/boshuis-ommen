@@ -105,9 +105,8 @@ export default async function handler(req, res) {
         }
       }
 
-      // 4. Pre-arrival — ideally 3 days before check-in, but also catches
-      //    last-minute bookings that were paid after the 3-day mark.
-      if (b.status === 'paid' && daysToCheckin <= 3 && daysToCheckin >= 0 && !sent.preArrival) {
+      // 4. Pre-arrival — 7 days before check-in, also catches late bookings.
+      if (b.status === 'paid' && daysToCheckin <= 7 && daysToCheckin >= 0 && !sent.preArrival) {
         const { subject, html } = preArrivalEmail(b, envConfig);
         await sendEmail({ to: b.email, subject, html, replyTo: process.env.OWNER_EMAIL });
         await updateBooking(b.reference, { sentEmails: { ...sent, preArrival: now.toISOString() } });
