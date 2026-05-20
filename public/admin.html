@@ -117,7 +117,8 @@ details .details-body { padding: 16px 18px 18px; }
     <div id="bookings-container">
       <p class="empty">Voer je admin secret in hierboven om boekingen te laden.</p>
     </div>
-    <p class="help">💡 Cron draait dagelijks 09:00 UTC en stuurt automatisch: betaalreminders · pre-arrival Welkomstgids · review-verzoeken · auto-annulering bij uitblijvende betaling.</p>
+    <p class="help" style="margin-bottom:4px">💡 Cron draait dagelijks 09:00 UTC en stuurt automatisch: betaalreminders · pre-arrival Welkomstgids · review-verzoeken · auto-annulering bij uitblijvende betaling.</p>
+    <p class="help" style="font-size:11px;color:#999">Email-iconen: ✉️ bevestiging · 💳 betaalherinnering · ⏰ laatste herinnering · 🌲 welkomstgids · 👋 checkout · ⭐ review &amp; bedankje · ❌ auto-annulering</p>
   </div>
 
   <!-- ========== NATUURHUISJE ========== -->
@@ -192,8 +193,9 @@ details .details-body { padding: 16px 18px 18px; }
       <h2 style="font-family:'Playfair Display',serif;color:#2d5016;font-size:18px">Concurrentie-analyse</h2>
       <button onclick="runPriceCheck()" id="pc-btn">Analyse uitvoeren</button>
     </div>
-    <p class="help" style="margin-bottom:12px">Wekelijkse AI-analyse van vergelijkbare huisjes in Vechtdal. Vereist ANTHROPIC_API_KEY env var in Vercel. Draait automatisch elke maandagochtend.</p>
+    <p class="help" style="margin-bottom:12px">AI-marktanalyse van vergelijkbare huisjes in Vechtdal. Gebaseerd op marktkennis, niet op live prijzen — controleer tarieven zelf op de platforms. Draait automatisch elke maandagochtend.</p>
     <div id="pc-report"></div>
+    <div id="pc-history" style="margin-top:24px"></div>
   </div>
 
 </div>
@@ -217,6 +219,7 @@ function sec() {
 function switchTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if (name === 'price-check') loadPriceHistory();
 }
 
 /* ========== STATUS ========== */
@@ -285,7 +288,9 @@ function renderBookings(bookings) {
     let actions = '';
     if (isNH) {
       const emails = b.sentEmails || {};
+      if (!emails.nhWelcome) actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-nhwelcome')" class="mini" title="Stuur welkomstmail">✉️</button> `;
       if (!emails.preArrival) actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-prearrival')" class="mini" title="Stuur nu de pre-arrival mail">🌲</button> `;
+      if (!emails.checkoutDay) actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-checkout')" class="mini" title="Stuur checkout-dag mail">👋</button> `;
       if (!emails.reviewRequest) actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-thankyou')" class="mini secondary" title="Stuur nu de bedankmail">⭐</button> `;
       actions += `<button onclick="deleteBooking('${esc(b.reference)}')" class="mini danger" title="Verwijder">🗑️</button>`;
     } else if (b.status === 'awaiting_payment') {
@@ -301,13 +306,18 @@ function renderBookings(bookings) {
     }
 
     const emails = b.sentEmails || {};
-    const emailBadges = [
-      emails.paymentReminder && '💳',
-      emails.finalReminder && '⏰',
-      emails.preArrival && '🌲',
-      emails.reviewRequest && '⭐',
-      emails.autoCancel && '❌'
-    ].filter(Boolean).join(' ') || '<span style="color:#ccc">—</span>';
+    const emailSteps = isNH
+      ? [['✉️','nhWelcome','Welkom'],['🌲','preArrival','Pre-arrival'],['👋','checkoutDay','Checkout'],['⭐','reviewRequest','Bedankmail']]
+      : [['✉️','accepted','Bevestiging'],['💳','paymentReminder','Betaalherinnering'],['⏰','finalReminder','Laatste herinnering'],['🌲','preArrival','Welkomstgids'],['👋','checkoutDay','Checkout'],['⭐','reviewRequest','Bedankmail'],['❌','autoCancel','Auto-annulering']];
+    const emailBadges = emailSteps.map(([icon, key, label]) => {
+      const sent = emails[key];
+      if (sent) {
+        const d = new Date(sent);
+        const ds = d.toLocaleDateString('nl-NL',{day:'numeric',month:'short'});
+        return `<span title="${label}: ${ds}" style="cursor:help">${icon}✓</span>`;
+      }
+      return `<span title="${label}: niet verstuurd" style="opacity:0.2;cursor:help">${icon}</span>`;
+    }).join(' ');
 
     const amountCell = isNH
       ? `<small style="color:#888">via NH</small><br><code style="font-size:11px;color:#c0392b">${esc(b.reference)}</code>`
@@ -395,14 +405,26 @@ function renderNHBookings(bookings) {
     const daysToCheckin = Math.round((checkin - now) / 86400000);
     const daysSinceCheckout = Math.round((now - checkout) / 86400000);
 
-    const emailBadges = [
-      emails.preArrival && '🌲 pre-arrival',
-      emails.reviewRequest && '⭐ bedankt'
-    ].filter(Boolean).join(' · ') || '<span style="color:#ccc">nog niet verstuurd</span>';
+    const nhEmailSteps = [['✉️','nhWelcome','Welkom'],['🌲','preArrival','Pre-arrival'],['👋','checkoutDay','Checkout'],['⭐','reviewRequest','Bedankmail']];
+    const emailBadges = nhEmailSteps.map(([icon, key, label]) => {
+      const sent = emails[key];
+      if (sent) {
+        const d = new Date(sent);
+        const ds = d.toLocaleDateString('nl-NL',{day:'numeric',month:'short'});
+        return `<span title="${label}: ${ds}" style="cursor:help">${icon}✓</span>`;
+      }
+      return `<span title="${label}: niet verstuurd" style="opacity:0.2;cursor:help">${icon}</span>`;
+    }).join(' ');
 
     let actions = '';
+    if (!emails.nhWelcome) {
+      actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-nhwelcome')" class="mini" title="Stuur welkomstmail">✉️ Welkom</button> `;
+    }
     if (!emails.preArrival) {
       actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-prearrival')" class="mini" title="Stuur nu de pre-arrival mail">🌲 Pre-arrival</button> `;
+    }
+    if (!emails.checkoutDay) {
+      actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-checkout')" class="mini" title="Stuur checkout-dag mail">👋 Checkout</button> `;
     }
     if (!emails.reviewRequest) {
       actions += `<button onclick="sendNHEmail('${esc(b.reference)}','send-thankyou')" class="mini secondary" title="Stuur nu de bedankmail">⭐ Bedankmail</button> `;
@@ -513,7 +535,7 @@ async function enrollNHGuest() {
 }
 
 async function sendNHEmail(ref, action) {
-  const label = action === 'send-prearrival' ? 'pre-arrival' : 'bedankmail';
+  const label = { 'send-prearrival': 'pre-arrival', 'send-thankyou': 'bedankmail', 'send-checkout': 'checkout-dag mail', 'send-nhwelcome': 'welkomstmail' }[action] || action;
   if (!confirm(`${label} nu versturen voor ${ref}?`)) return;
   try {
     const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&ref=${ref}&action=${action}`, { method: 'POST' });
@@ -651,13 +673,15 @@ async function seedReviews() {
 async function runPriceCheck() {
   const btn = document.getElementById('pc-btn');
   btn.disabled = true;
-  setStatus('loading', '⏳ Claude zoekt naar vergelijkbare huisjes (30-60s)…');
+  setStatus('loading', '⏳ Claude analyseert de markt…');
   try {
     const resp = await fetch(`/api/admin/price-check?secret=${encodeURIComponent(sec())}`);
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error);
     setStatus('success', `✓ Analyse voltooid — ${data.report?.competitors?.length || 0} concurrenten`);
     renderPriceReport(data);
+    historyLoaded = false;
+    loadPriceHistory();
   } catch (err) { setStatus('error', err.message); }
   finally { btn.disabled = false; }
 }
@@ -666,7 +690,8 @@ function renderPriceReport(data) {
   const r = data.report;
   if (!r) { document.getElementById('pc-report').innerHTML = `<pre>${esc(data.rawText || JSON.stringify(data, null, 2))}</pre>`; return; }
   const competitors = (r.competitors || []).map(c => `<tr>
-    <td><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a></td>
+    <td>${esc(c.name)}</td>
+    <td>${esc(c.platform || '')}</td>
     <td>${esc(c.location)}</td>
     <td>${c.capacity}p</td>
     <td>€${c.highSeasonNightlyEUR}/n</td>
@@ -686,8 +711,53 @@ function renderPriceReport(data) {
       <h3 style="color:#2d5016;font-family:Georgia,serif;margin-top:20px;margin-bottom:10px">Prijsaanbevelingen</h3>
       <table><thead><tr><th>Seizoen</th><th>Huidig</th><th>Voorgesteld</th><th>Zekerheid</th><th>Reden</th></tr></thead><tbody>${suggestions}</tbody></table>
       <h3 style="color:#2d5016;font-family:Georgia,serif;margin-top:20px;margin-bottom:10px">Vergelijkbaar</h3>
-      <table><thead><tr><th>Naam</th><th>Locatie</th><th>Grootte</th><th>Tarief</th><th>Vergelijkbaarheid</th></tr></thead><tbody>${competitors}</tbody></table>
+      <table><thead><tr><th>Naam</th><th>Platform</th><th>Locatie</th><th>Grootte</th><th>Tarief</th><th>Vergelijkbaarheid</th></tr></thead><tbody>${competitors}</tbody></table>
       <p style="margin-top:16px;background:#fdf8f0;padding:12px;border-left:3px solid #c9a96e"><strong>${esc(r.overallRecommendation)}</strong></p>
+    </div>
+  `;
+}
+
+/* ========== PRICE HISTORY ========== */
+let historyLoaded = false;
+async function loadPriceHistory() {
+  if (historyLoaded || !secretInput.value) return;
+  const el = document.getElementById('pc-history');
+  try {
+    const resp = await fetch(`/api/admin/price-check?secret=${encodeURIComponent(sec())}&history`);
+    const data = await resp.json();
+    if (!resp.ok || !data.reports?.length) { el.innerHTML = ''; return; }
+    historyLoaded = true;
+    renderPriceHistory(data.reports);
+  } catch { /* silent */ }
+}
+
+function renderPriceHistory(reports) {
+  const el = document.getElementById('pc-history');
+  const seasons = ['summer', 'holidays', 'spring', 'autumn', 'low-winter', 'weekend-surcharge', 'cleaning-fee'];
+  const seasonLabels = { summer: 'Zomer', holidays: 'Vakantie', spring: 'Voorjaar', autumn: 'Najaar', 'low-winter': 'Laagseizoen', 'weekend-surcharge': 'Weekend+', 'cleaning-fee': 'Schoonmaak' };
+
+  const headers = seasons.map(s => `<th>${seasonLabels[s] || s}</th>`).join('');
+  const rows = reports.map(entry => {
+    const r = entry.report;
+    const suggestions = r?.pricingSuggestions || [];
+    const bySeason = {};
+    suggestions.forEach(s => { bySeason[s.season] = s; });
+    const cells = seasons.map(s => {
+      const sg = bySeason[s];
+      if (!sg) return '<td style="color:#ccc">—</td>';
+      const arrow = sg.direction === 'increase' ? '▲' : sg.direction === 'decrease' ? '▼' : '●';
+      const color = sg.direction === 'increase' ? '#0b6e2f' : sg.direction === 'decrease' ? '#c0392b' : '#888';
+      return `<td style="color:${color}" title="${esc(sg.reason)}">${arrow} €${sg.suggestedRate}</td>`;
+    }).join('');
+    return `<tr><td style="white-space:nowrap">${fmtDateShort(entry.date)}</td>${cells}<td style="font-size:12px;max-width:250px">${esc(r?.overallRecommendation || '')}</td></tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="card" style="background:#fff;border-radius:12px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,0.06)">
+      <h3 style="color:#2d5016;font-family:Georgia,serif;margin-bottom:10px">Prijsontwikkeling</h3>
+      <div style="overflow-x:auto">
+        <table style="font-size:13px"><thead><tr><th>Datum</th>${headers}<th>Aanbeveling</th></tr></thead><tbody>${rows}</tbody></table>
+      </div>
     </div>
   `;
 }

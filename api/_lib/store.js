@@ -290,6 +290,47 @@ export async function revokePromoCode(code) {
   });
 }
 
+/* ========== PRICE REPORTS ========== */
+
+const PRICE_PREFIX = 'price-report:';
+const PRICE_INDEX = 'price-reports:by_date';
+
+export async function savePriceReport(report, generatedAt) {
+  const r = getClient();
+  const date = generatedAt.slice(0, 10);
+  const key = PRICE_PREFIX + date;
+  const ts = Math.floor(new Date(generatedAt).getTime() / 1000);
+  const data = { date, generatedAt, report };
+  await r.multi()
+    .set(key, JSON.stringify(data))
+    .zadd(PRICE_INDEX, ts, date)
+    .exec();
+  // Keep last 52 entries (1 year of weekly reports)
+  const total = await r.zcard(PRICE_INDEX);
+  if (total > 52) {
+    const old = await r.zrange(PRICE_INDEX, 0, total - 53);
+    if (old.length) {
+      const pipeline = r.pipeline();
+      old.forEach(d => pipeline.del(PRICE_PREFIX + d));
+      pipeline.zremrangebyrank(PRICE_INDEX, 0, total - 53);
+      await pipeline.exec();
+    }
+  }
+  return data;
+}
+
+export async function listPriceReports({ limit = 20 } = {}) {
+  const r = getClient();
+  const dates = await r.zrevrange(PRICE_INDEX, 0, limit - 1);
+  if (dates.length === 0) return [];
+  const pipeline = r.pipeline();
+  dates.forEach(d => pipeline.get(PRICE_PREFIX + d));
+  const results = await pipeline.exec();
+  return results
+    .map(([err, val]) => (!err && val) ? JSON.parse(val) : null)
+    .filter(Boolean);
+}
+
 export async function seedDefaultReviews() {
   const r = getClient();
   const existing = await r.zcard(REVIEWS_INDEX);
