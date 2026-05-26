@@ -104,6 +104,7 @@ details .details-body { padding: 16px 18px 18px; }
     <div class="tab" data-tab="natuurhuisje" onclick="switchTab('natuurhuisje')">🏡 Natuurhuisje</div>
     <div class="tab" data-tab="reviews" onclick="switchTab('reviews')">⭐ Reviews</div>
     <div class="tab" data-tab="price-check" onclick="switchTab('price-check')">💰 Prijsanalyse</div>
+    <div class="tab" data-tab="tonia" onclick="switchTab('tonia')">🧹 Tonia</div>
   </div>
 
   <div id="status" class="status"></div>
@@ -198,6 +199,28 @@ details .details-body { padding: 16px 18px 18px; }
     <div id="pc-history" style="margin-top:24px"></div>
   </div>
 
+  <!-- ========== TONIA CREDITS ========== -->
+  <div class="tab-panel" id="panel-tonia">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="font-family:'Playfair Display',serif;color:#2d5016;font-size:18px">Tonia — tegoed</h2>
+      <button onclick="loadToniaCredits()" class="secondary mini">🔄 Vernieuwen</button>
+    </div>
+
+    <div id="tonia-balance" style="background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 4px 20px rgba(0,0,0,0.06);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:12px;color:#636e72;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Huidig tegoed</div>
+        <div id="tonia-amount" style="font-size:32px;font-weight:700;font-family:'Playfair Display',serif;color:#2d5016">—</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="toniaTopup()">+ Betaling toevoegen</button>
+        <button onclick="toniaDeduct()" class="secondary">− Schoonmaak aftrekken</button>
+      </div>
+    </div>
+
+    <div id="tonia-ledger"></div>
+    <p class="help" style="margin-top:8px">Handmatig bijhouden van vooruitbetalingen aan Tonia. Voeg een betaling toe als je haar betaalt, trek schoonmaakkosten af per boeking.</p>
+  </div>
+
 </div>
 
 <script>
@@ -220,6 +243,7 @@ function switchTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
   if (name === 'price-check') loadPriceHistory();
+  if (name === 'tonia') loadToniaCredits();
 }
 
 /* ========== STATUS ========== */
@@ -760,6 +784,93 @@ function renderPriceHistory(reports) {
       </div>
     </div>
   `;
+}
+
+/* ========== TONIA CREDITS ========== */
+let toniaLoaded = false;
+async function loadToniaCredits() {
+  if (!secretInput.value) return;
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&action=credits-list`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}'
+    });
+    const data = await resp.json();
+    if (!resp.ok) return;
+    toniaLoaded = true;
+    renderToniaCredits(data.entries || []);
+  } catch {}
+}
+
+function renderToniaCredits(entries) {
+  // Compute balance (oldest-first: topup adds, cleaning subtracts)
+  const sorted = [...entries].reverse(); // entries come newest-first, reverse for sum
+  let balance = 0;
+  sorted.forEach(e => { balance += e.type === 'topup' ? e.amount : -e.amount; });
+
+  const balEl = document.getElementById('tonia-amount');
+  balEl.textContent = `€${balance.toFixed(2)}`;
+  balEl.style.color = balance < 100 ? '#c0392b' : balance < 200 ? '#7d5a00' : '#2d5016';
+
+  if (balance < 100) {
+    balEl.insertAdjacentHTML('afterend',
+      document.getElementById('tonia-warning') ? '' :
+      `<div id="tonia-warning" style="font-size:13px;color:#c0392b;font-weight:600;margin-top:4px">⚠️ Tegoed bijna op — tijd om Tonia te betalen!</div>`
+    );
+  } else {
+    const warn = document.getElementById('tonia-warning');
+    if (warn) warn.remove();
+  }
+
+  // Render ledger table
+  const rows = entries.map(e => {
+    const isTopup = e.type === 'topup';
+    const color = isTopup ? '#2d5016' : '#c0392b';
+    const sign = isTopup ? '+' : '−';
+    const label = isTopup ? 'Betaling' : 'Schoonmaak';
+    return `<tr>
+      <td>${fmtDateShort(e.date)}</td>
+      <td><span class="status-tag ${isTopup ? 'status-paid' : 'status-awaiting'}">${label}</span></td>
+      <td style="color:${color};font-weight:600">${sign} €${e.amount.toFixed(2)}</td>
+      <td>${esc(e.note || '')}</td>
+      <td class="actions"><button class="mini danger" onclick="toniaDelete('${e.id}')">✕</button></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tonia-ledger').innerHTML = entries.length ? `
+    <table><thead><tr><th>Datum</th><th>Type</th><th>Bedrag</th><th>Notitie</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+  ` : '<p class="empty">Nog geen transacties. Voeg een betaling toe om te beginnen.</p>';
+}
+
+function toniaTopup() {
+  const amount = prompt('Bedrag betaald aan Tonia (€):', '300');
+  if (!amount || isNaN(parseFloat(amount))) return;
+  const note = prompt('Notitie (optioneel):', '') || '';
+  toniaPost('credits-add', { type: 'topup', amount: parseFloat(amount), note, date: new Date().toISOString().slice(0, 10) });
+}
+
+function toniaDeduct() {
+  const amount = prompt('Schoonmaakkosten (€):', '75');
+  if (!amount || isNaN(parseFloat(amount))) return;
+  const note = prompt('Notitie (optioneel, bv. boekingreferentie):', '') || '';
+  toniaPost('credits-add', { type: 'cleaning', amount: parseFloat(amount), note, date: new Date().toISOString().slice(0, 10) });
+}
+
+async function toniaDelete(id) {
+  if (!confirm('Transactie verwijderen?')) return;
+  await toniaPost('credits-delete', { id });
+}
+
+async function toniaPost(action, body) {
+  try {
+    const resp = await fetch(`/api/admin/bookings?secret=${encodeURIComponent(sec())}&action=${action}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error);
+    loadToniaCredits();
+  } catch (err) { setStatus('error', err.message); }
 }
 
 /* ========== INIT ========== */

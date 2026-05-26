@@ -331,6 +331,52 @@ export async function listPriceReports({ limit = 20 } = {}) {
     .filter(Boolean);
 }
 
+/* ========== TONIA CREDITS ========== */
+
+const TONIA_PREFIX = 'tonia:entry:';
+const TONIA_INDEX = 'tonia:by_date';
+
+function genToniaId() {
+  return 'tc_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+/**
+ * Add a credit entry.
+ * @param {object} entry — { type: 'topup'|'cleaning', amount: 300, note: '', date: '2026-05-20' }
+ */
+export async function addToniaEntry(entry) {
+  const r = getClient();
+  const id = genToniaId();
+  const now = new Date().toISOString();
+  const data = { ...entry, id, createdAt: now };
+  const ts = Math.floor(new Date(entry.date || now).getTime() / 1000);
+  await r.multi()
+    .set(TONIA_PREFIX + id, JSON.stringify(data))
+    .zadd(TONIA_INDEX, ts, id)
+    .exec();
+  return data;
+}
+
+export async function deleteToniaEntry(id) {
+  const r = getClient();
+  await r.multi()
+    .del(TONIA_PREFIX + id)
+    .zrem(TONIA_INDEX, id)
+    .exec();
+}
+
+export async function listToniaEntries({ limit = 200 } = {}) {
+  const r = getClient();
+  const ids = await r.zrevrange(TONIA_INDEX, 0, limit - 1);
+  if (ids.length === 0) return [];
+  const pipeline = r.pipeline();
+  ids.forEach(id => pipeline.get(TONIA_PREFIX + id));
+  const results = await pipeline.exec();
+  return results
+    .map(([err, val]) => (!err && val) ? JSON.parse(val) : null)
+    .filter(Boolean);
+}
+
 export async function seedDefaultReviews() {
   const r = getClient();
   const existing = await r.zcard(REVIEWS_INDEX);

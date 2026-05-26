@@ -6,14 +6,17 @@
 // POST /api/admin/bookings?secret=XXX&action=enroll-nh     → enroll Natuurhuisje guest
 // POST /api/admin/bookings?secret=XXX&ref=XXX&action=send-prearrival → send pre-arrival now
 // POST /api/admin/bookings?secret=XXX&ref=XXX&action=send-thankyou   → send thank-you now
+// POST /api/admin/bookings?secret=XXX&ref=XXX&action=send-checkout   → send checkout-day now
+// POST /api/admin/bookings?secret=XXX&ref=XXX&action=send-nhwelcome  → resend NH welcome now
 
 import {
   listBookings, updateBooking, getBooking, deleteBooking, saveBooking,
   consumePromoCode, releasePromoCode, revokePromoCode,
-  issueFriendPromoCode
+  issueFriendPromoCode,
+  addToniaEntry, deleteToniaEntry, listToniaEntries
 } from '../_lib/store.js';
 import {
-  sendEmail, preArrivalEmail, reviewRequestEmail, nhWelcomeEmail
+  sendEmail, preArrivalEmail, reviewRequestEmail, nhWelcomeEmail, checkoutDayEmail
 } from '../_lib/emails.js';
 
 const BASE_URL = 'https://boshuisdeputter.nl';
@@ -75,8 +78,8 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, booking });
       }
 
-      // Send pre-arrival or thank-you email for NH booking
-      if (action === 'send-prearrival' || action === 'send-thankyou') {
+      // Send pre-arrival, checkout-day, nh-welcome, or thank-you email
+      if (action === 'send-prearrival' || action === 'send-thankyou' || action === 'send-checkout' || action === 'send-nhwelcome') {
         if (!ref) return res.status(400).json({ error: 'Missing ref' });
         const booking = await getBooking(ref);
         if (!booking) return res.status(404).json({ error: 'Booking not found' });
@@ -98,6 +101,18 @@ export default async function handler(req, res) {
           await sendEmail({ to: booking.email, subject, html, replyTo: process.env.OWNER_EMAIL });
           await updateBooking(ref, { sentEmails: { ...sent, reviewRequest: now } });
           return res.status(200).json({ ok: true, action: 'thankyou_sent', ref });
+        }
+        if (action === 'send-checkout') {
+          const { subject, html } = checkoutDayEmail(booking);
+          await sendEmail({ to: booking.email, subject, html, replyTo: process.env.OWNER_EMAIL });
+          await updateBooking(ref, { sentEmails: { ...sent, checkoutDay: now } });
+          return res.status(200).json({ ok: true, action: 'checkout_sent', ref });
+        }
+        if (action === 'send-nhwelcome') {
+          const { subject, html } = nhWelcomeEmail(booking);
+          await sendEmail({ to: booking.email, subject, html, replyTo: process.env.OWNER_EMAIL });
+          await updateBooking(ref, { sentEmails: { ...sent, nhWelcome: now } });
+          return res.status(200).json({ ok: true, action: 'nhwelcome_sent', ref });
         }
       }
 
@@ -122,6 +137,31 @@ export default async function handler(req, res) {
           });
         }
         return res.status(200).json({ ok: true, codes });
+      }
+
+      // --- Tonia credits ---
+      if (action === 'credits-list') {
+        const entries = await listToniaEntries();
+        return res.status(200).json({ ok: true, entries });
+      }
+      if (action === 'credits-add') {
+        const body = req.body || {};
+        const type = body.type === 'cleaning' ? 'cleaning' : 'topup';
+        const amount = Math.abs(parseFloat(body.amount) || 0);
+        if (!amount) return res.status(400).json({ error: 'amount is required' });
+        const entry = await addToniaEntry({
+          type,
+          amount,
+          note: (body.note || '').toString().slice(0, 200),
+          date: body.date || new Date().toISOString().slice(0, 10)
+        });
+        return res.status(200).json({ ok: true, entry });
+      }
+      if (action === 'credits-delete') {
+        const body = req.body || {};
+        if (!body.id) return res.status(400).json({ error: 'id is required' });
+        await deleteToniaEntry(body.id);
+        return res.status(200).json({ ok: true, deleted: body.id });
       }
 
       if (!ref) return res.status(400).json({ error: 'Missing ref' });
