@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Welkomstgids · Boshuis De Putter</title>
+<meta name="description" content="Alles wat je wilt weten over je verblijf in De Putter — aankomst, het huis, de tuin, wandelen en Ommen.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1a0f08">
+<meta property="og:title" content="Welkomstgids · Boshuis De Putter">
+<meta property="og:description" content="Alles voor je verblijf in het bos bij Arriën.">
+<meta property="og:image" content="https://boshuisdeputter.nl/photos/hero-1.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="/putter-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2d1b10; --ink-soft:#5c3d2e; --cream:#f7f1e4; --card:#fffdf8;
+    --green:#2d5016; --green-light:#4a7c2e; --gold:#c9a96e; --red:#c0392b;
+    --line:rgba(92,61,46,.16);
+    --shadow:0 1px 2px rgba(26,15,8,.05), 0 6px 20px rgba(26,15,8,.06);
+    --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--cream); color:var(--ink);
+    font-size:17px; line-height:1.65; font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:660px;margin:0 auto;padding:0 20px}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    position:relative; min-height:74vh; min-height:74svh;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    background:#1a0f08 url('/photos/hero-1.jpg') center 40%/cover no-repeat;
+    padding:0 0 clamp(32px,8vw,56px);
+    text-align:center; color:#fff;
+  }
+  header.hero::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg,rgba(26,15,8,.45) 0%,rgba(26,15,8,.15) 35%,rgba(26,15,8,.82) 100%);
+  }
+  .hero-inner{position:relative;z-index:1}
+  .eyebrow{
+    font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+    font-weight:500; color:var(--gold); margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:'Playfair Display',Georgia,serif; font-weight:700;
+    font-size:clamp(34px,10vw,52px); line-height:1.08; letter-spacing:-.01em;
+    text-shadow:0 2px 24px rgba(0,0,0,.4);
+  }
+  .hero p{
+    margin-top:14px; font-size:16px; font-weight:300;
+    color:rgba(255,255,255,.9); text-shadow:0 1px 12px rgba(0,0,0,.5);
+  }
+
+  /* ---------- INTRO ---------- */
+  .intro{padding:clamp(36px,9vw,60px) 0 8px; text-align:center}
+  .intro p{color:var(--ink-soft); font-size:17px}
+  .intro p + p{margin-top:16px}
+  .signed{
+    font-family:'Playfair Display',serif; font-style:italic;
+    color:var(--green); margin-top:20px; font-size:19px;
+  }
+  .rule{
+    width:56px; height:2px; background:var(--gold);
+    margin:28px auto; border-radius:2px; opacity:.7;
+  }
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    background:var(--card); border:1px solid var(--line);
+    border-left:4px solid var(--green-light);
+    border-radius:var(--radius); padding:20px 22px; margin:24px 0;
+    box-shadow:var(--shadow);
+  }
+  .callout h3{
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--green);
+    margin-bottom:8px;
+  }
+  .callout p{font-size:16px; color:var(--ink-soft)}
+
+  /* ---------- SECTIONS ---------- */
+  .sections{padding:8px 0 clamp(40px,10vw,64px)}
+  details{
+    background:var(--card); border:1px solid var(--line);
+    border-radius:var(--radius); margin-bottom:12px;
+    box-shadow:var(--shadow); overflow:hidden;
+    transition:border-color .2s ease;
+  }
+  details[open]{border-color:rgba(45,80,22,.3)}
+  summary{
+    list-style:none; cursor:pointer; padding:18px 20px;
+    display:flex; align-items:center; gap:14px;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:20px; font-weight:600; color:var(--ink);
+    -webkit-tap-highlight-color:transparent;
+  }
+  summary::-webkit-details-marker{display:none}
+  .ico{font-size:22px; line-height:1; flex-shrink:0}
+  summary .chev{
+    margin-left:auto; flex-shrink:0; width:10px; height:10px;
+    border-right:2px solid var(--gold); border-bottom:2px solid var(--gold);
+    transform:rotate(45deg) translateY(-3px); transition:transform .25s ease;
+  }
+  details[open] summary .chev{transform:rotate(-135deg) translateY(-3px)}
+  .body{padding:0 20px 22px}
+  .body > * + *{margin-top:14px}
+  .body p{color:var(--ink-soft); font-size:16.5px}
+  .body strong{color:var(--ink); font-weight:600}
+  .body ul{list-style:none; padding:0}
+  .body ul li{
+    position:relative; padding-left:22px; color:var(--ink-soft);
+    font-size:16.5px; margin-top:9px;
+  }
+  .body ul li::before{
+    content:''; position:absolute; left:4px; top:11px;
+    width:6px; height:6px; border-radius:50%; background:var(--gold);
+  }
+  h4{
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--green);
+    margin-top:22px;
+  }
+  .tip{
+    background:rgba(201,169,110,.13); border-radius:12px;
+    padding:13px 16px; font-size:15.5px; color:var(--ink-soft);
+  }
+  .tip strong{color:var(--green)}
+  .warn{
+    background:rgba(192,57,43,.07); border-radius:12px;
+    padding:13px 16px; font-size:15.5px; color:var(--ink-soft);
+  }
+  .warn strong{color:var(--red)}
+  figure{margin:16px -20px 0}
+  figure img{width:100%; height:auto; display:block}
+  .check{list-style:none;padding:0}
+  .check li{
+    position:relative; padding-left:30px; margin-top:11px;
+    font-size:16.5px; color:var(--ink-soft);
+  }
+  .check li::before{
+    content:''; position:absolute; left:2px; top:4px;
+    width:16px; height:16px; border:2px solid var(--gold);
+    border-radius:4px;
+  }
+
+  /* ---------- FLAMINGO ---------- */
+  .flamingo{
+    background:linear-gradient(160deg,#2d5016,#1a0f08);
+    color:#fff; border-radius:var(--radius);
+    padding:32px 24px; text-align:center; margin:28px 0;
+    box-shadow:var(--shadow);
+  }
+  .flamingo .big{font-size:38px; line-height:1}
+  .flamingo h2{
+    font-family:'Playfair Display',serif; font-size:26px;
+    font-weight:700; margin:12px 0 10px;
+  }
+  .flamingo p{color:rgba(255,255,255,.85); font-size:16px}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:#1a0f08; color:rgba(255,255,255,.75);
+    text-align:center; padding:44px 20px calc(44px + env(safe-area-inset-bottom));
+  }
+  footer .fsign{
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:22px; color:#fff; margin-bottom:10px;
+  }
+  footer p{font-size:15px}
+  footer a{color:var(--gold); text-decoration:none; font-weight:500}
+  footer a:hover{text-decoration:underline}
+  .flinks{margin-top:20px; display:flex; gap:22px; justify-content:center; flex-wrap:wrap}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner wrap">
+    <div class="eyebrow">Boshuis De Putter · Arriën</div>
+    <h1>Welkom in<br>ons boshuis</h1>
+    <p>Een gids voor je verblijf, midden in het bos bij het Junner Koeland</p>
+  </div>
+</header>
+
+<main>
+  <section class="wrap intro">
+    <p>Hier staat ons mooie vakantiehuis. Middenin het bos, naast het Junner Koeland. We hebben hier onze droom verwezenlijkt van het creëren van een fijn plekje, waar je helemaal bij kunt komen van het haastige en hectische leven.</p>
+    <p>We hopen dat jullie hier net zo zullen genieten als wij. Hieronder staat alles wat handig is om te weten.</p>
+    <p class="signed">— Jitske &amp; Jan</p>
+    <div class="rule"></div>
+  </section>
+
+  <section class="wrap">
+    <div class="callout">
+      <h3>Vlak voor je aankomst</h3>
+      <p>De <strong>sleutelcode</strong> en het <strong>wifi-wachtwoord</strong> sturen we je persoonlijk toe vlak vóór aankomst — die staan bewust niet in deze gids. Aankomst tussen <strong>15:00 en 22:00</strong>, vertrek vóór <strong>11:00</strong>.</p>
+    </div>
+  </section>
+
+  <section class="wrap sections">
+
+    <details open>
+      <summary><span class="ico">🚗</span> Als je aankomt <span class="chev"></span></summary>
+      <div class="body">
+        <p>Let goed op dat je het <strong>2e weggetje rechts</strong> neemt vanaf de Coevorderweg. De huisnummers staan op een bordje aangegeven. Parkeren op eigen terrein, ruimte voor 2 auto's.</p>
+        <div class="warn"><strong>Neem je per ongeluk het 1e weggetje?</strong> Ga dan met de u-bocht mee naar links. Niet rechtdoor — dan kom je vast te zitten in de moerassige grond. Er moet regelmatig een enorme trekker van een boer verderop aan te pas komen om mensen daar uit te redden 😉</div>
+        <h4>🔑 De sleutel</h4>
+        <p>Hangt in een kastje rechts om de hoek vanaf de voordeur, naast de openslaande deuren van de keuken.</p>
+        <h4>👟 De Scandinavische schoenenregel</h4>
+        <p>We houden ons zelf aan het Scandinavische gebruik om binnen de schoenen uit te doen. Je loopt namelijk veel zand binnen vanuit het bos. Fijn als jullie dat ook willen doen.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🔥</span> Warmte in huis <span class="chev"></span></summary>
+      <div class="body">
+        <h4>🌡️ Centrale verwarming</h4>
+        <p>De thermostaat hangt naast de deur van de hal naar de keuken. Hij staat op een constante lage temperatuur — draai 'm op de warmte die je wilt. De CV-ketel zelf hangt in de hal, bovenop de vide.</p>
+        <div class="tip"><strong>Tip:</strong> zet 'm 's nachts lager. Het huis houdt de warmte lang vast, anders drijf je je bed uit.</div>
+        <h4>🪵 De houtkachel</h4>
+        <p>Hout ligt in de schuur: <strong>rechts = nog drogen, links = klaar om te branden</strong>. Het hout in de kamer is voor de sier — dat ligt tegen een lelijk stuk muur aan, dus laat dat s.v.p. liggen.</p>
+        <ul>
+          <li>Krijg het vuur goed aan — de voorkant is deels open, anders rookt het</li>
+          <li>De kachel wordt erg warm, houd er spullen uit de buurt</li>
+          <li>Ventileer goed: badkamerraam op een kier, die deur open</li>
+          <li>As na gebruik (koud!) in de tuin bij de scheiding met de buren legen</li>
+        </ul>
+        <div class="tip"><strong>Tip:</strong> zet de CV laag als de houtkachel aan gaat — anders wordt het echt een sauna.</div>
+        <figure><img src="/photos/woonkamer-nieuw.jpg" alt="De woonkamer met houtkachel" loading="lazy"></figure>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🍳</span> In de keuken <span class="chev"></span></summary>
+      <div class="body">
+        <div class="warn"><strong>De openslaande deuren: vintage 😉</strong> Graag niet gebruiken — ze gaan bijna niet meer dicht.</div>
+        <h4>Inductieplaat</h4>
+        <p>Knoppen aan de onderkant. Aan/uit → pan neerzetten → positie kiezen → stand instellen met − en +. Water kookt hier heel snel! Alleen schoonmaken met water en afwasmiddel — <strong>geen schuurmiddel of citroen</strong>.</p>
+        <h4>☕ Nespresso</h4>
+        <p>Lege cupjes in de recyclezak in het kastje onder de gootsteen. Neem je zelf cupjes mee? <strong>Alleen Nespresso</strong> — andere merken slopen het apparaat. Melkopschuimer ligt in een lade.</p>
+        <h4>🧂 Basisvoorraad</h4>
+        <p>Kruiden, suiker, azijn, olie, meel, rijst, koffie, thee — gebruik gerust. Is iets op? Fijn als je het aanvult voor de volgende gast.</p>
+        <h4>🧽 De afwas</h4>
+        <p>Doen we ouderwets met de hand. Spullen in het gootsteenkastje.</p>
+        <figure><img src="/photos/keuken-nieuw.jpg" alt="De keuken" loading="lazy"></figure>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🛏️</span> Slapen &amp; wassen <span class="chev"></span></summary>
+      <div class="body">
+        <p>Bij aankomst zijn de bedden opgemaakt en liggen er schone handdoeken in de badkamer — je hoeft niets zelf mee te nemen.</p>
+        <ul>
+          <li><strong>Hoofdslaapkamer:</strong> tweepersoonsbed 200 × 160, met 2 dekbedden 200 × 140</li>
+          <li><strong>Kinderkamer:</strong> stapelbed met twee matrassen 200 × 90 en 2 dekbedden — echt alleen voor kinderen bedoeld</li>
+          <li><strong>Extra dekbedden en kussens:</strong> in de la onder het bed</li>
+        </ul>
+        <h4>🧺 Wasmachine &amp; droger</h4>
+        <p>Mag je tijdens je verblijf gewoon gebruiken. Ze werken met een touchscreen. De droger heeft een waterbak links boven — na gebruik legen en het stoffilter schoonmaken, i.v.m. brandgevaar.</p>
+        <figure><img src="/photos/slaapkamer-nieuw.jpg" alt="De slaapkamer" loading="lazy"></figure>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🐭</span> De eerlijke bosgids <span class="chev"></span></summary>
+      <div class="body">
+        <p>Wat je kunt tegenkomen — en hoe ermee om te gaan.</p>
+        <h4>🐭 Muizen</h4>
+        <p>In het bos wonen ze, in het huis normaal niet. Maar ze glippen snel naar binnen als er eten te vinden is. Berg etenswaar goed afgesloten op (als ze het niet kunnen ruiken, kunnen ze ook geen plannen maken 😉) en houd aanrecht en tafel schoon. Zelfs de tuinkussens waren niet veilig in de buitenkast! Die liggen nu in een hoes in de hal.</p>
+        <h4>🕷️ Teken, muggen &amp; rupsen</h4>
+        <p>In de zomermaanden zitten er teken in hoog gras en bosjes, soms ook in pas gemaaid gras. Ook muggen. Eikenprocessierupsen zien we hier in de tuin nooit, maar er wordt in de omgeving wel voor gewaarschuwd. De mezenkastjes doen goed werk — mezen houden van rupsen 🐦. Speciale spray ligt in de medicijndoos.</p>
+        <h4>🐈 Onze katten</h4>
+        <p>We hebben zelf 2 katten die af en toe meegaan naar het boshuis. Dat schrikt de muizen ook goed af 😉 Om die reden zijn <strong>honden niet welkom</strong>.</p>
+        <h4>🚭 Roken</h4>
+        <p>Moet je sowieso niet doen 😉 In het huisje in elk geval niet binnen.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🌿</span> In de tuin <span class="chev"></span></summary>
+      <div class="body">
+        <p>Hier wonen veel eekhoorns en vogels. Je mag ze voeren — voer ligt in de vensterbank bij de hal. Op? Bij de dierenwinkel of Jumbo in Ommen haal je zo nieuw.</p>
+        <p>Met een beetje geluk hoor je de bonte specht, de koekoek of 's avonds zelfs de uil. In de woonkamer vind je een vogelgids, bloemengids en paddenstoelengids.</p>
+        <div class="tip">🍎 <strong>Pluk vooral het fruit dat je aantreft!</strong> Er staan appels, bessen en ander lekkers tussen het groen.</div>
+        <h4>Tuinstoelen &amp; kussens</h4>
+        <p>In de hal vind je kussens voor de buitenstoelen. Graag weer in de hoes opbergen als je binnen gaat — muizen knagen helaas ook graag aan tuinkussens.</p>
+        <figure><img src="/photos/tuin.jpeg" alt="De tuin" loading="lazy"></figure>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🥾</span> Wandelen <span class="chev"></span></summary>
+      <div class="body">
+        <p>Je kunt hier prachtig wandelen. Routes zijn aangegeven met gekleurde pijlen. In de mand onder de kleine tafel ligt een wandel- en fietskaart.</p>
+        <h4>→ De rechterroute</h4>
+        <p>Vanaf het huis rechtsaf, dan het paadje rechts parallel aan de Coevorderweg. Langs camping Libra. Bij het kruispunt (schooltje links) rechts het bospad op. Rechtdoor kom je op de hei en richting de Vecht; linksaf dieper het bos in.</p>
+        <h4>← De linkerroute</h4>
+        <p>Overkant Coevorderweg linksaf, voorbij de eerste boerderijen. Links het Junner Koeland. Net voorbij de tolhekke (waar ooit tol werd geheven voor de handelsroute naar Duitsland) links bij het bos een hekje in — daar het wandelpad op.</p>
+        <h4>🏔️ Verder weg</h4>
+        <ul>
+          <li><strong>Lemelerberg</strong> — koffie bij camping Lemeleresch, speelbos bovenop</li>
+          <li><strong>Hardenbergse bos</strong> — ook mooi om te lopen</li>
+        </ul>
+        <div class="tip">💡 Via <a href="https://vechtdaloverijssel.nl" style="color:var(--green);font-weight:600">vechtdaloverijssel.nl</a> stel je je eigen route samen.</div>
+        <figure><img src="/photos/schapen.jpeg" alt="Schapen in het Junner Koeland" loading="lazy"></figure>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🍽️</span> Ommen &amp; uit eten <span class="chev"></span></summary>
+      <div class="body">
+        <p>Ommen is een toeristisch stadje met terrassen, winkeltjes en restaurants.</p>
+        <h4>Onze favoriete restaurants</h4>
+        <ul>
+          <li>Jipp — plein bij het inrijden van het stadje</li>
+          <li>Het Paviljoen</li>
+          <li>Félice</li>
+          <li>Tante Pos</li>
+          <li>De Veghte</li>
+        </ul>
+        <p><em>De Bootsman</em>, op loopafstand tegenover het schooltje, heeft een fijn terras — maar het eten vinden wij niet fantastisch.</p>
+        <h4>🫖 Theetuinen</h4>
+        <p>Op de kruising bij Arriën, bij de Junnerstuwdam (theetuin Junnerland), en richting Hardenberg in Diffelen. Info ligt in de mand onder de kleine tafel.</p>
+        <h4>🚲 Fietsen huren</h4>
+        <p>Bij de fietsenmakers in Ommen centrum.</p>
+        <h4>🏙️ Uitstapjes</h4>
+        <ul>
+          <li><strong>Zwolle</strong> — 30 min, hele mooie gezellige stad</li>
+          <li><strong>Deventer</strong> — 45 min</li>
+          <li><strong>Nordhorn</strong> (grens over) — leuk stadje met dierenpark, fijn voor kinderen</li>
+          <li><strong>Münster</strong> — 2 uur rijden</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="ico">🗑️</span> Vuilnis &amp; bij vertrek <span class="chev"></span></summary>
+      <div class="body">
+        <h4>♻️ Afval</h4>
+        <p>Aan volledige afvalscheiding doen ze in Ommen nog niet echt, maar we doen wat we kunnen:</p>
+        <ul>
+          <li><strong>Papier &amp; glas</strong> — rode container bij de basisschool. Vanaf het bospad: rechtsaf Coevorderweg op, eerste rechts, direct weer rechts richting vakantiepark Libra</li>
+          <li><strong>Plastic</strong> — wordt hier niet apart ingezameld. Wij nemen het meestal mee naar huis</li>
+          <li><strong>Groenafval</strong> — composthoop rechts achterin de tuin. Géén gekookt eten, brood of citrus</li>
+          <li><strong>Restafval</strong> — container rechts naast het receptiegebouw van camping Libra. Nieuwe vuilniszakken in de keukenla</li>
+        </ul>
+        <h4>🚪 Bij vertrek</h4>
+        <p>We gaan ervan uit dat je het huisje zo achterlaat als je het vond — dan is het voor iedereen een fijne plek.</p>
+        <ul class="check">
+          <li>Zorg dat er geen kruimels zijn (schoonmaakster komt soms pas een dag later)</li>
+          <li>Laat geen bederfelijke waar achter in de koelkast, tenzij er snel iemand komt (bel ons even)</li>
+          <li>Vuilnisbak legen, restafval naar camping Libra, groenafval op de composthoop</li>
+          <li>Beddengoed en gebruikte handdoeken voor de wasmachine leggen</li>
+          <li>Thermostaat op 11 graden</li>
+          <li>Alle ramen en deuren goed (af)sluiten — gordijnen open</li>
+          <li>Schuifpui goed dicht controleren</li>
+          <li>Sleutel weer in het kastje</li>
+        </ul>
+      </div>
+    </details>
+
+  </section>
+
+  <section class="wrap">
+    <div class="flamingo">
+      <div class="big">🦩</div>
+      <h2>De 5 flamingo's</h2>
+      <p>In het huis zijn 5 flamingo's verstopt. Waarom? Gewoon omdat het leuk is om te speuren. De kunst is natuurlijk om ze te vinden — en bij vertrek weer te verstoppen voor de volgende bezoeker.</p>
+    </div>
+
+    <div class="intro" style="padding-top:8px">
+      <p>We wensen jullie heel veel plezier in ons boshuisje de Putter! Dat jullie een hele fijne tijd mogen hebben, met mooie ervaringen en herinneringen, en kunnen genieten van de rust van het bos en alle mooie dieren die zich laten zien.</p>
+      <p>We zouden het leuk vinden als je iets in ons gastenboekje schrijft 📖</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="fsign">liefs, Jitske &amp; Jan · Fien &amp; Saar</p>
+  <p>Iets niet duidelijk? Stuur ons gerust een berichtje.</p>
+  <div class="flinks">
+    <a href="https://boshuisdeputter.nl">boshuisdeputter.nl</a>
+    <a href="https://instagram.com/boshuisommen">@boshuisommen</a>
+    <a href="/welkomstgids.pdf">Gids als PDF</a>
+  </div>
+</footer>
+
+</body>
+</html>
