@@ -88,8 +88,8 @@ Return ONLY a JSON code block:
   "pricingSuggestions": [
     {
       "season": "summer | low-winter | spring | autumn | holidays | weekend-surcharge | cleaning-fee | general",
-      "currentRate": 135,
-      "suggestedRate": 125,
+      "currentRate": 169,
+      "suggestedRate": 175,
       "direction": "increase | decrease | hold",
       "confidence": "high | medium | low",
       "reason": "Specific reasoning."

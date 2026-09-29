@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>De Putter — Boshuis Ommen — Vakantiehuisje in het Vechtdal</title>
-<meta name="description" content="De Putter: boshuisje vernoemd naar de putter vogels. Boek direct ons sfeervolle boshuis in Arriën, nabij Ommen. Midden in de natuur, grenzend aan het Junner Koeland. 2 slaapkamers, 1 twee persoonsbed en 1 stapelbed.">
+<meta name="description" content="Boshuisje met eigen buitensauna in Arriën bij Ommen, grenzend aan het Junner Koeland. 4 personen, 2 slaapkamers, midden in de natuur. Direct boeken bij de eigenaar — geen extra kosten.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="canonical" href="https://boshuisdeputter.nl/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="De Putter — Boshuis Ommen — Vakantiehuisje in het Vechtdal">
-<meta property="og:description" content="Sfeervol boshuisje in Arriën bij Ommen, grenzend aan het Junner Koeland. 4 personen, 2 slaapkamers. Direct boeken, geen extra kosten.">
+<meta property="og:description" content="Boshuisje met eigen buitensauna in Arriën bij Ommen, grenzend aan het Junner Koeland. 4 personen, 2 slaapkamers. Direct boeken, geen extra kosten.">
 <meta property="og:image" content="https://boshuisdeputter.nl/photos/hero-1.jpg">
 <meta property="og:url" content="https://boshuisdeputter.nl/">
 <meta name="twitter:card" content="summary_large_image">
@@ -27,6 +27,7 @@
     "https://boshuisdeputter.nl/photos/IMG_6402.jpeg",
     "https://boshuisdeputter.nl/photos/IMG_6425.jpeg",
     "https://boshuisdeputter.nl/photos/tuin.jpeg",
+    "https://boshuisdeputter.nl/photos/sauna.jpg",
     "https://boshuisdeputter.nl/photos/herfst.jpeg"
   ],
   "address": {
@@ -73,6 +74,7 @@
   ],
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Buitensauna", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Houtkachel", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Eigen parkeerplaats", "value": true },
     { "@type": "LocationFeatureSpecification", "name": "Tuin", "value": true },
@@ -650,6 +652,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   opacity: 0; transition: opacity 0.8s ease-in-out;
 }
 .gc-slide.active { opacity: 1; }
+.gc-slide.gc-portrait { object-fit: contain; }
 .gc-arrow {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%; border: none;
@@ -1248,6 +1251,21 @@ span[data-lang="nl"] { display: inline; }
     </symbol>
 
     <!-- Broad leafy tree (garden) -->
+    <symbol id="icon-sauna" viewBox="0 0 40 40">
+      <!-- Steam -->
+      <path d="M 14 10 Q 12 7 14 4" stroke="#9bb7c4" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+      <path d="M 20 9  Q 18 6 20 3" stroke="#9bb7c4" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+      <path d="M 26 10 Q 24 7 26 4" stroke="#9bb7c4" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+      <!-- Barrel body -->
+      <rect x="5" y="13" width="30" height="20" rx="8" fill="#8b5a2b"/>
+      <path d="M 5 20 H 35 M 5 26 H 35" stroke="#6b431f" stroke-width="1.2"/>
+      <!-- Front face + glowing door -->
+      <rect x="12" y="16" width="16" height="14" rx="5" fill="#3d2817"/>
+      <rect x="16" y="19" width="8" height="8" rx="3" fill="#e8b923" opacity="0.9"/>
+      <!-- Legs -->
+      <rect x="9"  y="33" width="4" height="4" fill="#2d1b10"/>
+      <rect x="27" y="33" width="4" height="4" fill="#2d1b10"/>
+    </symbol>
     <symbol id="icon-tree" viewBox="0 0 40 40">
       <!-- Trunk -->
       <rect x="18" y="22" width="4" height="15" fill="#2d1b10"/>
@@ -1828,6 +1846,7 @@ span[data-lang="nl"] { display: inline; }
     <button class="gallery-tab" data-category="keuken"><span data-lang="nl">Keuken</span><span data-lang="de">Küche</span><span data-lang="en">Kitchen</span></button>
     <button class="gallery-tab" data-category="slaapkamers"><span data-lang="nl">Slaapkamers</span><span data-lang="de">Schlafzimmer</span><span data-lang="en">Bedrooms</span></button>
     <button class="gallery-tab" data-category="badkamer"><span data-lang="nl">Badkamer</span><span data-lang="de">Badezimmer</span><span data-lang="en">Bathroom</span></button>
+    <button class="gallery-tab" data-category="sauna"><span data-lang="nl">Sauna</span><span data-lang="de">Sauna</span><span data-lang="en">Sauna</span></button>
     <button class="gallery-tab" data-category="tuin"><span data-lang="nl">Tuin & Omgeving</span><span data-lang="de">Garten & Umgebung</span><span data-lang="en">Garden & Surroundings</span></button>
   </div>
   <div class="gallery-carousel" id="galleryCarousel">
@@ -1883,6 +1902,8 @@ span[data-lang="nl"] { display: inline; }
       <!-- Badkamer / Bathroom -->
       <img class="gc-slide" data-cat="badkamer" src="photos/IMG_6438.jpeg" alt="Badkamer met regendouche" loading="lazy">
       <img class="gc-slide" data-cat="badkamer" src="photos/badkamer.jpeg" alt="Badkamer overzicht met douche" loading="lazy">
+      <!-- Sauna -->
+      <img class="gc-slide gc-portrait" data-cat="sauna" src="photos/sauna.jpg" alt="Houtgestookte buitensauna met glazen front in de bostuin" loading="lazy">
       <!-- Tuin & Omgeving / Garden & Surroundings -->
       <img class="gc-slide" data-cat="tuin" src="photos/tuin.jpeg" alt="Bostuin met terras" loading="lazy">
       <img class="gc-slide" data-cat="tuin" src="photos/tuin2.jpeg" alt="Tuin met bomen" loading="lazy">
@@ -1961,6 +1982,13 @@ span[data-lang="nl"] { display: inline; }
       <p data-lang="en">1334 m² private grounds with fenced forest garden, terrace, garden furniture, BBQ and trampoline for kids.</p>
     </div>
     <div class="amenity-card">
+      <div class="amenity-icon"><svg class="cicon"><use href="#icon-sauna"/></svg></div>
+      <h4 data-lang="nl">Buitensauna</h4><h4 data-lang="de">Außensauna</h4><h4 data-lang="en">Outdoor sauna</h4>
+      <p data-lang="nl">Buitensauna in de bostuin. Opwarmen na een boswandeling, tussen de bomen. Gebruik inbegrepen in de prijs.</p>
+      <p data-lang="de">Außensauna im Waldgarten. Aufwärmen nach dem Waldspaziergang, mitten zwischen den Bäumen. Nutzung im Preis inbegriffen.</p>
+      <p data-lang="en">Outdoor sauna in the forest garden. Warm up after a walk in the woods, among the trees. Use included in the price.</p>
+    </div>
+    <div class="amenity-card">
       <div class="amenity-icon"><svg class="cicon"><use href="#icon-wifi"/></svg></div>
       <h4 data-lang="nl">WiFi & Media</h4><h4 data-lang="de">WLAN & Medien</h4><h4 data-lang="en">WiFi & Media</h4>
       <p data-lang="nl">Gratis WiFi. Televisie aanwezig, maar moet aangesloten worden op een eigen laptop.</p>
@@ -1984,9 +2012,9 @@ span[data-lang="nl"] { display: inline; }
     <div class="amenity-card" style="border: 2px solid var(--forest); background: var(--forest-bg);">
       <div class="amenity-icon"><svg class="cicon"><use href="#icon-check"/></svg></div>
       <h4 data-lang="nl">Geen bijkomende kosten</h4><h4 data-lang="de">Keine Zusatzkosten</h4><h4 data-lang="en">No extra charges</h4>
-      <p data-lang="nl">Hout, bedlinnen, handdoeken etc. — allemaal inbegrepen. Geen verrassingen.</p>
-      <p data-lang="de">Holz, Bettwäsche, Handtücher usw. — alles inklusive. Keine Überraschungen.</p>
-      <p data-lang="en">Firewood, bed linen, towels etc. — all included. No surprises.</p>
+      <p data-lang="nl">Sauna, hout, bedlinnen, handdoeken etc. — allemaal inbegrepen. Geen verrassingen.</p>
+      <p data-lang="de">Sauna, Holz, Bettwäsche, Handtücher usw. — alles inklusive. Keine Überraschungen.</p>
+      <p data-lang="en">Sauna, firewood, bed linen, towels etc. — all included. No surprises.</p>
     </div>
   </div>
 </section>
@@ -2158,6 +2186,9 @@ span[data-lang="nl"] { display: inline; }
 
     <div class="inclusive-badges">
       <span class="inclusive-badge" title="Inbegrepen bij uw boeking">
+        <span data-lang="nl">🧖 Buitensauna</span><span data-lang="de">🧖 Außensauna</span><span data-lang="en">🧖 Outdoor sauna</span>
+      </span>
+      <span class="inclusive-badge">
         <span data-lang="nl">🪵 Hout voor de haard</span><span data-lang="de">🪵 Kaminholz</span><span data-lang="en">🪵 Firewood</span>
       </span>
       <span class="inclusive-badge">
@@ -2792,7 +2823,7 @@ function selectDate(dateStr) {
    - Minimum 2 nights year-round — enforced in UI
 */
 const PRICING = {
-  baseRate: 119,                  // Non-holiday base rate
+  baseRate: 129,                  // Non-holiday base rate (incl. buitensauna, aug 2026)
   cleaning: 75,
   weekendSurcharge: 15,           // €/night on Fri + Sat
   minNights: 2,
@@ -2801,18 +2832,18 @@ const PRICING = {
   // Each range is [monthFromStart, dayFromStart] → [monthEnd, dayEnd] (inclusive).
   // Matched top-first; first hit wins. Wrapping ranges (Dec → Jan) supported.
   seasons: [
-    { label: 'holidays',   from: [12, 20], to: [1, 5],   rate: 135, high: true }, // Kerst/Oud & Nieuw (peak, unchanged)
-    { label: 'voorjaar',   from: [2, 15],  to: [3, 5],   rate: 125 },              // Voorjaarsvakantie (raised to stay above new base)
-    { label: 'may',        from: [4, 24],  to: [5, 10],  rate: 130, high: true },  // Meivakantie
-    { label: 'hemelvaart', from: [5, 11],  to: [5, 20],  rate: 125 },
-    { label: 'pinksteren', from: [5, 21],  to: [6, 5],   rate: 125 },
-    { label: 'zomer',      from: [7, 1],   to: [8, 31],  rate: 135, high: true }, // Hoogzomer (peak, unchanged)
-    { label: 'late-summer',from: [6, 15],  to: [6, 30],  rate: 125 },
-    { label: 'herfstvak',  from: [10, 15], to: [11, 1],  rate: 125 },
-    { label: 'midseason',  from: [9, 1],   to: [10, 14], rate: 119 },             // non-holiday base
-    { label: 'shoulder',   from: [3, 6],   to: [4, 23],  rate: 119 },             // non-holiday base
-    { label: 'low-winter', from: [11, 2],  to: [12, 19], rate: 85 },              // intentional off-season discount
-    { label: 'deep-winter',from: [1, 6],   to: [2, 14],  rate: 85 }               // intentional off-season discount
+    { label: 'holidays',   from: [12, 20], to: [1, 5],   rate: 169, high: true }, // Kerst/Oud & Nieuw (peak)
+    { label: 'voorjaar',   from: [2, 15],  to: [3, 5],   rate: 155 },              // Voorjaarsvakantie
+    { label: 'may',        from: [4, 24],  to: [5, 10],  rate: 159, high: true },  // Meivakantie
+    { label: 'hemelvaart', from: [5, 11],  to: [5, 20],  rate: 155 },
+    { label: 'pinksteren', from: [5, 21],  to: [6, 5],   rate: 155 },
+    { label: 'zomer',      from: [7, 1],   to: [8, 31],  rate: 169, high: true }, // Hoogzomer (peak)
+    { label: 'late-summer',from: [6, 15],  to: [6, 30],  rate: 155 },
+    { label: 'herfstvak',  from: [10, 15], to: [11, 1],  rate: 155 },
+    { label: 'midseason',  from: [9, 1],   to: [10, 14], rate: 129 },             // non-holiday base
+    { label: 'shoulder',   from: [3, 6],   to: [4, 23],  rate: 129 },             // non-holiday base
+    { label: 'low-winter', from: [11, 2],  to: [12, 19], rate: 129 },              // off-season floor (min €119 policy)
+    { label: 'deep-winter',from: [1, 6],   to: [2, 14],  rate: 129 }               // off-season floor (min €119 policy)
   ],
 
   // Length-of-stay discount — largest matching wins

@@ -18,24 +18,24 @@ export const maxDuration = 15;
 
 /* ========== PRICING (mirrors website; server is source of truth) ========== */
 const PRICING = {
-  baseRate: 119,
+  baseRate: 129,
   cleaning: 75,
   weekendSurcharge: 15,
   minNights: 2,
   minNightsHighSeason: 2,
   seasons: [
-    { from: [12, 20], to: [1, 5],   rate: 135, high: true },
-    { from: [2, 15],  to: [3, 5],   rate: 125 },
-    { from: [4, 24],  to: [5, 10],  rate: 130, high: true },
-    { from: [5, 11],  to: [5, 20],  rate: 125 },
-    { from: [5, 21],  to: [6, 5],   rate: 125 },
-    { from: [7, 1],   to: [8, 31],  rate: 135, high: true },
-    { from: [6, 15],  to: [6, 30],  rate: 125 },
-    { from: [10, 15], to: [11, 1],  rate: 125 },
-    { from: [9, 1],   to: [10, 14], rate: 119 },
-    { from: [3, 6],   to: [4, 23],  rate: 119 },
-    { from: [11, 2],  to: [12, 19], rate: 85 },
-    { from: [1, 6],   to: [2, 14],  rate: 85 }
+    { from: [12, 20], to: [1, 5],   rate: 169, high: true },
+    { from: [2, 15],  to: [3, 5],   rate: 155 },
+    { from: [4, 24],  to: [5, 10],  rate: 159, high: true },
+    { from: [5, 11],  to: [5, 20],  rate: 155 },
+    { from: [5, 21],  to: [6, 5],   rate: 155 },
+    { from: [7, 1],   to: [8, 31],  rate: 169, high: true },
+    { from: [6, 15],  to: [6, 30],  rate: 155 },
+    { from: [10, 15], to: [11, 1],  rate: 155 },
+    { from: [9, 1],   to: [10, 14], rate: 129 },
+    { from: [3, 6],   to: [4, 23],  rate: 129 },
+    { from: [11, 2],  to: [12, 19], rate: 129 },
+    { from: [1, 6],   to: [2, 14],  rate: 129 }
   ],
   stayDiscounts: [
     { minNights: 14, pct: 10 },

@@ -7,7 +7,7 @@ export const PROPERTY_CONTEXT = `# Property: De Putter
 - Setting: forest cabin on 1334 m² of private grounds, directly adjacent to the Junner Koeland protected nature reserve
 - Capacity: 4 guests, 2 bedrooms (1 double + 1 bunk bed)
 - Living space: 84 m²
-- Key features: wood-burning stove, covered terrace, fenced garden, BBQ, trampoline, WiFi, private parking, 4 km from Ommen centre, 2 km from the Vecht river
+- Key features: outdoor sauna (added Sep 2026, use included in the rate), wood-burning stove, covered terrace, fenced garden, BBQ, trampoline, WiFi, private parking, 4 km from Ommen centre, 2 km from the Vecht river
 - Current rating: 8.7/10 from 28 Natuurhuisje reviews
 - Booked via: Natuurhuisje (listing ID 68313) + direct booking website (boshuisdeputter.nl)
 
@@ -15,14 +15,15 @@ export const PROPERTY_CONTEXT = `# Property: De Putter
 
 | Period | Rate |
 |---|---|
-| Low winter (Nov 2 – Dec 19 & Jan 6 – Feb 14) | €85 |
-| Shoulder / midseason (Mar 6 – Apr 23, Sep 1 – Oct 14) | €119 |
-| School holidays (Voorjaar, Herfst, Hemelvaart, Pinksteren) | €125 |
-| Meivakantie (Apr 24 – May 10) | €130 |
-| Summer (Jul 1 – Aug 31) | €135 |
-| Kerst / Oud & Nieuw (Dec 20 – Jan 5) | €135 |
+| Low winter (Nov 2 – Dec 19 & Jan 6 – Feb 14) | €129 |
+| Shoulder / midseason (Mar 6 – Apr 23, Sep 1 – Oct 14) | €129 |
+| School holidays (Voorjaar, Herfst, Hemelvaart, Pinksteren) | €155 |
+| Meivakantie (Apr 24 – May 10) | €159 |
+| Summer (Jul 1 – Aug 31) | €169 |
+| Kerst / Oud & Nieuw (Dec 20 – Jan 5) | €169 |
 
 Plus: €15/night weekend surcharge (Fri + Sat), €75 cleaning fee, minimum 2 nights year-round.
+Rates were raised in Aug 2026 when the outdoor sauna was added, and a €119/night floor is now policy — never recommend a rate below €119.
 
 # CRITICAL: De Putter is ALL-INCLUSIVE
 
@@ -32,7 +33,7 @@ Most comparable cabins charge the guest separately for:
 - Firewood: typically €10–25/stay
 - Tourist tax (toeristenbelasting): Ommen ~€1.50/person/night (~€24 for 4 people × 4 nights)
 
-De Putter INCLUDES all of these at no extra cost. On a typical 4-night stay this means De Putter's advertised rate is effectively €70–100 cheaper than a competitor at the same nightly price.`;
+De Putter INCLUDES all of these at no extra cost, plus unlimited use of the outdoor sauna. On a typical 4-night stay this means De Putter's advertised rate is effectively €70–100 cheaper than a competitor at the same nightly price.`;
 
 export function authCheck(req) {
   const ADMIN_SECRET = process.env.ADMIN_SECRET;

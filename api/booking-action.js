@@ -382,7 +382,7 @@ export default async function handler(req, res) {
         acceptedAt,
         paidAt: null,
         cancelledAt: null,
-        sentEmails: lastMinute ? { preArrival: acceptedAt } : {}
+        sentEmails: lastMinute ? { accepted: acceptedAt, preArrival: acceptedAt } : { accepted: acceptedAt }
       });
     } catch (err) {
       console.error('KV save failed (continuing anyway):', err);

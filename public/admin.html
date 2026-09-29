@@ -849,7 +849,7 @@ function toniaTopup() {
 }
 
 function toniaDeduct() {
-  const amount = prompt('Schoonmaakkosten (€):', '75');
+  const amount = prompt('Schoonmaakkosten (€):', '50');
   if (!amount || isNaN(parseFloat(amount))) return;
   const note = prompt('Notitie (optioneel, bv. boekingreferentie):', '') || '';
   toniaPost('credits-add', { type: 'cleaning', amount: parseFloat(amount), note, date: new Date().toISOString().slice(0, 10) });
